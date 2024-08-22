@@ -9,8 +9,7 @@ import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 
 export default Calculator = (props) => {
     const [amount, setAmount] = useState(0);
-    const [paymentIntent, setPaymentIntent] = useState();
-    const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent } = useStripeTerminal();
+    const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, retrievePaymentIntent } = useStripeTerminal();
 
     const reset = () => {
         setAmount(0);
@@ -27,9 +26,12 @@ export default Calculator = (props) => {
         const { error, paymentIntent } = await createPaymentIntent({
             amount: amount,
             currency: "usd",
-            //paymentMethodTypes: ['card_present']
+            captureMethod: 'automatic',
         });
-        if (error) console.log("createPaymentIntent error: ", error);
+        if (error) {
+            console.log("createPaymentIntent error: ", error);
+            return;
+        }
         collectPM(paymentIntent);
     }
 
@@ -37,19 +39,27 @@ export default Calculator = (props) => {
         const { error, paymentIntent } = await collectPaymentMethod({ 
             paymentIntent: pi
         });
-        if (error) console.log("collectPaymentMethod error: ", error);
-        confirmPayment(pi);
+        if (error) {
+            console.log("collectPaymentMethod error: ", error);
+            return;
+        }
+        confirmPayment(paymentIntent);
     }
 
     const confirmPayment = async (pi) => {
-        // console.log("Confirming");
-        const {error, paymentIntent} = await confirmPaymentIntent(pi);
-        if (error) console.log("confirmPaymentIntent error: ", error);
+        const {error, paymentIntent} = await confirmPaymentIntent({
+            paymentIntent: pi
+        });
+        if (error) {
+            console.log("confirmPaymentIntent error: ", error);
+            return;
+        }
+        console.log("confirmPaymentIntent success: ", paymentIntent);
+        if (paymentIntent.status === 'succeeded') reset();
     };
 
     return (
         <View style={styles.calculator}>
-            <Text>{paymentIntent?.id}</Text>
             <View style={styles.amount}>
                 <Text style={styles.largest}>{Utils.displayPrice(amount / 100, 'usd')}</Text>
             </View>
@@ -83,11 +93,11 @@ export default Calculator = (props) => {
                     {/* <FontAwesomeIcon icon={faGooglePay} color={'white'} size={54} /> */}
                 </Pressable>
             </View>
-            <View style={styles.row}>
+            {/* <View style={styles.row}>
                 <Pressable onPress={collectPM} style={[styles.tile, styles.large, { width: '100%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
                     <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />
                 </Pressable>
-            </View>
+            </View> */}
 
         </View>
     )

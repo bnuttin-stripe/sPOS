@@ -9,9 +9,10 @@ import Calculator from './components/Calculator';
 export default function App() {
   const { initialize } = useStripeTerminal();
   const [ initialized, setInitialized ] = useState(false);
+  const [ infoMsg, setInfoMsg ] = useState('Initializing Stripe Terminal');
 
   const checkPermissionsAndInitialize = async () => {
-    //console.log("Requesting location permissions");
+    setInfoMsg(infoMsg + "\nChecking location permissions");
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
@@ -23,6 +24,7 @@ export default function App() {
     //console.log(granted);
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       //console.log('You can use the Location');
+      setInfoMsg(infoMsg + "\nLocation permissions checked");
       await initializeReader();
     } else {
       console.error(
@@ -32,6 +34,7 @@ export default function App() {
   }
 
   const initializeReader = async () => {
+    setInfoMsg(infoMsg + "\nStarting reader software");
     const { error, reader } = await initialize();
 
     if (error) {
@@ -40,12 +43,13 @@ export default function App() {
     }
 
     if (reader) {
+      setInfoMsg(infoMsg + "\nStripe Terminal has been initialized properly");
       console.log('StripeTerminal has been initialized properly and connected to the reader',reader);
       return;
     }
 
     setInitialized(true);
-    console.log('StripeTerminal has been initialized properly');
+    console.log('Stripe Terminal has been initialized properly');
   };
 
   useEffect(() => {
@@ -109,8 +113,8 @@ export default function App() {
     <View style={styles.container}>
       {!initialized &&
         <View style={styles.container}>
-          <FontAwesomeIcon icon={faLoader} color={'gray'} size={128} style={{ marginBottom: 40 }} />
-          <Text>Initializing, please wait...</Text>
+          <FontAwesomeIcon icon={faLoader} color={'gray'} size={100} style={{ marginBottom: 40 }} />
+          <Text style={{padding: 40}}>{infoMsg}</Text>
         </View>
       }
       {initialized && <Calculator />}
