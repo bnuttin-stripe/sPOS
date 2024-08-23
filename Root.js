@@ -3,7 +3,11 @@ import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { registerRootComponent } from 'expo';
 import { StripeTerminalProvider } from '@stripe/stripe-terminal-react-native';
 
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+
 import App from './App';
+import Transactions from './components/Transactions';
 
 export default function Root() {
   const fetchTokenProvider = async () => {
@@ -14,23 +18,27 @@ export default function Root() {
       },
     });
     const { secret } = await response.json();
-    //console.log(secret);
     return secret;
   };
 
   useEffect(() => {
-    // checkPermissions();
     fetchTokenProvider();
   }, []);
+
+  const Drawer = createDrawerNavigator();
 
   return (
     <StripeTerminalProvider
       logLevel="verbose"
       tokenProvider={fetchTokenProvider}
     >
-      <SafeAreaView style={styles.container}>
-        <App />
-      </SafeAreaView >
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="App" screenOptions={{headerShown: false, swipeEnabled: false}}>
+          <Drawer.Screen name="App" component={App}/>
+          <Drawer.Screen name="Transactions" component={Transactions} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+
     </StripeTerminalProvider>
   );
 }

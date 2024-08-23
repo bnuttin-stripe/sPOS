@@ -6,8 +6,7 @@ import { faStripe } from '@fortawesome/free-brands-svg-icons';
 import * as Utils from '../utilities';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 
-
-export default Calculator = (props) => {
+export default Calculator = ({ navigation }) => {
     const [amount, setAmount] = useState(0);
     const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, retrievePaymentIntent } = useStripeTerminal();
 
@@ -94,7 +93,7 @@ export default Calculator = (props) => {
                 </Pressable>
             </View>
             {/* <View style={styles.row}>
-                <Pressable onPress={collectPM} style={[styles.tile, styles.large, { width: '100%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
+                <Pressable onPress={() => navigation.navigate("Transactions")} style={[styles.tile, styles.large, { width: '100%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
                     <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />
                 </Pressable>
             </View> */}
@@ -110,6 +109,9 @@ const styles = {
         alignItems: 'center',
         alignSelf: 'flex-end',
         padding: 20,
+    },
+    tape: {
+
     },
     amount: {
         alignSelf: 'flex-end',

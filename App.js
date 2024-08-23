@@ -3,13 +3,19 @@ import { StyleSheet, Text, View, PermissionsAndroid, Animated } from 'react-nati
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faLoader } from '@fortawesome/pro-light-svg-icons';
+import Spinner from 'react-native-loading-spinner-overlay';
 
+
+import Header from './components/Header';
 import Calculator from './components/Calculator';
+import Transactions from './components/Transactions';
 
-export default function App() {
+export default function App({ navigation, route }) {
+  const page = route.params?.page ?? 'Calculator';
+
   const { initialize } = useStripeTerminal();
-  const [ initialized, setInitialized ] = useState(false);
-  const [ infoMsg, setInfoMsg ] = useState('Initializing Stripe Terminal');
+  const [initialized, setInitialized] = useState(false);
+  const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
 
   const checkPermissionsAndInitialize = async () => {
     setInfoMsg(infoMsg + "\nChecking location permissions");
@@ -44,7 +50,7 @@ export default function App() {
 
     if (reader) {
       setInfoMsg(infoMsg + "\nStripe Terminal has been initialized properly");
-      console.log('StripeTerminal has been initialized properly and connected to the reader',reader);
+      console.log('StripeTerminal has been initialized properly and connected to the reader', reader);
       return;
     }
 
@@ -95,15 +101,15 @@ export default function App() {
 
   const connectReader = async (reader) => {
     const { error } = await connectHandoffReader({
-        reader: reader
+      reader: reader
     });
     if (error) {
-        console.log('connectHandoffReader error:', error);
-        return;
+      console.log('connectHandoffReader error:', error);
+      return;
     }
     //console.log("Reader connected", setHandoffReader);
     return;
-};
+  };
 
   useEffect(() => {
     if (initialized) discoverHandoffReader();
@@ -111,13 +117,24 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Spinner
+        visible={!initialized}
+        textContent={'Loading...'}
+        // textStyle={styles.spinnerTextStyle}
+      />
+      <Header />
       {!initialized &&
         <View style={styles.container}>
           <FontAwesomeIcon icon={faLoader} color={'gray'} size={100} style={{ marginBottom: 40 }} />
-          <Text style={{padding: 40}}>{infoMsg}</Text>
+          <Text style={{ padding: 40 }}>{infoMsg}</Text>
         </View>
       }
-      {initialized && <Calculator />}
+      {initialized &&
+        <>
+          {page == 'Calculator' && <Calculator />}
+          {page == 'Transactions' && <Transactions />}
+        </>
+      }
     </View>
   );
 }
