@@ -14,6 +14,8 @@ import Transaction from './components/Transaction';
 export default function App({ navigation, route }) {
   const page = route.params?.page ?? 'Calculator';
 
+  const [showHeaderLoader, setShowHeaderLoader] = useState(false);
+
   const { initialize } = useStripeTerminal();
   const [initialized, setInitialized] = useState(false);
   const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
@@ -123,7 +125,7 @@ export default function App({ navigation, route }) {
         textContent={'Loading...'}
         // textStyle={styles.spinnerTextStyle}
       /> */}
-      <Header page={page}/>
+      <Header page={page} showHeaderLoader={showHeaderLoader}/>
       {!initialized &&
         <View style={styles.container}>
           {/* <FontAwesomeIcon icon={faLoader} color={'gray'} size={100} style={{ marginBottom: 40 }} /> */}
@@ -134,7 +136,7 @@ export default function App({ navigation, route }) {
       {initialized &&
         <>
           {page == 'Calculator' && <Calculator />}
-          {page == 'Transactions' && <Transactions />}
+          {page == 'Transactions' && <Transactions setShowHeaderLoader={setShowHeaderLoader}/>}
           {page == 'Transaction' && <Transaction pi={route.params?.pi} />}
         </>
       }

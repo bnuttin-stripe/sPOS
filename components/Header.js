@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Text, Image, View, Pressable } from 'react-native';
+import { Text, Image, View, Pressable, ActivityIndicator } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCreditCard } from '@fortawesome/pro-light-svg-icons';
 import { faCalculator, faGrid, faList, faUser, faGear } from '@fortawesome/pro-solid-svg-icons';
@@ -15,6 +15,7 @@ export default Header = (props) => {
         <>
             <View style={styles.topBanner}>
                 <Image source={require('../assets/stripe.png')} style={styles.logo} />
+                {props.showHeaderLoader && <ActivityIndicator size="small" color="white" style={styles.loader}/>}
             </View>
             <View style={styles.header}>
                 <Pressable style={props.page == 'Calculator' ? styles.tabSelected : styles.tab} onPress={() => navigation.navigate('App', { page: 'Calculator' })}>
@@ -37,13 +38,6 @@ export default Header = (props) => {
                     <FontAwesomeIcon icon={faGear} style={styles.icon} size={26} />
                     <Text style={styles.title}>Settings</Text>
                 </View>
-
-                {/* <View style={styles.row}>
-                <Pressable onPress={collectPM} style={[styles.tile, styles.large, { width: '100%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
-                    <FontAwesomeIcon icon={faCreditCard } color={'white'} size={26} />
-                </Pressable>
-            </View> */}
-
             </View>
         </>
     )
@@ -65,6 +59,10 @@ const styles = {
         // width: 40,
         height: 40,
         resizeMode: 'contain'
+    },
+    loader:{
+        position: 'absolute',
+        right: 20
     },
     header: {
         width: '100%',

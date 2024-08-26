@@ -6,6 +6,8 @@ import { StripeTerminalProvider } from '@stripe/stripe-terminal-react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
+import { RecoilRoot } from 'recoil';
+
 import App from './App';
 import Transactions from './components/Transactions';
 import Transaction from './components/Transaction';
@@ -33,14 +35,15 @@ export default function Root() {
       logLevel="verbose"
       tokenProvider={fetchTokenProvider}
     >
-      <NavigationContainer>
-        <Drawer.Navigator initialRouteName="App" screenOptions={{headerShown: false, swipeEnabled: false}}>
-          <Drawer.Screen name="App" component={App}/>
-          <Drawer.Screen name="Transactions" component={Transactions} />
-          <Drawer.Screen name="Transaction" component={Transaction} />
-        </Drawer.Navigator>
-      </NavigationContainer>
-
+      <RecoilRoot>
+        <NavigationContainer>
+          <Drawer.Navigator initialRouteName="App" screenOptions={{ headerShown: false, swipeEnabled: false }}>
+            <Drawer.Screen name="App" component={App} />
+            <Drawer.Screen name="Transactions" component={Transactions} />
+            <Drawer.Screen name="Transaction" component={Transaction} />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      </RecoilRoot>
     </StripeTerminalProvider>
   );
 }
