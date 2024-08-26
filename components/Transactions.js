@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from 'react';
-import { Text, Image, View, Pressable, ScrollView, ActivityIndicator } from 'react-native';
+import { Text, View, Pressable, ScrollView, RefreshControl } from 'react-native';
 import * as Utils from '../utilities';
 import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { transactionAtom } from '../atoms';
 
 const Row = (pi, navigation) => {
@@ -25,12 +25,11 @@ const Row = (pi, navigation) => {
 
 export default Transactions = (props) => {
     const [transactions, setTransactions] = useRecoilState(transactionAtom);
-    const [isLoading, setIsLoading] = useState(true);
     const navigation = useNavigation();
+    const [refreshing, setRefreshing] = useState(false);
 
     const getTransactions = async () => {
-        setIsLoading(true);
-        props.setShowHeaderLoader(true);
+        setRefreshing(true);
         const response = await fetch(`https://western-honey-chamomile.glitch.me/transactions`, {
             method: 'GET',
             headers: {
@@ -39,8 +38,7 @@ export default Transactions = (props) => {
         });
         const data = await response.json();
         setTransactions(data);
-        setIsLoading(false);
-        props.setShowHeaderLoader(false);
+        setRefreshing(false);
     };
 
     useEffect(() => {
@@ -57,15 +55,16 @@ export default Transactions = (props) => {
                     <DataTable.Title style={{ flex: 1.2 }}>Payment Method</DataTable.Title>
                 </DataTable.Header>
                 <ScrollView style={styles.list}
-                // onScroll={(event) => {
-                //     const scrolling = event.nativeEvent.contentOffset.y;
-                //     if (scrolling == 0) getTransactions();
-                // }}
-                // scrollEventThrottle={16}
-                >
-                    {/* {isLoading && <DataTable.Row style={styles.row}>
-                        <DataTable.Cell style={{ flex: 1 }}><ActivityIndicator size="large" color="#425466" /></DataTable.Cell>
-                    </DataTable.Row>} */}
+                    refreshControl={
+                        <RefreshControl
+                          refreshing={refreshing}
+                          onRefresh={getTransactions}
+                          progressViewOffset={150}
+                          colors={['white']}
+                          progressBackgroundColor={'#425466'}
+                        />
+                      }
+                    >
                     {transactions.length > 0 && transactions.map && transactions.map((pi) => Row(pi, navigation))}
                 </ScrollView>
             </DataTable>
@@ -75,13 +74,9 @@ export default Transactions = (props) => {
 }
 
 const styles = {
-    loader: {
-        justifyContent: 'center',
-        flexDirection: 'column',
-        height: '100%'
-    },
     list: {
         width: '100%',
+        height: '100%',
         flex: 1
     },
     container: {

@@ -1,10 +1,6 @@
 import { React, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, PermissionsAndroid, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, PermissionsAndroid, ActivityIndicator, RefreshControl } from 'react-native';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faLoader } from '@fortawesome/pro-light-svg-icons';
-import Spinner from 'react-native-loading-spinner-overlay';
-
 
 import Header from './components/Header';
 import Calculator from './components/Calculator';
@@ -13,8 +9,6 @@ import Transaction from './components/Transaction';
 
 export default function App({ navigation, route }) {
   const page = route.params?.page ?? 'Calculator';
-
-  const [showHeaderLoader, setShowHeaderLoader] = useState(false);
 
   const { initialize } = useStripeTerminal();
   const [initialized, setInitialized] = useState(false);
@@ -30,9 +24,7 @@ export default function App({ navigation, route }) {
         buttonPositive: 'Accept',
       }
     );
-    //console.log(granted);
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      //console.log('You can use the Location');
       setInfoMsg(infoMsg + "\nLocation permissions checked");
       await initializeReader();
     } else {
@@ -70,25 +62,19 @@ export default function App({ navigation, route }) {
     useStripeTerminal({
       onUpdateDiscoveredReaders: (readers) => {
         console.log("onUpdateDiscoveredReaders");
-        // console.log(readers);
-        // console.log("Will connect to reader " + readers[0]?.id);
         connectReader(readers[0]);
       },
       onFinishDiscoveringReaders: (error) => {
         console.log("onFinishDiscoveringReaders");
-        // console.log(error);
       },
       onDidChangeOfflineStatus: (status) => {
         console.log("onDidChangeOfflineStatus");
-        // console.log(status);
-        //setReaderStatus(status);
       },
       onDidSucceedReaderReconnect: () => {
         console.log("onDidSucceedReaderReconnect");
       },
       onDidChangePaymentStatus: (status) => {
         console.log("onDidChangePaymentStatus");
-        console.log(status);
       },
     });
 
@@ -110,7 +96,6 @@ export default function App({ navigation, route }) {
       console.log('connectHandoffReader error:', error);
       return;
     }
-    //console.log("Reader connected", setHandoffReader);
     return;
   };
 
@@ -120,23 +105,18 @@ export default function App({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {/* <Spinner
-        visible={!initialized}
-        textContent={'Loading...'}
-        // textStyle={styles.spinnerTextStyle}
-      /> */}
-      <Header page={page} showHeaderLoader={showHeaderLoader}/>
+      <Header page={page}/>
+
       {!initialized &&
         <View style={styles.container}>
-          {/* <FontAwesomeIcon icon={faLoader} color={'gray'} size={100} style={{ marginBottom: 40 }} /> */}
-          <ActivityIndicator size="large" color="#425466" />
+          <ActivityIndicator size="large" color="#425466"/>
           <Text style={{ padding: 40 }}>{infoMsg}</Text>
         </View>
       }
       {initialized &&
         <>
           {page == 'Calculator' && <Calculator />}
-          {page == 'Transactions' && <Transactions setShowHeaderLoader={setShowHeaderLoader}/>}
+          {page == 'Transactions' && <Transactions/>}
           {page == 'Transaction' && <Transaction pi={route.params?.pi} />}
         </>
       }

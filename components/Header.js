@@ -1,11 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { Text, Image, View, Pressable, ActivityIndicator } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCreditCard } from '@fortawesome/pro-light-svg-icons';
 import { faCalculator, faGrid, faList, faUser, faGear } from '@fortawesome/pro-solid-svg-icons';
-import { faStripe } from '@fortawesome/free-brands-svg-icons';
-import * as Utils from '../utilities';
-import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default Header = (props) => {
@@ -15,7 +11,6 @@ export default Header = (props) => {
         <>
             <View style={styles.topBanner}>
                 <Image source={require('../assets/stripe.png')} style={styles.logo} />
-                {props.showHeaderLoader && <ActivityIndicator size="small" color="white" style={styles.loader}/>}
             </View>
             <View style={styles.header}>
                 <Pressable style={props.page == 'Calculator' ? styles.tabSelected : styles.tab} onPress={() => navigation.navigate('App', { page: 'Calculator' })}>
@@ -59,10 +54,6 @@ const styles = {
         // width: 40,
         height: 40,
         resizeMode: 'contain'
-    },
-    loader:{
-        position: 'absolute',
-        right: 20
     },
     header: {
         width: '100%',
