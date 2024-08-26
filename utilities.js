@@ -16,6 +16,11 @@ export const displayDateTime = (timestamp) => {
     return date;
 }
 
+export const displayDateTimeShort = (timestamp) => {
+    let date = new Intl.DateTimeFormat('en-US', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).format(timestamp * 1000)
+    return date;
+}
+
 export const capitalize = (s) => {
     if (typeof s !== 'string') return ''
     s = s.replace(/_/g, ' ');
@@ -33,4 +38,8 @@ export const defaultAddress = {
     state: 'IL',
     country: 'US',
     postalCode: '60654'
+}
+
+export const generateOrderNumber = () => {
+    return 'STP' + Math.floor(Math.random() * 10000);
 }

@@ -17,23 +17,23 @@ export default Header = (props) => {
                 <Image source={require('../assets/stripe.png')} style={styles.logo} />
             </View>
             <View style={styles.header}>
-                <Pressable style={styles.tab} onPress={() => navigation.navigate('App', { page: 'Calculator' })}>
+                <Pressable style={props.page == 'Calculator' ? styles.tabSelected : styles.tab} onPress={() => navigation.navigate('App', { page: 'Calculator' })}>
                     <FontAwesomeIcon icon={faCalculator} style={styles.icon} size={26} />
                     <Text style={styles.title}>Calculator</Text>
                 </Pressable>
-                <View style={styles.tab}>
+                <View  style={props.page == 'Catalog' ? styles.tabSelected : styles.tab} >
                     <FontAwesomeIcon icon={faGrid} style={styles.icon} size={26} />
                     <Text style={styles.title}>Catalog</Text>
                 </View>
-                <Pressable style={styles.tab} onPress={() => navigation.navigate('App', { page: 'Transactions' })}>
+                <Pressable  style={props.page == 'Transactions' ? styles.tabSelected : styles.tab}  onPress={() => navigation.navigate('App', { page: 'Transactions' })}>
                     <FontAwesomeIcon icon={faList} style={styles.icon} size={26} />
                     <Text style={styles.title}>Transactions</Text>
                 </Pressable>
-                <View style={styles.tab}>
+                <View  style={props.page == 'Customers' ? styles.tabSelected : styles.tab} >
                     <FontAwesomeIcon icon={faUser} style={styles.icon} size={26} />
                     <Text style={styles.title}>Customers</Text>
                 </View>
-                <View style={styles.tab}>
+                <View  style={props.page == 'Settings' ? styles.tabSelected : styles.tab} >
                     <FontAwesomeIcon icon={faGear} style={styles.icon} size={26} />
                     <Text style={styles.title}>Settings</Text>
                 </View>
@@ -62,8 +62,8 @@ const styles = {
     },
     logo: {
         flex: 1,
-        width: 50,
-        height: 50,
+        // width: 40,
+        height: 40,
         resizeMode: 'contain'
     },
     header: {
@@ -88,9 +88,15 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
     },
+    tabSelected: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        borderBottomWidth: 3,
+        marginBottom: -10,
+        borderBottomColor: '#425466',
+    },
     title: {
         // fontSize: 20,
         color: '#425466',
-    }
-
+    },
 };

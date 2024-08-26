@@ -26,6 +26,11 @@ export default Calculator = ({ navigation }) => {
             amount: amount,
             currency: "usd",
             captureMethod: 'automatic',
+            metadata: {
+                app: 'sPOS',
+                channel: 'calculator',
+                orderNumber: Utils.generateOrderNumber()
+            }
         });
         if (error) {
             console.log("createPaymentIntent error: ", error);
@@ -83,21 +88,13 @@ export default Calculator = ({ navigation }) => {
             </View>
             <View style={styles.row}>
                 <Pressable style={[styles.tile, { backgroundColor: '#425466' }]} onPress={reset}>
-                    <FontAwesomeIcon icon={faDeleteLeft} className="fa-spin" color={'white'} size={32} />
+                    <FontAwesomeIcon icon={faDeleteLeft} color={'white'} size={32} />
                 </Pressable>
                 <Pressable onPress={createPayment} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
                     <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />
                     <Image source={require('../assets/contactless.png')} style={{ width: 48, height: 48, marginLeft: 20 }} />
-                    {/* <FontAwesomeIcon icon={faCcApplePay} color={'white'} size={32} style={{marginRight: 8}}/> */}
-                    {/* <FontAwesomeIcon icon={faGooglePay} color={'white'} size={54} /> */}
                 </Pressable>
             </View>
-            {/* <View style={styles.row}>
-                <Pressable onPress={() => navigation.navigate("Transactions")} style={[styles.tile, styles.large, { width: '100%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
-                    <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />
-                </Pressable>
-            </View> */}
-
         </View>
     )
 }

@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, PermissionsAndroid, Animated } from 'react-native';
+import { StyleSheet, Text, View, PermissionsAndroid, ActivityIndicator } from 'react-native';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faLoader } from '@fortawesome/pro-light-svg-icons';
@@ -9,6 +9,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Header from './components/Header';
 import Calculator from './components/Calculator';
 import Transactions from './components/Transactions';
+import Transaction from './components/Transaction';
 
 export default function App({ navigation, route }) {
   const page = route.params?.page ?? 'Calculator';
@@ -117,15 +118,16 @@ export default function App({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <Spinner
+      {/* <Spinner
         visible={!initialized}
         textContent={'Loading...'}
         // textStyle={styles.spinnerTextStyle}
-      />
-      <Header />
+      /> */}
+      <Header page={page}/>
       {!initialized &&
         <View style={styles.container}>
-          <FontAwesomeIcon icon={faLoader} color={'gray'} size={100} style={{ marginBottom: 40 }} />
+          {/* <FontAwesomeIcon icon={faLoader} color={'gray'} size={100} style={{ marginBottom: 40 }} /> */}
+          <ActivityIndicator size="large" color="#425466" />
           <Text style={{ padding: 40 }}>{infoMsg}</Text>
         </View>
       }
@@ -133,6 +135,7 @@ export default function App({ navigation, route }) {
         <>
           {page == 'Calculator' && <Calculator />}
           {page == 'Transactions' && <Transactions />}
+          {page == 'Transaction' && <Transaction pi={route.params?.pi} />}
         </>
       }
     </View>
