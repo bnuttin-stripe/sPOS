@@ -66,7 +66,7 @@ export default Transactions = (props) => {
                       }
                     >
                     {transactions.length > 0 && transactions.map && transactions.map((pi) => Row(pi, navigation))}
-                </ScrollView>
+                </ScrollView> 
             </DataTable>
         </View>
 

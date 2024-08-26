@@ -17,6 +17,15 @@ export default function App({ navigation, route }) {
 
   const checkPermissionsAndInitialize = async () => {
     setInfoMsg(infoMsg + "\nChecking location permissions");
+    const cameraPermission = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      {
+        title: 'Camera Permission',
+        message: 'Stripe Terminal needs access to your camera',
+        buttonPositive: 'Accept',
+      }
+    );
+    console.log(cameraPermission);
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
