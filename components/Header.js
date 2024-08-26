@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { Text, Image, View, Pressable, ActivityIndicator } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCalculator, faGrid, faList, faUser, faGear } from '@fortawesome/pro-solid-svg-icons';
+import { faCalculator, faGrid, faList, faUser, faGear, faQrcode } from '@fortawesome/pro-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
 
 export default Header = (props) => {
@@ -21,18 +21,22 @@ export default Header = (props) => {
                     <FontAwesomeIcon icon={faGrid} style={styles.icon} size={26} />
                     <Text style={styles.title}>Catalog</Text>
                 </View>
-                <Pressable  style={props.page == 'Transactions' ? styles.tabSelected : styles.tab}  onPress={() => navigation.navigate('App', { page: 'Transactions' })}>
+                <Pressable style={props.page == 'Transactions' ? styles.tabSelected : styles.tab}  onPress={() => navigation.navigate('App', { page: 'Transactions' })}>
                     <FontAwesomeIcon icon={faList} style={styles.icon} size={26} />
                     <Text style={styles.title}>Transactions</Text>
                 </Pressable>
-                <View  style={props.page == 'Customers' ? styles.tabSelected : styles.tab} >
+                {/* <View  style={props.page == 'Customers' ? styles.tabSelected : styles.tab} >
                     <FontAwesomeIcon icon={faUser} style={styles.icon} size={26} />
                     <Text style={styles.title}>Customers</Text>
                 </View>
                 <View  style={props.page == 'Settings' ? styles.tabSelected : styles.tab} >
                     <FontAwesomeIcon icon={faGear} style={styles.icon} size={26} />
                     <Text style={styles.title}>Settings</Text>
-                </View>
+                </View> */}
+                <Pressable  style={props.page == 'Scanner' ? styles.tabSelected : styles.tab}  onPress={() => navigation.navigate('App', { page: 'Scanner' })}>
+                    <FontAwesomeIcon icon={faQrcode} style={styles.icon} size={26} />
+                    <Text style={styles.title}>Scan</Text>
+                </Pressable>
             </View>
         </>
     )

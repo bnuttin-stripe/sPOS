@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Calculator from './components/Calculator';
 import Transactions from './components/Transactions';
 import Transaction from './components/Transaction';
+import Scanner from './components/Scanner';
 
 export default function App({ navigation, route }) {
   const page = route.params?.page ?? 'Calculator';
@@ -118,6 +119,7 @@ export default function App({ navigation, route }) {
           {page == 'Calculator' && <Calculator />}
           {page == 'Transactions' && <Transactions/>}
           {page == 'Transaction' && <Transaction pi={route.params?.pi} />}
+          {page == 'Scanner' && <Scanner />}
         </>
       }
     </View>
