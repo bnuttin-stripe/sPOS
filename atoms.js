@@ -1,45 +1,46 @@
-import { atom, useRecoilState } from 'recoil';
+import { atom } from 'recoil';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Use the following effect to persist anything to session storage
-const localStorageEffect = key => ({ setSelf, onSet }) => {
-    const savedValue = AsyncStorage.getItem(key);
-    // console.log("Cetting savedValue");
-    // console.log("Saved value: ", savedValue);
-    if (savedValue != null) {
-        // console.log("Saved value: ", savedValue);
-        //setSelf(JSON.parse(savedValue));
-        setSelf(savedValue);
+const localStorageEffect = (key, defaultValue) => ({ setSelf, onSet }) => {
+    // const savedValue = AsyncStorage.getItem(key);
+    // if (savedValue != null) {
+    //     setSelf(JSON.parse(savedValue));
+    // }
+
+    setSelf(AsyncStorage.getItem(key).then(savedValue => {
+        return savedValue != null
+            ? JSON.parse(savedValue)
+            : defaultValue
     }
+    ));
 
     onSet((newValue, _, isReset) => {
-        if (isReset){
-            // console.log("Removing key");
-            AsyncStorage.removeItem(key)
-        }
-        else{
-            //console.log("Setting key", newValue);
-            AsyncStorage.setItem(key, JSON.stringify(newValue));
-        }
+        isReset
+            ? AsyncStorage.removeItem(key)
+            : AsyncStorage.setItem(key, JSON.stringify(newValue));
     });
 };
 
-// export const paymentMethodsGlobalAtom = atom({
-//     key: 'paymentMethodsGlobalAtom',
-//     default: [],
-//     effects: [
-//         ({ onSet }) => {
-//             onSet(data => {
-//                 console.log(data.length + " payment methods");
-//             });
-//         },
-//     ]
-// });
 
 export const transactionAtom = atom({
     key: 'transactionAtom',
     default: [],
     effects: [
-        localStorageEffect('transactions'),
+        // localStorageEffect('transactions'),
+    ]
+});
+
+const defaultSettings = {
+    backendUrl: 'https://western-honey-chamomile.glitch.me',
+    storeName: 'sPOS',
+    orderPrefix: 'STP-',
+    taxPercentage: '10'
+};
+
+export const settingsAtom = atom({
+    key: 'settingsAtom',
+    default: defaultSettings,
+    effects: [
+        localStorageEffect('settings', defaultSettings),
     ]
 });

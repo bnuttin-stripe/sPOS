@@ -1,14 +1,18 @@
-import { React, useState, useEffect } from 'react';
-import { Text, Image, View, Pressable } from 'react-native';
+import { React, useState } from 'react';
+import { Text, Image, View, Pressable, Vibration } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCreditCard, faDeleteLeft } from '@fortawesome/pro-light-svg-icons';
-import { faStripe } from '@fortawesome/free-brands-svg-icons';
 import * as Utils from '../utilities';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
+import { css, colors } from '../styles';
+import { useRecoilValue } from 'recoil';
+import { settingsAtom } from '../atoms';
 
-export default Calculator = ({ navigation }) => {
+
+export default Calculator = () => {
     const [amount, setAmount] = useState(0);
-    const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, retrievePaymentIntent } = useStripeTerminal();
+    const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent } = useStripeTerminal();
+    const settings = useRecoilValue(settingsAtom);
 
     const reset = () => {
         setAmount(0);
@@ -22,6 +26,7 @@ export default Calculator = ({ navigation }) => {
     }
 
     const createPayment = async () => {
+        Vibration.vibrate(500);
         const { error, paymentIntent } = await createPaymentIntent({
             amount: amount,
             currency: "usd",
@@ -29,7 +34,7 @@ export default Calculator = ({ navigation }) => {
             metadata: {
                 app: 'sPOS',
                 channel: 'calculator',
-                orderNumber: Utils.generateOrderNumber()
+                orderNumber: Utils.generateOrderNumber(settings.orderPrefix)
             }
         });
         if (error) {
@@ -63,7 +68,7 @@ export default Calculator = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.calculator}>
+        <View style={css.container}>
             <View style={styles.amount}>
                 <Text style={styles.largest}>{Utils.displayPrice(amount / 100, 'usd')}</Text>
             </View>
@@ -100,16 +105,6 @@ export default Calculator = ({ navigation }) => {
 }
 
 const styles = {
-    calculator: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        alignSelf: 'flex-end',
-        padding: 20,
-    },
-    tape: {
-
-    },
     amount: {
         alignSelf: 'flex-end',
         marginRight: 5,
@@ -117,7 +112,7 @@ const styles = {
     },
     largest: {
         fontSize: 70,
-        color: '#425466'
+        color: colors.slate
     },
     large: {
         fontSize: 40,
@@ -130,7 +125,6 @@ const styles = {
     row: {
         flexDirection: 'row',
         height: 80
-        //height: '14%'
     },
     tile: {
         width: '33%',

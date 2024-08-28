@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { StyleSheet, Text, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { registerRootComponent } from 'expo';
 import { StripeTerminalProvider } from '@stripe/stripe-terminal-react-native';
 
@@ -11,6 +11,7 @@ import { RecoilRoot } from 'recoil';
 import App from './App';
 import Transactions from './components/Transactions';
 import Transaction from './components/Transaction';
+import Settings from './components/Settings';
 
 export default function Root() {
   const fetchTokenProvider = async () => {
@@ -41,6 +42,7 @@ export default function Root() {
             <Drawer.Screen name="App" component={App} />
             <Drawer.Screen name="Transactions" component={Transactions} />
             <Drawer.Screen name="Transaction" component={Transaction} />
+            <Drawer.Screen name="Settings" component={Settings} />
           </Drawer.Navigator>
         </NavigationContainer>
       </RecoilRoot>

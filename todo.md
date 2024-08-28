@@ -1,0 +1,6 @@
+- [ ] Refactor styles   
+- [ ] Payment interface into own script  
+- [ ] Catalog view  
+- [ ] Cuastomer view  
+- [ ] BOPIS  
+- [ ] Handling software updates  

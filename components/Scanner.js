@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { Text, Image, View, Pressable, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
 import * as Utils from '../utilities';
 import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
+import { css, colors } from '../styles';
 
 export default Scanner = (props) => {
     const device = useCameraDevice('back');
@@ -10,17 +11,17 @@ export default Scanner = (props) => {
     const [code, setCode] = useState('');
 
     const codeScanner = useCodeScanner({
-        codeTypes: ['qr', 'ean-13'],
+        codeTypes: ['qr', 'ean-13', 'code-128', 'pdf-417'],
         onCodeScanned: (codes) => {
+            console.log(codes[0]);
             setFoundCode(true);
             setCode(codes[0].value);
-            //console.log(`Scanned ${codes.length} codes!`)
         }
     })
 
     return (
-        <View style={styles.container}>
-            <View style={styles.viewport}>
+        <View style={css.container}>
+            <View style={css.cameraPreview}>
                 <Camera
                     style={StyleSheet.absoluteFill}
                     device={device}
@@ -33,24 +34,4 @@ export default Scanner = (props) => {
             <Text>{code}</Text>
         </View>
     )
-}
-
-const styles = {
-    container: {
-        flex: 1,
-        width: '100%'
-        // flexDirection: 'row',
-        // justifyContent: 'center',
-        // alignItems: 'flex-start',
-        // margin: 20,
-        // backgroundColor: 'black'
-    },
-    viewport: {
-        margin: 15,
-        height: '40%',
-    },
-    camera: {
-        //height: '33%',
-        // margin: 10,
-    }
 }

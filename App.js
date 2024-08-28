@@ -1,12 +1,14 @@
 import { React, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, PermissionsAndroid, ActivityIndicator, RefreshControl } from 'react-native';
+import { Text, View, PermissionsAndroid, ActivityIndicator, ScrollView } from 'react-native';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
+import { css } from './styles';
 
 import Header from './components/Header';
 import Calculator from './components/Calculator';
 import Transactions from './components/Transactions';
 import Transaction from './components/Transaction';
 import Scanner from './components/Scanner';
+import Settings from './components/Settings';
 
 export default function App({ navigation, route }) {
   const page = route.params?.page ?? 'Calculator';
@@ -88,7 +90,6 @@ export default function App({ navigation, route }) {
       },
     });
 
-
   const discoverHandoffReader = async () => {
     const { error } = await discoverReaders({
       discoveryMethod: 'handoff'
@@ -114,32 +115,23 @@ export default function App({ navigation, route }) {
   }, [initialized]);
 
   return (
-    <View style={styles.container}>
-      <Header page={page}/>
-
+    <View style={css.app}>
       {!initialized &&
-        <View style={styles.container}>
-          <ActivityIndicator size="large" color="#425466"/>
+        <View style={[css.container, { justifyContent: 'center', alignItems: 'center' }]}>
+          <ActivityIndicator size="large" color="#425466" />
           <Text style={{ padding: 40 }}>{infoMsg}</Text>
         </View>
       }
       {initialized &&
         <>
+          <Header page={page} />
           {page == 'Calculator' && <Calculator />}
-          {page == 'Transactions' && <Transactions/>}
+          {page == 'Transactions' && <Transactions />}
           {page == 'Transaction' && <Transaction pi={route.params?.pi} />}
           {page == 'Scanner' && <Scanner />}
+          {page == 'Settings' && <Settings />}
         </>
       }
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});

@@ -40,6 +40,6 @@ export const defaultAddress = {
     postalCode: '60654'
 }
 
-export const generateOrderNumber = () => {
-    return 'STP' + Math.floor(Math.random() * 10000);
+export const generateOrderNumber = (prefix) => {
+    return prefix || 'Order-' + Math.floor(Math.random() * 10000);
 }

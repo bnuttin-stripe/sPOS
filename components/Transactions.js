@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Text, View, Pressable, ScrollView, RefreshControl } from 'react-native';
+import { Text, View, Pressable, ScrollView, RefreshControl, Vibration } from 'react-native';
 import * as Utils from '../utilities';
 import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -29,6 +29,7 @@ export default Transactions = (props) => {
     const [refreshing, setRefreshing] = useState(false);
 
     const getTransactions = async () => {
+        // Vibration.vibrate(250);
         setRefreshing(true);
         const response = await fetch(`https://western-honey-chamomile.glitch.me/transactions`, {
             method: 'GET',
