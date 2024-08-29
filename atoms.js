@@ -44,3 +44,16 @@ export const settingsAtom = atom({
         localStorageEffect('settings', defaultSettings),
     ]
 });
+
+export const cartAtom = atom({
+    key: 'cartAtom',
+    default: [],
+});
+
+export const productAtom = atom({
+    key: 'productAtom',
+    default: [],
+    effects: [
+        //localStorageEffect('products', []),
+    ]
+});

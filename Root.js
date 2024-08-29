@@ -12,6 +12,8 @@ import App from './App';
 import Transactions from './components/Transactions';
 import Transaction from './components/Transaction';
 import Settings from './components/Settings';
+import Calculator from './components/Calculator';
+import Products from './components/Products';
 
 export default function Root() {
   const fetchTokenProvider = async () => {
@@ -40,6 +42,8 @@ export default function Root() {
         <NavigationContainer>
           <Drawer.Navigator initialRouteName="App" screenOptions={{ headerShown: false, swipeEnabled: false }}>
             <Drawer.Screen name="App" component={App} />
+            <Drawer.Screen name="Calculator" component={Calculator} />
+            <Drawer.Screen name="Products" component={Products} />
             <Drawer.Screen name="Transactions" component={Transactions} />
             <Drawer.Screen name="Transaction" component={Transaction} />
             <Drawer.Screen name="Settings" component={Settings} />

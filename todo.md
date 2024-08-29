@@ -3,4 +3,5 @@
 - [ ] Catalog view  
 - [ ] Cuastomer view  
 - [ ] BOPIS  
-- [ ] Handling software updates  
+- [ ] Handling software updates
+- [ ] Better performance of /transactions

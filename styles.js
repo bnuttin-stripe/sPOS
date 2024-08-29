@@ -10,12 +10,12 @@ export const css = {
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'column',
     },
     container: {
         flex: 1,
         width: '100%',
         padding: 20,
-
     },
     cameraPreview: {
         // margin: 15,
@@ -63,6 +63,9 @@ export const css = {
         justifyContent: 'center',
         flexDirection: 'column',
         height: '100%'
+    },
+    tableHeader:{
+        borderBottomWidth: 2,
     },
     hello: {
         color: 'red',

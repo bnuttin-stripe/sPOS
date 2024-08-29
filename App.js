@@ -5,10 +5,12 @@ import { css } from './styles';
 
 import Header from './components/Header';
 import Calculator from './components/Calculator';
+import Products from './components/Products';
 import Transactions from './components/Transactions';
 import Transaction from './components/Transaction';
 import Scanner from './components/Scanner';
 import Settings from './components/Settings';
+import CartDrawer from './components/CartDrawer';
 
 export default function App({ navigation, route }) {
   const page = route.params?.page ?? 'Calculator';
@@ -126,6 +128,7 @@ export default function App({ navigation, route }) {
         <>
           <Header page={page} />
           {page == 'Calculator' && <Calculator />}
+          {page == 'Products' && <Products />}
           {page == 'Transactions' && <Transactions />}
           {page == 'Transaction' && <Transaction pi={route.params?.pi} />}
           {page == 'Scanner' && <Scanner />}

@@ -3,13 +3,14 @@ import { Text, View, Pressable, ScrollView, RefreshControl, Vibration } from 're
 import * as Utils from '../utilities';
 import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { useRecoilState } from 'recoil';
-import { transactionAtom } from '../atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { transactionAtom, settingsAtom } from '../atoms';
+import { css, colors } from '../styles';
 
 const Row = (pi, navigation) => {
     return (
         <Pressable key={pi.id} onPress={() => navigation.navigate("App", { page: "Transaction", pi: pi })}>
-            <DataTable.Row style={styles.row}>
+            <DataTable.Row>
                 <DataTable.Cell style={{ flex: 0.8 }}>{pi.metadata?.orderNumber}</DataTable.Cell>
                 <DataTable.Cell style={{ flex: 0.7 }}>
                     <Text style={pi.latest_charge.amount_refunded > 0 ? { textDecorationLine: 'line-through' } : {}}>{Utils.displayPrice(pi.amount / 100, 'usd')}</Text>
@@ -25,13 +26,13 @@ const Row = (pi, navigation) => {
 
 export default Transactions = (props) => {
     const [transactions, setTransactions] = useRecoilState(transactionAtom);
+    const settings = useRecoilValue(settingsAtom);
     const navigation = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
 
     const getTransactions = async () => {
-        // Vibration.vibrate(250);
         setRefreshing(true);
-        const response = await fetch(`https://western-honey-chamomile.glitch.me/transactions`, {
+        const response = await fetch(settings.backendUrl + '/transactions', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,15 +48,15 @@ export default Transactions = (props) => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <View style={[css.container, {padding: 0}]}>
             <DataTable>
-                <DataTable.Header style={styles.header}>
+                <DataTable.Header style={css.tableHeader}>
                     <DataTable.Title style={{ flex: 0.8 }}>Order ID</DataTable.Title>
                     <DataTable.Title style={{ flex: 0.7 }}>Amount</DataTable.Title>
                     <DataTable.Title style={{ flex: 1.2 }}>Date</DataTable.Title>
                     <DataTable.Title style={{ flex: 1.2 }}>Payment Method</DataTable.Title>
                 </DataTable.Header>
-                <ScrollView style={styles.list}
+                <ScrollView 
                     refreshControl={
                         <RefreshControl
                           refreshing={refreshing}
@@ -72,33 +73,4 @@ export default Transactions = (props) => {
         </View>
 
     )
-}
-
-const styles = {
-    list: {
-        width: '100%',
-        height: '100%',
-        flex: 1
-    },
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        // marginTop: 20,
-    },
-    header: {
-        borderBottomWidth: 2,
-    },
-    row: {
-        // alignSelf: 'baseline',
-        // fontSize: 14,
-        // flex: 1,
-        // borderWidth: 1
-        // justifyContent: 'center',
-        // flexDirection: 'row',
-        // alignItems: 'flex-end',
-
-    }
-
 }

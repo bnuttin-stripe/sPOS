@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalculator, faGrid, faList, faUser, faGear, faBarcodeRead } from '@fortawesome/pro-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilValue } from 'recoil';
-import { settingsAtom } from '../atoms';
+import { settingsAtom, cartAtom } from '../atoms';
 import { css, colors } from '../styles';
 
 export default Header = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const cart = useRecoilValue(cartAtom);
 
     const goTo = (page) => {
         Vibration.vibrate(250);
@@ -20,15 +21,16 @@ export default Header = (props) => {
         <>
             <View style={styles.topBanner}>
                 <Image source={require('../assets/stripe.png')} style={styles.logo} />
+                <Text srtyle={{color:'white'}}>CART {cart.length}</Text>
             </View>
             <View style={styles.header}>
                 <Pressable style={props.page == 'Calculator' ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>
                     <FontAwesomeIcon icon={faCalculator} style={styles.icon} size={26} />
                     <Text style={styles.title}>Calculator</Text>
                 </Pressable>
-                <Pressable  style={props.page == 'Catalog' ? styles.tabSelected : styles.tab} >
+                <Pressable  style={props.page == 'Products' ? styles.tabSelected : styles.tab} onPress={() => goTo('Products')}>
                     <FontAwesomeIcon icon={faGrid} style={styles.icon} size={26} />
-                    <Text style={styles.title}>Catalog</Text>
+                    <Text style={styles.title}>Products</Text>
                 </Pressable>
                 <Pressable style={props.page == 'Transactions' ? styles.tabSelected : styles.tab} onPress={() => goTo('Transactions')}>
                     <FontAwesomeIcon icon={faList} style={styles.icon} size={26} />
