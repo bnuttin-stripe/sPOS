@@ -6,7 +6,9 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, settingsAtom } from '../atoms';
 import { css, colors } from '../styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCreditCard, faDeleteLeft } from '@fortawesome/pro-light-svg-icons';
+import { faCreditCard, faDeleteLeft, faBarcodeRead } from '@fortawesome/pro-light-svg-icons';
+import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
+import { Vibration } from 'react-native';
 
 const getCartTotal = (cart) => {
     return cart.reduce((a, b) => a + b.default_price.unit_amount / 100, 0);
@@ -17,6 +19,51 @@ export default CartDrawer = (props) => {
     const [cart, setCart] = useRecoilState(cartAtom);
     const resetCart = useResetRecoilState(cartAtom);
     const settings = useRecoilValue(settingsAtom);
+
+    const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent } = useStripeTerminal();
+
+    const createPayment = async () => {
+        Vibration.vibrate(500);
+        const { error, paymentIntent } = await createPaymentIntent({
+            amount: getCartTotal(cart) * 100,
+            currency: "usd",
+            captureMethod: 'automatic',
+            metadata: {
+                app: 'sPOS',
+                channel: 'catalog',
+                orderNumber: Utils.generateOrderNumber(settings.orderPrefix)
+            }
+        });
+        if (error) {
+            console.log("createPaymentIntent error: ", error);
+            return;
+        }
+        collectPM(paymentIntent);
+    }
+
+    const collectPM = async (pi) => {
+        const { error, paymentIntent } = await collectPaymentMethod({
+            paymentIntent: pi
+        });
+        if (error) {
+            console.log("collectPaymentMethod error: ", error);
+            return;
+        }
+        confirmPayment(paymentIntent);
+    }
+
+    const confirmPayment = async (pi) => {
+        const { error, paymentIntent } = await confirmPaymentIntent({
+            paymentIntent: pi
+        });
+        if (error) {
+            console.log("confirmPaymentIntent error: ", error);
+            return;
+        }
+        console.log("confirmPaymentIntent success: ", paymentIntent);
+        if (paymentIntent.status === 'succeeded') resetCart();
+    };
+
 
     return (
         <View style={styles.cartDrawer}>
@@ -29,12 +76,11 @@ export default CartDrawer = (props) => {
             <Pressable style={styles.tile} onPress={resetCart}>
                 <FontAwesomeIcon icon={faDeleteLeft} color={'white'} size={32} />
             </Pressable>
-            <Pressable style={[styles.tile, { flex: 2 }]} onPress={resetCart}>
+            <Pressable style={[styles.tile, { flex: 2 }]} onPress={createPayment} disabled={cart.length == 0}>
                 <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />
                 <Image source={require('../assets/contactless.png')} style={{ width: 32, height: 32, marginLeft: 10 }} />
             </Pressable>
         </View>
-
     )
 }
 
@@ -55,9 +101,9 @@ const styles = {
         margin: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        
+
     },
-    text:{
+    text: {
         color: 'white',
         fontSize: 20
     }

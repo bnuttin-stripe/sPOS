@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { Text, View, PermissionsAndroid, ActivityIndicator, ScrollView } from 'react-native';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
+import DeviceInfo from 'react-native-device-info';
 import { css } from './styles';
 
 import Header from './components/Header';
@@ -10,9 +11,11 @@ import Transactions from './components/Transactions';
 import Transaction from './components/Transaction';
 import Scanner from './components/Scanner';
 import Settings from './components/Settings';
-import CartDrawer from './components/CartDrawer';
 
 export default function App({ navigation, route }) {
+
+  // console.log(DeviceInfo.getDeviceId());
+  
   const page = route.params?.page ?? 'Calculator';
 
   const { initialize } = useStripeTerminal();
@@ -101,6 +104,16 @@ export default function App({ navigation, route }) {
     }
   };
 
+  const discoverLocalMobileReader = async () => {
+    const { error } = await discoverReaders({
+      discoveryMethod: 'localMobile',
+      simulated: true
+    });
+    if (error) {
+      console.log('Failed to discover readers.\n' + error.message);
+    }
+  };
+
   const connectReader = async (reader) => {
     const { error } = await connectHandoffReader({
       reader: reader
@@ -113,7 +126,10 @@ export default function App({ navigation, route }) {
   };
 
   useEffect(() => {
-    if (initialized) discoverHandoffReader();
+    if (initialized) {
+      //discoverHandoffReader();
+      discoverLocalMobileReader();
+    }
   }, [initialized]);
 
   return (

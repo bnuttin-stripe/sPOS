@@ -17,12 +17,6 @@ export const css = {
         width: '100%',
         padding: 20,
     },
-    cameraPreview: {
-        // margin: 15,
-        height: '40%',
-        borderWidth: 2,
-        borderColor: colors.slate
-    },
     row: {
         width: '100%',
         flexDirection: 'row',

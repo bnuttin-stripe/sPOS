@@ -7,10 +7,10 @@ import { useRecoilValue } from 'recoil';
 import { settingsAtom, cartAtom } from '../atoms';
 import { css, colors } from '../styles';
 
+import BatteryIndicator from './BatteryIndicator';
+
 export default Header = (props) => {
     const navigation = useNavigation();
-    const settings = useRecoilValue(settingsAtom);
-    const cart = useRecoilValue(cartAtom);
 
     const goTo = (page) => {
         Vibration.vibrate(250);
@@ -21,7 +21,7 @@ export default Header = (props) => {
         <>
             <View style={styles.topBanner}>
                 <Image source={require('../assets/stripe.png')} style={styles.logo} />
-                <Text srtyle={{color:'white'}}>CART {cart.length}</Text>
+                {/* <BatteryIndicator /> */}
             </View>
             <View style={styles.header}>
                 <Pressable style={props.page == 'Calculator' ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>
@@ -40,10 +40,10 @@ export default Header = (props) => {
                     <FontAwesomeIcon icon={faGear} style={styles.icon} size={26} />
                     <Text style={styles.title}>Settings</Text>
                 </Pressable>
-                <Pressable  style={props.page == 'Scanner' ? styles.tabSelected : styles.tab} onPress={() => goTo('Scanner')}>
+                {/* <Pressable  style={props.page == 'Scanner' ? styles.tabSelected : styles.tab} onPress={() => goTo('Scanner')}>
                     <FontAwesomeIcon icon={faBarcodeRead} style={styles.icon} size={26} />
                     <Text style={styles.title}>Scan</Text>
-                </Pressable>
+                </Pressable> */}
             </View>
         </>
     )
