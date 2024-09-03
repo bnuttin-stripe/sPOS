@@ -40,10 +40,6 @@ export default Header = (props) => {
                     <FontAwesomeIcon icon={faGear} style={styles.icon} size={26} />
                     <Text style={styles.title}>Settings</Text>
                 </Pressable>
-                {/* <Pressable  style={props.page == 'Scanner' ? styles.tabSelected : styles.tab} onPress={() => goTo('Scanner')}>
-                    <FontAwesomeIcon icon={faBarcodeRead} style={styles.icon} size={26} />
-                    <Text style={styles.title}>Scan</Text>
-                </Pressable> */}
             </View>
         </>
     )
@@ -60,7 +56,7 @@ const styles = {
     },
     logo: {
         flex: 1,
-        height: 35,
+        height: 42,
         resizeMode: 'contain'
     },
     header: {

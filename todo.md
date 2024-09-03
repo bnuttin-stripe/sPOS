@@ -1,7 +1,7 @@
-- [ ] Refactor styles   
+- [x] Refactor styles   
 - [ ] Payment interface into own script  
-- [ ] Catalog view  
-- [ ] Cuastomer view  
+- [x] Catalog view  
+- [ ] Customer view  
 - [ ] BOPIS  
 - [ ] Handling software updates
 - [ ] Better performance of /transactions

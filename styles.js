@@ -1,5 +1,6 @@
 export const colors = {
-    blurple: '#7A73FF',
+    blurple: '#635BFF',
+    paleblurple: '#7A73FF',
     yellow: '#FFBB00',
     slate: '#425466'
 }

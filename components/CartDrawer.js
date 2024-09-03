@@ -14,16 +14,16 @@ const getCartTotal = (cart) => {
     return cart.reduce((a, b) => a + b.default_price.unit_amount / 100, 0);
 }
 
-export default CartDrawer = (props) => {
-    const navigation = useNavigation();
-    const [cart, setCart] = useRecoilState(cartAtom);
+export default CartDrawer = () => {
+    const cart = useRecoilValue(cartAtom);
     const resetCart = useResetRecoilState(cartAtom);
     const settings = useRecoilValue(settingsAtom);
 
     const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent } = useStripeTerminal();
 
     const createPayment = async () => {
-        Vibration.vibrate(500);
+        Vibration.vibrate(250);
+        const orderNumber = Utils.generateOrderNumber(settings.orderPrefix);
         const { error, paymentIntent } = await createPaymentIntent({
             amount: getCartTotal(cart) * 100,
             currency: "usd",
@@ -31,7 +31,7 @@ export default CartDrawer = (props) => {
             metadata: {
                 app: 'sPOS',
                 channel: 'catalog',
-                orderNumber: Utils.generateOrderNumber(settings.orderPrefix)
+                orderNumber: orderNumber
             }
         });
         if (error) {

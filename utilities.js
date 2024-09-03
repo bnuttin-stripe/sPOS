@@ -41,5 +41,5 @@ export const defaultAddress = {
 }
 
 export const generateOrderNumber = (prefix) => {
-    return prefix || 'Order-' + Math.floor(Math.random() * 10000);
+    return (prefix || 'Order-') + Math.floor(Math.random() * 10000);
 }

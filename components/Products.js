@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { Text, View, Pressable, ScrollView, RefreshControl, StyleSheet } from 'react-native';
 import * as Utils from '../utilities';
-import { DataTable } from 'react-native-paper';
+import { DataTable, shadow } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { cartAtom, productAtom, settingsAtom } from '../atoms';
@@ -10,6 +10,7 @@ import { faBarcodeRead, faXmark, faChevronRight } from '@fortawesome/pro-light-s
 import { css, colors } from '../styles';
 import CartDrawer from './CartDrawer';
 import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
+import { height } from '@fortawesome/free-brands-svg-icons/fa42Group';
 
 
 export default Products = (props) => {
@@ -26,7 +27,6 @@ export default Products = (props) => {
     const codeScanner = useCodeScanner({
         codeTypes: ['qr'],
         onCodeScanned: (codes) => {
-            console.log(codes[0].value);
             const foundProduct = products.find(x => x.id == codes[0].value);
             const productInCart = cart.find(x => x.id == codes[0].value);
             if (!productInCart) {
@@ -44,20 +44,22 @@ export default Products = (props) => {
         return (
             <Pressable key={product.id} onPress={() => setCart([...cart, product])}>
                 <DataTable.Row>
-                    <DataTable.Cell style={{ flex: 5, paddingRight: 5 }}>
-                        <Text style={{ fontWeight: numInCart(product) > 0 ? 'bold' : 'normal' }}>
+                    <DataTable.Cell style={{ flex: 5, paddingTop: 8, paddingBottom: 8, paddingRight: 5 }}>
+                        <Text>
                             {product.name}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={{ flex: 1 }} numeric>
-                        <Text style={{ fontWeight: numInCart(product) > 0 ? 'bold' : 'normal' }}>
+                    <DataTable.Cell style={{ flex: 2 }} numeric>
+                        <Text>
                             {Utils.displayPrice(product.default_price.unit_amount / 100, 'usd')}
                         </Text>
                     </DataTable.Cell>
                     <DataTable.Cell style={{ flex: 1 }} numeric>
-                        <Text style={{ fontWeight: numInCart(product) > 0 ? 'bold' : 'normal' }}>
-                            {numInCart(product)}
-                        </Text>
+                        <View style={numInCart(product) > 0 ? [styles.numInCart, { backgroundColor: colors.blurple }] : [styles.numInCart, { backgroundColor: colors.slate }]}>
+                            <Text style={{ color: 'white' }}>
+                                {numInCart(product)}
+                            </Text>
+                        </View>
                     </DataTable.Cell>
                 </DataTable.Row>
             </Pressable >
@@ -73,7 +75,6 @@ export default Products = (props) => {
             },
         });
         const data = await response.json();
-        console.log(products);
         setProducts(data);
         setRefreshing(false);
     };
@@ -87,7 +88,7 @@ export default Products = (props) => {
             <DataTable style={{ flex: 1 }}>
                 <DataTable.Header style={css.tableHeader}>
                     <DataTable.Title style={{ flex: 5 }}>Product</DataTable.Title>
-                    <DataTable.Title style={{ flex: 1 }} numeric>Price</DataTable.Title>
+                    <DataTable.Title style={{ flex: 2 }} numeric>Price</DataTable.Title>
                     <DataTable.Title style={{ flex: 1 }} numeric>In Cart</DataTable.Title>
                 </DataTable.Header>
                 <ScrollView
@@ -148,5 +149,18 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 25,
+        shadownColor: 'black',
+        elevation: 8,
+    },
+    numInCart: {
+        width: 30,
+        height: 30,
+        // borderWidth: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // margin: 10,
+        // backgroundColor: colors.blurple,
+        color: 'white',
+        borderRadius: 15,
     }
 }
