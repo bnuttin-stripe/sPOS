@@ -13,7 +13,7 @@ const Row = (pi, navigation) => {
             <DataTable.Row>
                 <DataTable.Cell style={{ flex: 0.8 }}>{pi.metadata?.orderNumber}</DataTable.Cell>
                 <DataTable.Cell style={{ flex: 0.7 }} numeric>
-                    <Text style={pi.latest_charge.amount_refunded > 0 ? { textDecorationLine: 'line-through' } : {}}>{Utils.displayPrice(pi.amount / 100, 'usd')}     </Text>
+                    <Text style={pi.latest_charge.amount_refunded > 0 ? { textDecorationLine: 'line-through' } : {}}>{Utils.displayPrice(pi.amount / 100, 'usd')}</Text><Text>     </Text>
                 </DataTable.Cell>
                 <DataTable.Cell style={{ flex: 1.2 }}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</DataTable.Cell>
                 <DataTable.Cell style={{ flex: 1 }}>
