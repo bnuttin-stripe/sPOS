@@ -127,8 +127,8 @@ export default function App({ navigation, route }) {
 
   useEffect(() => {
     if (initialized) {
-      //discoverHandoffReader();
-      discoverLocalMobileReader();
+      discoverHandoffReader();
+      // discoverLocalMobileReader();
     }
   }, [initialized]);
 

@@ -88,7 +88,7 @@ const styles = {
     cartDrawer: {
         backgroundColor: colors.slate,
         padding: 10,
-        height: 100,
+        height: 80,
         justifyContent: 'center',
         flexDirection: 'row'
     },

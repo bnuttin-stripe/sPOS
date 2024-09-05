@@ -52,16 +52,16 @@ const styles = {
         alignItems: 'center',
         backgroundColor: colors.slate,
         width: '100%',
-        height: 60,
+        height: 80,
     },
     logo: {
         flex: 1,
-        height: 42,
+        height: 50,
         resizeMode: 'contain'
     },
     header: {
         width: '100%',
-        paddingTop: 20,
+        paddingTop: 15,
         paddingLeft: 20,
         paddingRight: 20,
         paddingBottom: 10,

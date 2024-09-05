@@ -143,7 +143,7 @@ const styles = {
     floatingIcon: {
         position: 'absolute',
         color: 'white',
-        bottom: 120,
+        bottom: 100,
         width: 50,
         height: 50,
         justifyContent: 'center',
