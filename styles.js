@@ -2,7 +2,8 @@ export const colors = {
     blurple: '#635BFF',
     paleblurple: '#7A73FF',
     yellow: '#FFBB00',
-    slate: '#425466'
+    slate: '#425466',
+    white: '#fff'
 }
 
 export const css = {
@@ -17,6 +18,7 @@ export const css = {
         flex: 1,
         width: '100%',
         padding: 20,
+        backgroundColor: 'white',
     },
     row: {
         width: '100%',

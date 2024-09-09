@@ -14,7 +14,7 @@ import Settings from './components/Settings';
 
 export default function App({ navigation, route }) {
 
-  // console.log(DeviceInfo.getDeviceId());
+  // console.log(DeviceInfo.getDeviceType());
   
   const page = route.params?.page ?? 'Calculator';
 
@@ -32,7 +32,7 @@ export default function App({ navigation, route }) {
         buttonPositive: 'Accept',
       }
     );
-    console.log(cameraPermission);
+    // console.log(cameraPermission);
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
@@ -82,7 +82,7 @@ export default function App({ navigation, route }) {
         connectReader(readers[0]);
       },
       onFinishDiscoveringReaders: (error) => {
-        console.log("onFinishDiscoveringReaders");
+        console.log("onFinishDiscoveringReaders", error);
       },
       onDidChangeOfflineStatus: (status) => {
         console.log("onDidChangeOfflineStatus");
@@ -100,7 +100,7 @@ export default function App({ navigation, route }) {
       discoveryMethod: 'handoff'
     });
     if (error) {
-      console.log('Failed to discover readers.\n' + error.message);
+      console.log('Failed to discover handoff reader.\n', error);
     }
   };
 

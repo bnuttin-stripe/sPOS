@@ -108,7 +108,7 @@ const styles = {
     amount: {
         alignSelf: 'flex-end',
         marginRight: 5,
-        marginBottom: 25
+        marginBottom: 20
     },
     largest: {
         fontSize: 70,

@@ -7,6 +7,8 @@ import { usePowerState, getCarrier } from 'react-native-device-info';
 
 export default BatteryIndicator = (props) => {
     const powerState = usePowerState();
+    const carrier = getCarrier();
+    console.log(carrier);
 
     return (
         <>
@@ -32,6 +34,7 @@ const styles = {
         flexDirection: 'row',
         position: 'absolute',
         right: 10,
+        top: 10,
     },
     level: {
         color: 'white',
