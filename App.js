@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { Text, View, PermissionsAndroid, ActivityIndicator, ScrollView } from 'react-native';
+import { Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import DeviceInfo from 'react-native-device-info';
 import { css } from './styles';
@@ -12,10 +12,10 @@ import Transaction from './components/Transaction';
 import Scanner from './components/Scanner';
 import Settings from './components/Settings';
 
-export default function App({ navigation, route }) {
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { transactionAtom, settingsAtom } from './atoms';
 
-  // console.log(DeviceInfo.getDeviceType());
-  
+export default function App({ navigation, route }) {
   const page = route.params?.page ?? 'Calculator';
 
   const { initialize } = useStripeTerminal();
@@ -115,9 +115,11 @@ export default function App({ navigation, route }) {
   };
 
   const connectReader = async (reader) => {
+    console.log("Starting connectHandoffReader", reader);
     const { error } = await connectHandoffReader({
       reader: reader
     });
+    console.log("connectHandoffReader done");
     if (error) {
       console.log('connectHandoffReader error:', error);
       return;
@@ -133,7 +135,7 @@ export default function App({ navigation, route }) {
   }, [initialized]);
 
   return (
-    <View style={css.app}>
+    <SafeAreaView style={css.app}>
       {!initialized &&
         <View style={[css.container, { justifyContent: 'center', alignItems: 'center' }]}>
           <ActivityIndicator size="large" color="#425466" />
@@ -151,6 +153,6 @@ export default function App({ navigation, route }) {
           {page == 'Settings' && <Settings />}
         </>
       }
-    </View>
+    </SafeAreaView>
   );
 }

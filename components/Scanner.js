@@ -13,7 +13,7 @@ export default Scanner = (props) => {
     const codeScanner = useCodeScanner({
         codeTypes: ['qr', 'ean-13', 'code-128', 'pdf-417'],
         onCodeScanned: (codes) => {
-            console.log(codes[0]);
+            // console.log(codes[0]);
             setFoundCode(true);
             setCode(codes[0].value);
         }

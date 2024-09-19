@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Text, View, Pressable, ScrollView, RefreshControl, Vibration } from 'react-native';
+import { Text, View, Pressable, ScrollView, RefreshControl, FlatList } from 'react-native';
 import * as Utils from '../utilities';
 import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -15,8 +15,8 @@ const Row = (pi, navigation) => {
                 <DataTable.Cell style={{ flex: 0.7 }} numeric>
                     <Text style={pi.latest_charge.amount_refunded > 0 ? { textDecorationLine: 'line-through' } : {}}>{Utils.displayPrice(pi.amount / 100, 'usd')}</Text><Text>     </Text>
                 </DataTable.Cell>
-                <DataTable.Cell style={{ flex: 1.2 }}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</DataTable.Cell>
-                <DataTable.Cell style={{ flex: 1 }}>
+                <DataTable.Cell style={{ flex: 1.4 }}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</DataTable.Cell>
+                <DataTable.Cell style={{ flex: 0.8 }}>
                     {/* {Utils.capitalize(pi.latest_charge.payment_method_details.card_present.brand)} {pi.latest_charge.payment_method_details.card_present.last4} - {pi.latest_charge.payment_method_details.card_present.exp_month}/{pi.latest_charge.payment_method_details.card_present.exp_year?.toString().slice(-2)} */}
                     {Utils.capitalize(pi.latest_charge.payment_method_details.card_present.brand)} {pi.latest_charge.payment_method_details.card_present.last4}
                 </DataTable.Cell>
@@ -54,13 +54,13 @@ export default Transactions = (props) => {
                 <DataTable.Header style={css.tableHeader}>
                     <DataTable.Title style={{ flex: 0.8 }}>Order ID</DataTable.Title>
                     <DataTable.Title style={{ flex: 0.7 }} numeric>Amount     </DataTable.Title>
-                    <DataTable.Title style={{ flex: 1.2 }}>Date</DataTable.Title>
-                    <DataTable.Title style={{ flex: 1 }}>Payment Method</DataTable.Title>
+                    <DataTable.Title style={{ flex: 1.4 }}>Date</DataTable.Title>
+                    <DataTable.Title style={{ flex: 0.8 }}>Card</DataTable.Title>
                 </DataTable.Header>
                 <ScrollView 
                     refreshControl={
                         <RefreshControl
-                          refreshing={refreshing}
+                          refreshing={refreshing || transactions.length == 0}
                           onRefresh={getTransactions}
                           progressViewOffset={150}
                           colors={['white']}
@@ -69,7 +69,7 @@ export default Transactions = (props) => {
                       }
                     >
                     {transactions.length > 0 && transactions.map && transactions.map((pi) => Row(pi, navigation))}
-                </ScrollView> 
+                </ScrollView>
             </DataTable>
         </View>
 

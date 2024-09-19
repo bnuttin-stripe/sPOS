@@ -21,13 +21,13 @@ export default Header = (props) => {
         <>
             <View style={styles.topBanner}>
                 <View style={{ flex: 2, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-                    <Image source={require('../assets/StripePressLogoWhite.png')} style={[styles.logo, { width: 80, marginLeft: 15 }]} />
+                    <Image source={require('../assets/StripePressLogoWhite.png')} style={[styles.logo, { width: 100, marginLeft: 15 }]} />
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-start', marginRight: -15 }}>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: -15 }}>
                     <Text style={{ color: colors.white }}>Powered by</Text>
-                    <Image source={require('../assets/stripe.png')} style={[styles.logo, { height: 24, marginTop: -2, marginLeft: -10 }]} />
+                    <Image source={require('../assets/stripe.png')} style={[styles.logo, { height: 24, marginBottom: -3, marginLeft: -10 }]} />
                 </View>
-                {/* <BatteryIndicator /> */}
+                <BatteryIndicator />
             </View>
             <View style={styles.header}>
                 <Pressable style={props.page == 'Calculator' ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>
@@ -55,8 +55,9 @@ const styles = {
     topBanner: {
         flexDirection: 'row',
         backgroundColor: colors.slate,
-        height: 80,
-        padding: 10
+        height: 100,
+        padding: 10,
+        // marginTop: -30
     },
     logo: {
         flex: 1,
