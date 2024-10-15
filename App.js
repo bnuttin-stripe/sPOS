@@ -9,6 +9,7 @@ import Calculator from './components/Calculator';
 import Products from './components/Products';
 import Transactions from './components/Transactions';
 import Transaction from './components/Transaction';
+import Customers from './components/Customers';
 import Scanner from './components/Scanner';
 import Settings from './components/Settings';
 
@@ -149,6 +150,7 @@ export default function App({ navigation, route }) {
           {page == 'Products' && <Products />}
           {page == 'Transactions' && <Transactions />}
           {page == 'Transaction' && <Transaction pi={route.params?.pi} />}
+          {page == 'Customers' && <Customers />}
           {page == 'Scanner' && <Scanner />}
           {page == 'Settings' && <Settings />}
         </>

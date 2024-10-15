@@ -7,7 +7,7 @@ import { usePowerState, getCarrier } from 'react-native-device-info';
 
 export default BatteryIndicator = (props) => {
     const powerState = usePowerState();
-    console.log(powerState);
+    //console.log(powerState);
 
     return (
         <>

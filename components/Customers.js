@@ -4,7 +4,7 @@ import * as Utils from '../utilities';
 import { DataTable, shadow } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { cartAtom, productAtom, settingsAtom } from '../atoms';
+import { customerAtom, settingsAtom } from '../atoms';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBarcodeRead, faXmark, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { css, colors } from '../styles';
@@ -13,11 +13,10 @@ import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 're
 import { height } from '@fortawesome/free-brands-svg-icons/fa42Group';
 
 
-export default Products = (props) => {
+export default Customers = (props) => {
     const navigation = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
-    const [products, setProducts] = useRecoilState(productAtom);
-    const [cart, setCart] = useRecoilState(cartAtom);
+    const [customers, setCustomers] = useRecoilState(customerAtom);
     const settings = useRecoilValue(settingsAtom);
     const device = useCameraDevice('back');
 
@@ -25,9 +24,12 @@ export default Products = (props) => {
     const [foundCode, setFoundCode] = useState(false);
 
     const codeScanner = useCodeScanner({
-        codeTypes: ['qr', 'pdf-417'],
+        codeTypes: ['pdf-417'],
         onCodeScanned: (codes) => {
-            console.log(codes);
+            console.log(codes[0].value);
+            const customerDetails = codes[0].value.split('\n');
+            const lastNameRegex = /(?:\nDCS)(.*)(?:\n)/;
+            console.log(lastNameRegex.exec(codes[0].value)[1]);
             return;
             const foundProduct = products.find(x => x.id == codes[0].value);
             const productInCart = cart.find(x => x.id == codes[0].value);
@@ -38,73 +40,61 @@ export default Products = (props) => {
         }
     })
 
-    const numInCart = (product) => {
-        return cart.filter(x => (x == product)).length;
-    }
-
-    const Row = (product) => {
+    const Row = (customer) => {
         return (
-            <Pressable key={product.id} onPress={() => setCart([...cart, product])}>
+            <Pressable key={customer.id} onPress={() => console.log(customer)}>
                 <DataTable.Row>
                     <DataTable.Cell style={{ flex: 5, paddingTop: 8, paddingBottom: 8, paddingRight: 5 }}>
                         <Text>
-                            {product.name}
+                            {customer.name}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={{ flex: 2 }} numeric>
+                    <DataTable.Cell style={{ flex: 5, paddingTop: 8, paddingBottom: 8, paddingRight: 5 }}>
                         <Text>
-                            {Utils.displayPrice(product.default_price.unit_amount / 100, 'usd')}
+                            {customer.email}
                         </Text>
-                    </DataTable.Cell>
-                    <DataTable.Cell style={{ flex: 1 }} numeric>
-                        <View style={numInCart(product) > 0 ? [styles.numInCart, { backgroundColor: colors.blurple }] : [styles.numInCart, { backgroundColor: colors.slate }]}>
-                            <Text style={{ color: 'white' }}>
-                                {numInCart(product)}
-                            </Text>
-                        </View>
                     </DataTable.Cell>
                 </DataTable.Row>
             </Pressable >
         )
     }
 
-    const getProducts = async () => {
+    const getCustomers = async () => {
         setRefreshing(true);
-        const response = await fetch(settings.backendUrl + '/products', {
+        const response = await fetch(settings.backendUrl + '/customers', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
         const data = await response.json();
-        setProducts(data);
+        setCustomers(data);
         setRefreshing(false);
     };
 
     useEffect(() => {
-        getProducts();
+        getCustomers();
     }, []);
 
     return (
         <View style={[css.container, { padding: 0 }]}>
             <DataTable style={{ flex: 1 }}>
                 <DataTable.Header style={css.tableHeader}>
-                    <DataTable.Title style={{ flex: 5 }}>Product</DataTable.Title>
-                    <DataTable.Title style={{ flex: 2 }} numeric>Price</DataTable.Title>
-                    <DataTable.Title style={{ flex: 1 }} numeric>In Cart</DataTable.Title>
+                    <DataTable.Title style={{ flex: 5 }}>Name</DataTable.Title>
+                    <DataTable.Title style={{ flex: 2 }}>Email</DataTable.Title>
                 </DataTable.Header>
                 <ScrollView
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
-                            onRefresh={getProducts}
+                            onRefresh={getCustomers}
                             progressViewOffset={150}
                             colors={['white']}
                             progressBackgroundColor={colors.slate}
                         />
                     }
                 >
-                    {products.length > 0 && products.map && products.map((product) => Row(product))}
+                    {customers.length > 0 && customers.map && customers.map((customer) => Row(customer))}
                 </ScrollView>
             </DataTable>
             {scannerOpen && <>
@@ -154,15 +144,4 @@ const styles = {
         shadownColor: 'black',
         elevation: 8,
     },
-    numInCart: {
-        width: 30,
-        height: 30,
-        // borderWidth: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-        // margin: 10,
-        // backgroundColor: colors.blurple,
-        color: 'white',
-        borderRadius: 15,
-    }
 }

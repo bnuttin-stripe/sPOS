@@ -29,7 +29,7 @@ export default function Root() {
 
   useEffect(() => {
     fetchTokenProvider();
-  }, []);
+  }, [StripeTerminalProvider]);
 
   const Drawer = createDrawerNavigator();
 

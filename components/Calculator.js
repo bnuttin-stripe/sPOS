@@ -45,6 +45,7 @@ export default Calculator = () => {
     }
 
     const collectPM = async (pi) => {
+        console.log("collectPM: ", pi);
         const { error, paymentIntent } = await collectPaymentMethod({ 
             paymentIntent: pi
         });
@@ -56,8 +57,10 @@ export default Calculator = () => {
     }
 
     const confirmPayment = async (pi) => {
+        console.log("confirmPayment: ", pi);
         const {error, paymentIntent} = await confirmPaymentIntent({
             paymentIntent: pi
+            // pi
         });
         if (error) {
             console.log("confirmPaymentIntent error: ", error);

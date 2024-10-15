@@ -57,3 +57,8 @@ export const productAtom = atom({
         //localStorageEffect('products', []),
     ]
 });
+
+export const customerAtom = atom({
+    key: 'customerAtom',
+    default: []
+});
