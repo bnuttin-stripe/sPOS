@@ -10,6 +10,7 @@ import Products from './components/Products';
 import Transactions from './components/Transactions';
 import Transaction from './components/Transaction';
 import Customers from './components/Customers';
+import CustomerEntry from './components/CustomerEntry';
 import Scanner from './components/Scanner';
 import Settings from './components/Settings';
 
@@ -151,6 +152,7 @@ export default function App({ navigation, route }) {
           {page == 'Transactions' && <Transactions />}
           {page == 'Transaction' && <Transaction pi={route.params?.pi} />}
           {page == 'Customers' && <Customers />}
+          {page == 'CustomerEntry' && <CustomerEntry />}
           {page == 'Scanner' && <Scanner />}
           {page == 'Settings' && <Settings />}
         </>

@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, settingsAtom } from '../atoms';
 import { css, colors } from '../styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCreditCard, faDeleteLeft, faBarcodeRead } from '@fortawesome/pro-light-svg-icons';
+import { faCreditCard, faDeleteLeft, faBarcodeRead, faCartXmark } from '@fortawesome/pro-light-svg-icons';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { Vibration } from 'react-native';
 
@@ -74,7 +74,7 @@ export default CartDrawer = () => {
                 <Text style={styles.text}>{Utils.displayPrice(getCartTotal(cart), 'usd')}</Text>
             </View>
             <Pressable style={styles.tile} onPress={resetCart}>
-                <FontAwesomeIcon icon={faDeleteLeft} color={'white'} size={32} />
+                <FontAwesomeIcon icon={faCartXmark} color={'white'} size={32} />
             </Pressable>
             <Pressable style={[styles.tile, { flex: 2 }]} onPress={createPayment} disabled={cart.length == 0}>
                 <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />

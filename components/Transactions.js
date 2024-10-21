@@ -60,7 +60,7 @@ export default Transactions = (props) => {
                 <ScrollView 
                     refreshControl={
                         <RefreshControl
-                          refreshing={refreshing || transactions.length == 0}
+                          refreshing={refreshing}
                           onRefresh={getTransactions}
                           progressViewOffset={150}
                           colors={['white']}
@@ -75,3 +75,5 @@ export default Transactions = (props) => {
 
     )
 }
+
+

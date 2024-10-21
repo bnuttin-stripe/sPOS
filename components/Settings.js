@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { Text, TextInput, View, KeyboardAvoidingView, Pressable, ScrollView, Linking, ActivityIndicator } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import * as Utils from '../utilities';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { settingsAtom } from '../atoms';
@@ -51,6 +52,18 @@ export default Settings = (props) => {
                     inputMode="decimal"
                     value={settings?.taxPercentage}
                     onChangeText={text => setSettings({ ...settings, taxPercentage: text })}
+                />
+
+                <Text style={css.label}>Currency</Text>
+                <RNPickerSelect
+                    onValueChange={(value) => setSettings({ ...settings, currency: value })}
+                    value={settings.currency}
+                    items={[
+                        { label: 'USD', value: 'usd' },
+                        { label: 'EUR', value: 'eur' },
+                        { label: 'AUD', value: 'aud' },
+                        { label: 'GBP', value: 'gbp' },
+                    ]}
                 />
 
                 <View style={css.row}>

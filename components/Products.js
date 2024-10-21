@@ -25,10 +25,10 @@ export default Products = (props) => {
     const [foundCode, setFoundCode] = useState(false);
 
     const codeScanner = useCodeScanner({
-        codeTypes: ['qr', 'pdf-417'],
+        codeTypes: ['qr'],
         onCodeScanned: (codes) => {
-            console.log(codes);
-            return;
+            // console.log(codes);
+            // return;
             const foundProduct = products.find(x => x.id == codes[0].value);
             const productInCart = cart.find(x => x.id == codes[0].value);
             if (!productInCart) {
@@ -70,7 +70,7 @@ export default Products = (props) => {
 
     const getProducts = async () => {
         setRefreshing(true);
-        const response = await fetch(settings.backendUrl + '/products', {
+        const response = await fetch(settings.backendUrl + '/products/' + settings.currency, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,6 +105,7 @@ export default Products = (props) => {
                     }
                 >
                     {products.length > 0 && products.map && products.map((product) => Row(product))}
+                    {products.length == 0 && <Text style={{ color: colors.slate, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
                 </ScrollView>
             </DataTable>
             {scannerOpen && <>

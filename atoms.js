@@ -25,16 +25,17 @@ const localStorageEffect = (key, defaultValue) => ({ setSelf, onSet }) => {
 export const transactionAtom = atom({
     key: 'transactionAtom',
     default: [],
-    effects: [
-        // localStorageEffect('transactions'),
-    ]
+    // effects: [
+    //     localStorageEffect('transactions'),
+    // ]
 });
 
 const defaultSettings = {
     backendUrl: 'https://western-honey-chamomile.glitch.me',
     storeName: 'sPOS',
     orderPrefix: 'STP-',
-    taxPercentage: '10'
+    taxPercentage: '10',
+    currency: 'usd'
 };
 
 export const settingsAtom = atom({

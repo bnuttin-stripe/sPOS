@@ -52,6 +52,18 @@ export const css = {
         paddingRight: 20,
         marginRight: 20
     },
+    smallButton: {
+        height: 30,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: 5,
+        margin: -10,
+        marginTop: 10,
+        paddingLeft: 20,
+        paddingRight: 20,
+        marginRight: 20
+    },
     buttonText: {
         color: 'white',
         marginLeft: 10
@@ -64,8 +76,23 @@ export const css = {
     tableHeader:{
         borderBottomWidth: 2,
     },
-    hello: {
-        color: 'red',
-    }
+    title: {
+        fontSize: 20,
+        marginBottom:20,
+        fontWeight: 'bold',
+        color: colors.slate
+    },
+    floatingIcon: {
+        position: 'absolute',
+        color: 'white',
+        // bottom: 100,
+        width: 50,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 25,
+        shadownColor: 'black',
+        elevation: 8,
+    },
 };
 
