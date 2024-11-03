@@ -2,11 +2,11 @@ import { React, useState, useEffect } from 'react';
 import { Text, View, Pressable, ScrollView, RefreshControl, StyleSheet } from 'react-native';
 import * as Utils from '../utilities';
 import { DataTable, shadow } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { cartAtom, productAtom, settingsAtom } from '../atoms';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBarcodeRead, faXmark, faChevronRight } from '@fortawesome/pro-light-svg-icons';
+import { faBarcodeRead, faXmark, faChevronRight, faCartShopping } from '@fortawesome/pro-light-svg-icons';
 import { css, colors } from '../styles';
 import CartDrawer from './CartDrawer';
 import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
@@ -14,7 +14,7 @@ import { height } from '@fortawesome/free-brands-svg-icons/fa42Group';
 
 
 export default Products = (props) => {
-    const navigation = useNavigation();
+    // const navigation = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
     const [products, setProducts] = useRecoilState(productAtom);
     const [cart, setCart] = useRecoilState(cartAtom);
@@ -27,8 +27,6 @@ export default Products = (props) => {
     const codeScanner = useCodeScanner({
         codeTypes: ['qr'],
         onCodeScanned: (codes) => {
-            // console.log(codes);
-            // return;
             const foundProduct = products.find(x => x.id == codes[0].value);
             const productInCart = cart.find(x => x.id == codes[0].value);
             if (!productInCart) {
@@ -70,7 +68,7 @@ export default Products = (props) => {
 
     const getProducts = async () => {
         setRefreshing(true);
-        const response = await fetch(settings.backendUrl + '/products/' + settings.currency, {
+        const response = await fetch(settings.backendUrl + '/products/' + settings.currency + '/' + settings.productFilter, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -119,15 +117,15 @@ export default Products = (props) => {
                         codeScanner={codeScanner}
                     />
                 </View>
-                <Pressable style={[styles.floatingIcon, { left: 20, backgroundColor: colors.yellow }]} onPress={() => setScannerOpen(false)}>
+                <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.yellow, zIndex: 110 }]} onPress={() => setScannerOpen(false)}>
                     <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
                 </Pressable>
-                <Pressable style={[styles.floatingIcon, { left: 80, backgroundColor: colors.blurple }]} onPress={() => setFoundCode(false)}>
+                <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.blurple, zIndex: 110 }]} onPress={() => setFoundCode(false)}>
                     <FontAwesomeIcon icon={faChevronRight} color={'white'} size={18} />
                 </Pressable>
             </>}
             {!scannerOpen && <>
-                <Pressable style={[styles.floatingIcon, { left: 20, backgroundColor: colors.blurple }]} onPress={() => setScannerOpen(true)}>
+                <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.blurple }]} onPress={() => setScannerOpen(true)}>
                     <FontAwesomeIcon icon={faBarcodeRead} color={'white'} size={18} />
                 </Pressable>
             </>}
@@ -141,19 +139,8 @@ const styles = {
         // margin: 10,
         height: '40%',
         // borderWidth: 2,
-        borderColor: colors.slate
-    },
-    floatingIcon: {
-        position: 'absolute',
-        color: 'white',
-        bottom: 100,
-        width: 50,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 25,
-        shadownColor: 'black',
-        elevation: 8,
+        borderColor: colors.slate,
+        zIndex: 100,
     },
     numInCart: {
         width: 30,

@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, settingsAtom } from '../atoms';
 import { css, colors } from '../styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCreditCard, faDeleteLeft, faBarcodeRead, faCartXmark } from '@fortawesome/pro-light-svg-icons';
+import { faCreditCard, faCartShopping, faDeleteLeft, faBarcodeRead, faCartXmark } from '@fortawesome/pro-light-svg-icons';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { Vibration } from 'react-native';
 
@@ -67,7 +67,14 @@ export default CartDrawer = () => {
 
     return (
         <View style={styles.cartDrawer}>
-            <View style={styles.tile}>
+            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.slate, flexDirection: 'row' }]} onPress={resetCart}>
+                <FontAwesomeIcon icon={faCartXmark} color={'white'} size={20} />
+            </Pressable>
+            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.yellow, flexDirection: 'row' }]} onPress={createPayment}>
+                <FontAwesomeIcon icon={faCartShopping} color={'white'} size={18} />
+                <Text style={{color: 'white', fontSize: 16, marginLeft: 5}}>{Utils.displayPrice(getCartTotal(cart), 'usd')}</Text>
+            </Pressable>
+            {/* <View style={styles.tile}>
                 <Text style={styles.text}>{cart.length}</Text>
             </View>
             <View style={[styles.tile, { flex: 2 }]} >
@@ -79,13 +86,20 @@ export default CartDrawer = () => {
             <Pressable style={[styles.tile, { flex: 2 }]} onPress={createPayment} disabled={cart.length == 0}>
                 <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />
                 <Image source={require('../assets/contactless.png')} style={{ width: 32, height: 32, marginLeft: 10 }} />
-            </Pressable>
+            </Pressable> */}
         </View>
     )
 }
 
 const styles = {
     cartDrawer: {
+        // backgroundColor: 'transparent',
+        // padding: 10,
+        // height: 80,
+        // justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    cartDrawerOld: {
         backgroundColor: colors.slate,
         padding: 10,
         height: 80,

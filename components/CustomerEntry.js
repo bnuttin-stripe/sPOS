@@ -35,6 +35,7 @@ export default CustomerEntry = (props) => {
         codeTypes: ['pdf-417'],
         onCodeScanned: (codes) => {
             const payload = codes[0].value;
+            console.log(payload);
             const lastNameRegex = /(?:\nDCS)(.*)(?:\n)/;
             const firstNameRegex = /(?:\nDAC)(.*)(?:\n)/;
             const addressLine1Regex = /(?:\nDAG)(.*)(?:\n)/;
@@ -66,17 +67,16 @@ export default CustomerEntry = (props) => {
     const postalCodeRef = useRef(null);
 
     return (
-        // <View style={[css.container, { flex: 2 }]}>
         <View style={css.container}>
             <View style={{ flexDirection: 'row' }}>
                 <Text style={css.title}>Add Customer</Text>
 
                 {settings.currency == 'usd' && <>
                     {scannerOpen && <Pressable style={[css.floatingIcon, { right: 60, top: -5, backgroundColor: colors.slate }]} onPress={openScanner}>
-                        <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
+                        <FontAwesomeIcon icon={faXmark} color={'white'} size={24} />
                     </Pressable>}
                     {!scannerOpen && <Pressable style={[css.floatingIcon, { right: 60, top: -5, backgroundColor: colors.slate }]} onPress={closeScanner}>
-                        <FontAwesomeIcon icon={faIdCard} color={'white'} size={18} />
+                        <FontAwesomeIcon icon={faIdCard} color={'white'} size={24} />
                     </Pressable>}
                 </>
                 }
@@ -85,9 +85,6 @@ export default CustomerEntry = (props) => {
                 </Pressable>
             </View>
             <ScrollView>
-
-
-
                 {scannerOpen && <>
                     <View style={styles.cameraPreview}>
                         <Camera

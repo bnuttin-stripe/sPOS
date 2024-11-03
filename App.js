@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import { Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
-import DeviceInfo from 'react-native-device-info';
 import { css } from './styles';
 
 import Header from './components/Header';
@@ -18,6 +17,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { transactionAtom, settingsAtom } from './atoms';
 
 export default function App({ navigation, route }) {
+  // Default page is Calculator
   const page = route.params?.page ?? 'Calculator';
 
   const { initialize } = useStripeTerminal();
@@ -25,7 +25,7 @@ export default function App({ navigation, route }) {
   const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
 
   const checkPermissionsAndInitialize = async () => {
-    setInfoMsg(infoMsg + "\nChecking location permissions");
+    setInfoMsg("Checking location permissions");
     const cameraPermission = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
       {
@@ -34,7 +34,6 @@ export default function App({ navigation, route }) {
         buttonPositive: 'Accept',
       }
     );
-    // console.log(cameraPermission);
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
@@ -44,17 +43,18 @@ export default function App({ navigation, route }) {
       }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      setInfoMsg(infoMsg + "\nLocation permissions checked");
+      setInfoMsg("Location permissions checked");
       await initializeReader();
     } else {
       console.error(
         'Location services are required in order to connect to a reader.'
       );
+      setInfoMsg("Location services are required");
     }
   }
 
   const initializeReader = async () => {
-    setInfoMsg(infoMsg + "\nStarting reader software");
+    setInfoMsg("Starting reader software");
     const { error, reader } = await initialize();
 
     if (error) {
@@ -63,13 +63,13 @@ export default function App({ navigation, route }) {
     }
 
     if (reader) {
-      setInfoMsg(infoMsg + "\nStripe Terminal has been initialized properly");
-      console.log('StripeTerminal has been initialized properly and connected to the reader', reader);
+      setInfoMsg("Stripe Terminal has been initialized properly");
+      // console.log('StripeTerminal has been initialized properly and connected to the reader', reader);
       return;
     }
 
     setInitialized(true);
-    console.log('Stripe Terminal has been initialized properly');
+    // console.log('Stripe Terminal has been initialized properly');
   };
 
   useEffect(() => {

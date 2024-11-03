@@ -1,5 +1,5 @@
 import { React } from 'react';
-import { Text, Image, View, Pressable, Vibration } from 'react-native';
+import { View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBatteryExclamation, faBattery1, faBattery2, faBattery3, faBattery4, faBattery5, faBatteryBolt } from '@fortawesome/pro-regular-svg-icons';
 import { css, colors } from '../styles';
@@ -7,7 +7,6 @@ import { usePowerState, getCarrier } from 'react-native-device-info';
 
 export default BatteryIndicator = (props) => {
     const powerState = usePowerState();
-    //console.log(powerState);
 
     return (
         <>

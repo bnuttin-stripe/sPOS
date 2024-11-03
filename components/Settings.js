@@ -54,6 +54,14 @@ export default Settings = (props) => {
                     onChangeText={text => setSettings({ ...settings, taxPercentage: text })}
                 />
 
+                <Text style={css.label}>Product Filter</Text>
+                <TextInput
+                    style={css.input}
+                    inputMode="text"
+                    value={settings?.productFilter}
+                    onChangeText={text => setSettings({ ...settings, productFilter: text })}
+                />
+
                 <Text style={css.label}>Currency</Text>
                 <RNPickerSelect
                     onValueChange={(value) => setSettings({ ...settings, currency: value })}

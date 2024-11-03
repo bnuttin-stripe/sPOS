@@ -35,7 +35,8 @@ const defaultSettings = {
     storeName: 'sPOS',
     orderPrefix: 'STP-',
     taxPercentage: '10',
-    currency: 'usd'
+    currency: 'usd',
+    productFilter: ''
 };
 
 export const settingsAtom = atom({

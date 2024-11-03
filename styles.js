@@ -79,6 +79,7 @@ export const css = {
     title: {
         fontSize: 20,
         marginBottom:20,
+        marginTop: 10,
         fontWeight: 'bold',
         color: colors.slate
     },
@@ -86,7 +87,8 @@ export const css = {
         position: 'absolute',
         color: 'white',
         // bottom: 100,
-        width: 50,
+        minWidth: 50,
+        padding: 15,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
