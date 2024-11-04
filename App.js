@@ -150,7 +150,7 @@ export default function App({ navigation, route }) {
           {page == 'Calculator' && <Calculator />}
           {page == 'Products' && <Products />}
           {page == 'Transactions' && <Transactions />}
-          {page == 'Transaction' && <Transaction pi={route.params?.pi} />}
+          {/* {page == 'Transaction' && <Transaction pi={route.params?.pi} />} */}
           {page == 'Customers' && <Customers />}
           {page == 'CustomerEntry' && <CustomerEntry />}
           {page == 'Scanner' && <Scanner />}

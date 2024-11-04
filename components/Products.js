@@ -6,7 +6,7 @@ import { DataTable, shadow } from 'react-native-paper';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { cartAtom, productAtom, settingsAtom } from '../atoms';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBarcodeRead, faXmark, faChevronRight, faCartShopping } from '@fortawesome/pro-light-svg-icons';
+import { faBarcodeRead, faXmark, faChevronRight, faCartShopping } from '@fortawesome/pro-solid-svg-icons';
 import { css, colors } from '../styles';
 import CartDrawer from './CartDrawer';
 import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
@@ -15,7 +15,7 @@ import { height } from '@fortawesome/free-brands-svg-icons/fa42Group';
 
 export default Products = (props) => {
     // const navigation = useNavigation();
-    const [refreshing, setRefreshing] = useState(false);
+    const [refreshing, setRefreshing] = useState(true);
     const [products, setProducts] = useRecoilState(productAtom);
     const [cart, setCart] = useRecoilState(cartAtom);
     const settings = useRecoilValue(settingsAtom);
@@ -103,7 +103,8 @@ export default Products = (props) => {
                     }
                 >
                     {products.length > 0 && products.map && products.map((product) => Row(product))}
-                    {products.length == 0 && <Text style={{ color: colors.slate, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
+                    {products.length == 0 && !refreshing && <Text style={{ color: colors.slate, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
+                    <DataTable.Row></DataTable.Row>
                 </ScrollView>
             </DataTable>
             {scannerOpen && <>

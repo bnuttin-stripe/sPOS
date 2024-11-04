@@ -7,7 +7,7 @@ import * as Utils from '../utilities';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { settingsAtom } from '../atoms';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBarcodeRead, faXmark, faChevronRight, faSave, faIdCard, faMobile } from '@fortawesome/pro-light-svg-icons';
+import { faBarcodeRead, faXmark, faChevronRight, faSave, faIdCard, faMobile } from '@fortawesome/pro-solid-svg-icons';
 import { css, colors } from '../styles';
 import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
 
@@ -52,7 +52,6 @@ export default CustomerEntry = (props) => {
                 state: addressStateRegex.exec(payload)[1],
                 postalCode: addressPostalCodeRegex.exec(payload)[1]
             });
-            //setFoundCode(true);
             setScannerOpen(false);
             return;
         }
@@ -185,6 +184,7 @@ export default CustomerEntry = (props) => {
                     onChangeText={text => setCustomer({ ...customer, postalCode: text })}
                     ref={postalCodeRef}
                 />
+                
             </ScrollView>
         </View>
     )

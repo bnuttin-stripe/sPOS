@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { Text, Image, View, Pressable, Vibration } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCreditCard, faDeleteLeft } from '@fortawesome/pro-light-svg-icons';
+import { faCreditCard, faDeleteLeft } from '@fortawesome/pro-solid-svg-icons';
 import * as Utils from '../utilities';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { css, colors } from '../styles';
@@ -100,7 +100,8 @@ export default Calculator = () => {
                 </Pressable>
                 <Pressable onPress={createPayment} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
                     <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />
-                    <Image source={require('../assets/contactless.png')} style={{ width: 48, height: 48, marginLeft: 20 }} />
+                    <Text style={{color: 'white', fontSize: 22, marginLeft: 10}}>Pay</Text>
+                    {/* <Image source={require('../assets/contactless.png')} style={{ width: 48, height: 48, marginLeft: 20 }} /> */}
                 </Pressable>
             </View>
         </View>

@@ -5,7 +5,7 @@ import { faBatteryExclamation, faBattery1, faBattery2, faBattery3, faBattery4, f
 import { css, colors } from '../styles';
 import { usePowerState, getCarrier } from 'react-native-device-info';
 
-export default BatteryIndicator = (props) => {
+export default BatteryIndicator = () => {
     const powerState = usePowerState();
 
     return (

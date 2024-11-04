@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { customerAtom, settingsAtom } from '../atoms';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBarcodeRead, faXmark, faChevronRight, faPlus } from '@fortawesome/pro-light-svg-icons';
+import { faBarcodeRead, faXmark, faChevronRight, faPlus } from '@fortawesome/pro-solid-svg-icons';
 import { css, colors } from '../styles';
 
 export default Customers = (props) => {
@@ -73,7 +73,7 @@ export default Customers = (props) => {
                 </ScrollView>
             </DataTable>
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.yellow }]} onPress={() => navigation.navigate("App", { page: "CustomerEntry" })}>
+            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.blurple }]} onPress={() => navigation.navigate("App", { page: "CustomerEntry" })}>
                 <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
             </Pressable>
         </View>

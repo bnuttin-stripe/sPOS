@@ -27,7 +27,11 @@ export const css = {
         padding: 10,
     },
     label: {
-        marginBottom: 8
+        marginBottom: 8,
+    },
+    text: {
+        marginBottom: 8,
+        // fontWeight: 'bolder',
     },
     input: {
         marginBottom: 16,
@@ -86,7 +90,6 @@ export const css = {
     floatingIcon: {
         position: 'absolute',
         color: 'white',
-        // bottom: 100,
         minWidth: 50,
         padding: 15,
         height: 50,

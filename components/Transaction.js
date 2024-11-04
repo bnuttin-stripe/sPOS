@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { Text, TextInput, View, Pressable, ScrollView, ActivityIndicator, Vibration } from 'react-native';
 import * as Utils from '../utilities';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowTurnLeft } from '@fortawesome/pro-light-svg-icons';
+import { faArrowTurnLeft } from '@fortawesome/pro-solid-svg-icons';
 import { useRecoilValue } from 'recoil';
 import { settingsAtom } from '../atoms';
 import { css, colors } from '../styles';
@@ -61,35 +61,24 @@ export default Transaction = (props) => {
                 <ActivityIndicator size="large" color={colors.slate} />
             </View>}
             {!isLoading && <View>
-                <Text style={css.label}>Order ID</Text>
-                <TextInput
-                    style={css.input}
-                    value={transaction?.metadata?.orderNumber}
-                    editable={false}
-                />
+                <View style={{ flexDirection: 'row' }}>
+                    <View style={{flexDirection: 'column', flex: 1}}>
+                        <Text style={css.label}>Order ID</Text>
+                        <Text style={css.label}>Date</Text>
+                        <Text style={css.label}>Status</Text>
+                        <Text style={css.label}>Amount</Text>
+                    </View>
+                    <View style={{flexDirection: 'column', flex: 3}}>
+                        <Text style={css.text}>{transaction?.metadata?.orderNumber}</Text>
+                        <Text style={css.text}>{Utils.displayDateTime(transaction?.created)}</Text>
+                        <Text style={css.text}>{status(transaction)}</Text>
+                        <Text style={css.text}>{Utils.displayPrice(transaction?.amount_received / 100, 'usd')}</Text>
+                    </View>
+                </View>
 
-                <Text style={css.label}>Date</Text>
-                <TextInput
-                    style={css.input}
-                    value={Utils.displayDateTime(transaction?.created)}
-                    editable={false}
-                />
+                
 
-                <Text style={css.label}>Status</Text>
-                <TextInput
-                    style={css.input}
-                    value={status(transaction)}
-                    editable={false}
-                />
-
-                <Text style={css.label}>Amount</Text>
-                <TextInput
-                    style={css.input}
-                    value={Utils.displayPrice(transaction?.amount_received / 100, 'usd')}
-                    editable={false}
-                />
-
-                {status(transaction) == 'Succeeded' && <View style={css.row}>
+                {false && status(transaction) == 'Succeeded' && <View style={css.row}>
                     <Pressable style={[css.button, { backgroundColor: colors.yellow, color: 'white' }]} onPress={refundTransaction}>
                         {!isRefunding && <>
                             <FontAwesomeIcon icon={faArrowTurnLeft} color={'white'} size={24} />
@@ -100,7 +89,6 @@ export default Transaction = (props) => {
                         }
                     </Pressable>
                 </View>}
-
 
                 {/* <View style={css.row}>
                     <Text style={styles.label}>Order ID</Text>
@@ -132,6 +120,15 @@ export default Transaction = (props) => {
 
 
             </View>}
+            {!isLoading && status(transaction) == 'Succeeded' && <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.yellow, flexDirection: 'row' }]} onPress={refundTransaction}>
+                {!isRefunding && <>
+                    <FontAwesomeIcon icon={faArrowTurnLeft} color={'white'} size={18} />
+                    <Text style={css.buttonText}>Refund</Text>
+                </>}
+                {isRefunding &&
+                    <ActivityIndicator size="small" color="white" />
+                }
+            </Pressable>}
         </View>
     )
 }
