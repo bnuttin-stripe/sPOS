@@ -1,4 +1,4 @@
-package com.anonymous.sPOS
+package com.bnuttin.sPOS
 
 import android.app.Application
 import android.content.res.Configuration

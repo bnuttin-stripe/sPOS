@@ -79,7 +79,7 @@ export default Settings = (props) => {
                 <View style={{height: 50}}></View>
             </ScrollView>
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.yellow }]} onPress={resetSettings}>
+            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.slate }]} onPress={resetSettings}>
                 <FontAwesomeIcon icon={faRotateLeft} color={'white'} size={18} />
             </Pressable>
             <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.blurple }]} onPress={deviceSettings}>

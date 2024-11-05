@@ -19,7 +19,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.sPOS"
+      "package": "com.bnuttin.sPOS"
     },
     "web": {
       "favicon": "./assets/favicon.png"
