@@ -27,6 +27,11 @@ export const capitalize = (s) => {
     return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
+export const capitalizeWords = (s) => {
+    return s.split(' ').map(word => word.toLowerCase()).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+
+}
+
 export const isValidEmail = (email) => {
     if (email === undefined) return false;
     return email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);

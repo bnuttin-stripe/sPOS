@@ -22,8 +22,6 @@ export default Transactions = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const getTransactions = async () => {
-        console.log('Getting transactions');
-        setTransactions([]);
         setRefreshing(true);
         const response = await fetch(settings.backendUrl + '/transactions', {
             method: 'GET',

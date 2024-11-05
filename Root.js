@@ -10,7 +10,6 @@ import { RecoilRoot } from 'recoil';
 
 import App from './App';
 import Transactions from './components/Transactions';
-import Transaction from './components/Transaction';
 import Settings from './components/Settings';
 import Calculator from './components/Calculator';
 import Products from './components/Products';
@@ -45,7 +44,6 @@ export default function Root() {
             <Drawer.Screen name="Calculator" component={Calculator} />
             <Drawer.Screen name="Products" component={Products} />
             <Drawer.Screen name="Transactions" component={Transactions} />
-            <Drawer.Screen name="Transaction" component={Transaction} />
             <Drawer.Screen name="Settings" component={Settings} />
           </Drawer.Navigator>
         </NavigationContainer>
