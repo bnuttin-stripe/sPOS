@@ -25,6 +25,7 @@ export default Transactions = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const getTransactions = async () => {
+        setTransactions([]);
         setRefreshing(true);
         const url = props.customer ? settings.backendUrl + '/transactions/' + props.customer : settings.backendUrl + '/transactions';
         const response = await fetch(url, {
@@ -77,7 +78,7 @@ export default Transactions = (props) => {
                         <Text style={css.defaultText}>{pi.metadata?.orderNumber}</Text>
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 0.8, paddingRight: 10 }]} numeric>
-                        <Text style={pi.latest_charge.amount_refunded > 0 ? css.crossedText : css.defaultText}>{Utils.displayPrice(pi.amount / 100, 'usd')}</Text>
+                        <Text style={pi.latest_charge.amount_refunded > 0 ? css.crossedText : css.defaultText}>{Utils.displayPrice(pi.amount / 100, settings.currency)}</Text>
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 1.4 }]}>
                         <Text style={css.defaultText}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</Text>
@@ -151,7 +152,7 @@ export default Transactions = (props) => {
                                     <Text style={css.spacedText}>{selectedTransaction?.metadata?.orderNumber}</Text>
                                     <Text style={css.spacedText}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
                                     <Text style={css.spacedText}>{status(selectedTransaction)}</Text>
-                                    <Text style={css.spacedText}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, 'usd')}</Text>
+                                    <Text style={css.spacedText}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, settings.currency)}</Text>
                                 </>}
                             </View>
                         </View>

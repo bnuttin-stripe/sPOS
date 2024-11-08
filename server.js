@@ -20,7 +20,6 @@ app.post("/connection_token", async (req, res) => {
 
 // PRODUCTS -------------------------------------------------------------------
 app.get("/products", async (req, res) => {
-  console.time("products");
   let output = [];
   const products = await stripe.products.list({
       limit: 100,
@@ -30,13 +29,10 @@ app.get("/products", async (req, res) => {
   products.data.map(row => {
     if (row.default_price.id && row.default_price.currency == 'usd') output.push(row);
   })
-  console.timeEnd("products");
   res.send(output);
 })
 
 app.get("/products/:currency/:productFilter?", async (req, res) => {
-  console.log(req.params.productFilter);
-  console.time("products");
   let output = [];
   let products = await stripe.products.list({
       limit: 100,
@@ -51,42 +47,82 @@ app.get("/products/:currency/:productFilter?", async (req, res) => {
   products.data.map(row => {
     if (row.default_price.id && row.default_price.currency == req.params.currency) output.push(row);
   })
-  console.timeEnd("products");
   res.send(output);
 })
 
 // CUSTOMERS -----------------------------------------------------------------
 app.get("/customers", async (req, res) => {
-  console.time("customers");
-  // let output = [];
+  let output = [];
   const customers = await stripe.customers.list({
       limit: 100,
     }
   );
-  console.timeEnd("customers")
+  // Add LTV
+  for (var i = 0; i<customers.data.length; i++){
+    const customer = customers.data[i];
+    let ltv = 0;
+    const payments = await stripe.paymentIntents.search({
+      query: "customer:'" + customer.id + "' AND status:'succeeded'",
+      expand: ['data.latest_charge']
+    })
+    payments.data.map(payment => {
+      ltv += payment.latest_charge.amount_captured - payment.latest_charge.amount_refunded
+    })
+    customer.ltv = ltv
+    output.push(customer)
+  }
   res.send(customers.data);
 })
 
-// PAYMENTS ------------------------------------------------------------------
-app.get("/transactions", async (req, res) => {
-  console.time("transactions");
-  console.time("transactionsRaw");
+app.get("/customer/:id", async (req, res) => {
   let output = [];
-  const paymentIntents = await stripe.paymentIntents.list({
-    //query: "status:'succeeded' AND metadata['app'] : 'sPOS'",
-    limit: 20,
+  const customer = await stripe.customers.retrieve(req.params.id);
+  // Add LTV
+  let ltv = 0;
+  const payments = await stripe.paymentIntents.search({
+    query: "customer:'" + customer.id + "' AND status:'succeeded'",
+    expand: ['data.latest_charge']
+  })
+  payments.data.map(payment => {
+    ltv += payment.latest_charge.amount_captured - payment.latest_charge.amount_refunded
+  })
+  customer.ltv = ltv
+  res.send(customer);
+})
+
+app.post("/customer", async (req, res) => {
+  const customer = await stripe.customers.create({
+      name: req.body.firstName + ' ' + req.body.lastName,
+      email: req.body.email,
+      address: {
+        line1: req.body.addressLine1,
+        line2: req.body.addressLine2,
+        city: req.body.city,
+        state: req.body.state,
+        postal_code: req.body.postalCode,
+        country: 'US'
+      }
+    });
+  res.send(customer);
+})
+
+// PAYMENTS ------------------------------------------------------------------
+app.get("/transactions/:customer?", async (req, res) => {
+   let output = [];
+  let payload = {
+    limit: 50, 
     expand: ['data.latest_charge.payment_method_details']
-  });
-  console.timeEnd("transactionsRaw");
+  }
+  if (req.params.customer != undefined) payload.customer = req.params.customer;
+  const paymentIntents = await stripe.paymentIntents.list(payload);
   paymentIntents.data.map(row => {
     if (row.status == 'succeeded' && row.metadata.app == 'sPOS') output.push(row);
+    // if (row.status == 'succeeded') output.push(row);
   })
-  console.timeEnd("transactions")
   res.send(output);
 })
 
 app.get("/transaction/:id", async (req, res) => {
-  let output = [];
   const paymentIntent = await stripe.paymentIntents.retrieve(
     req.params.id, 
     {

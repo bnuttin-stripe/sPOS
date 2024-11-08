@@ -82,7 +82,7 @@ export default Products = (props) => {
     const Row = (product) => {
         return (
             <Pressable key={product.id} onPress={() => setCart([...cart, product])}>
-                <DataTable.Row style={{ paddingTop: 5, paddingBottom: 5 }} >
+                <DataTable.Row style={{ paddingTop: 20, paddingBottom: 20 }} >
                     {/* <DataTable.Cell style={{ flex: 1, paddingTop: 5 , paddingBottom: 5, paddingRight: 5 }}>
                         <Image
                             style={styles.productImage}
@@ -98,11 +98,11 @@ export default Products = (props) => {
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 1 }]} numeric>
                         <Text style={css.defaultText}>
-                            {Utils.displayPrice(product.default_price.unit_amount / 100, 'usd')}
+                            {Utils.displayPrice(product.default_price.unit_amount / 100, settings.currency)}
                         </Text>
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 1 }]} numeric>
-                        <View style={numInCart(product) > 0 ? [styles.numInCart, { backgroundColor: colors.secondary }] : [styles.numInCart, { backgroundColor: colors.primary }]}>
+                        <View style={numInCart(product) > 0 ? [styles.numInCart, { backgroundColor: colors.primary }] : [styles.numInCart, { backgroundColor: colors.secondary }]}>
                             <Text style={[css.defaultText, { color: 'white' }]}>
                                 {numInCart(product)}
                             </Text>
@@ -165,23 +165,22 @@ export default Products = (props) => {
                 <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.warning, zIndex: 110 }]} onPress={() => setScannerOpen(false)}>
                     <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
                 </Pressable>
-                <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary, zIndex: 110 }]} onPress={() => setFoundCode(false)}>
+                <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, zIndex: 110 }]} onPress={() => setFoundCode(false)}>
                     <FontAwesomeIcon icon={faChevronRight} color={'white'} size={18} />
                 </Pressable>
             </>}
             {!scannerOpen && <>
-                <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary }]} onPress={() => setScannerOpen(true)}>
+                <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={() => setScannerOpen(true)}>
                     <FontAwesomeIcon icon={faBarcodeRead} color={'white'} size={18} />
                 </Pressable>
             </>}
 
-            {/* <CartDrawer /> */}
-            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.slate, flexDirection: 'row' }]} onPress={resetCart}>
+            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={resetCart}>
                 <FontAwesomeIcon icon={faCartXmark} color={'white'} size={20} />
             </Pressable>
-            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.yellow, flexDirection: 'row' }]} onPress={pay}>
+            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
                 <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
-                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart), 'usd')}</Text>
+                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart), settings.currency)}</Text>
             </Pressable>
 
         </View>

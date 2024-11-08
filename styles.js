@@ -1,22 +1,21 @@
-import { text } from "@fortawesome/fontawesome-svg-core";
-
 export const colors = {
     blurple: '#635BFF',
     paleblurple: '#7A73FF',
     yellow: '#FFBB00',
     slate: '#425466',
     white: '#fff',
-    primary: '#0C343D',
-    secondary: '#635BFF',
+    primary: '#0D1E15',
+    secondary: '#999C9B',
     tertiary: '#FFBB00',
     success: '#00C851',
     danger: '#ff4444',
     warning: '#ffbb33',
     info: '#33b5e5',
+    light: '#F2F5F9',
 }
 
 export const defaults = {
-    fontSize: 15,
+    fontSize: 16,
 }
 
 export const css = {

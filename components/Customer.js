@@ -39,7 +39,7 @@ export default Customer = (props) => {
     return (
         <View style={css.container}>
             {isLoading && <View style={css.loader}>
-                <ActivityIndicator size="large" color={colors.slate} />
+                <ActivityIndicator size="large" color={colors.primary} />
             </View>}
 
             {!isLoading &&
@@ -54,12 +54,12 @@ export default Customer = (props) => {
                         <Text style={css.spacedText}>{customer.id}</Text>
                         <Text style={css.spacedText}>{customer.name}</Text>
                         <Text style={css.spacedText}>{customer.email}</Text>
-                        <Text style={css.spacedText}>{Utils.displayPrice(customer.ltv / 100, 'usd')}</Text>
+                        <Text style={css.spacedText}>{Utils.displayPrice(customer.ltv / 100, settings.currency)}</Text>
                     </View>
                 </View>
             }
 
-            <View style={{ flex: 1, marginLeft: -15, marginRight: -15, marginBottom: 30 }}>
+            <View style={{ flex: 1, marginTop: 20, marginLeft: -15, marginRight: -15, marginBottom: 30 }}>
                 <Transactions customer={props.id} refresh={getCustomer}/>
             </View>
 

@@ -17,7 +17,7 @@ export default Header = (props) => {
     const navigation = useNavigation();
 
     const goTo = (page) => {
-        Vibration.vibrate(250);
+        // Vibration.vibrate(250);
         navigation.navigate('App', { page: page })
     }
 
@@ -97,6 +97,6 @@ const styles = {
         borderBottomColor: colors.primary,
     },
     title: {
-        color: colors.slate,
+        color: colors.primary,
     },
 };

@@ -1,9 +1,6 @@
 - [ ] Add list of products to metadata, show on transaction modal
-- [ ] Calculator.js
 - [ ] Why activity loader not showing until render?
-- [ ] Verify vibration patterns - remove all?
 - [ ] Checkout screen to find customer / add email
-- [ ] Verify currency throughout
 - [ ] BOPIS  
 - [ ] Gate in additional accounts and create AOD and countertop locations for all
 - [ ] Handling software updates?

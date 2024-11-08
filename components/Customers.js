@@ -52,7 +52,7 @@ export default Customers = () => {
                     </DataTable.Cell>
                     <DataTable.Cell numeric style={[css.cell, { flex: 1 }]}>
                         <Text style={css.defaultText}>
-                            {Utils.displayPrice(customer.ltv / 100, 'usd')}
+                            {Utils.displayPrice(customer.ltv / 100, settings.currency)}
                         </Text>
                     </DataTable.Cell>
                 </DataTable.Row>

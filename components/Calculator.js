@@ -1,12 +1,15 @@
 import { React, useState } from 'react';
-import { Text, View, Pressable, Vibration } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCreditCard, faDeleteLeft } from '@fortawesome/pro-solid-svg-icons';
-import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { Text, View, Pressable } from 'react-native';
+
 import { useRecoilValue } from 'recoil';
 import { settingsAtom } from '../atoms';
 
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCreditCard, faDeleteLeft, faArrowLeft } from '@fortawesome/pro-solid-svg-icons';
+
+import * as Utils from '../utilities';
+import { css, colors } from '../styles';
 
 export default Calculator = (props) => {
     const settings = useRecoilValue(settingsAtom);
@@ -41,7 +44,7 @@ export default Calculator = (props) => {
     return (
         <View style={css.container}>
             <View style={styles.amount}>
-                <Text style={styles.largest}>{Utils.displayPrice(amount / 100, 'usd')}</Text>
+                <Text style={styles.largest}>{Utils.displayPrice(amount / 100, settings.currency)}</Text>
             </View>
             <View style={styles.row}>
                 <Pressable style={styles.tile} onPress={() => addDigit("7")}><Text style={styles.large}>7</Text></Pressable>
@@ -63,11 +66,11 @@ export default Calculator = (props) => {
                 <Pressable style={[styles.tile, { width: '67%' }]} onPress={() => addDigit("00")}><Text style={styles.large}>.00</Text></Pressable>
             </View>
             <View style={styles.row}>
-                <Pressable style={[styles.tile, { backgroundColor: '#425466' }]} onPress={reset}>
-                    <FontAwesomeIcon icon={faDeleteLeft} color={'white'} size={32} />
+                <Pressable style={[styles.tile, { backgroundColor: colors.primary }]} onPress={reset}>
+                    <FontAwesomeIcon icon={faArrowLeft} color={'white'} size={24} />
                 </Pressable>
-                <Pressable onPress={pay} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
-                    <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />
+                <Pressable onPress={pay} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: colors.primary}]}>
+                    <FontAwesomeIcon icon={faCreditCard} color={'white'} size={24} />
                     <Text style={{ color: 'white', fontSize: 22, marginLeft: 10 }}>Pay</Text>
                     {/* <Image source={require('../assets/contactless.png')} style={{ width: 48, height: 48, marginLeft: 20 }} /> */}
                 </Pressable>
@@ -84,11 +87,11 @@ const styles = {
     },
     largest: {
         fontSize: 70,
-        color: colors.slate
+        color: colors.primary
     },
     large: {
         fontSize: 40,
-        color: 'white'
+        color: colors.primary
     },
     medium: {
         fontSize: 30,
@@ -104,7 +107,7 @@ const styles = {
         alignItems: 'center',
         borderWidth: 7,
         borderColor: 'white',
-        borderRadius: 20,
-        backgroundColor: '#7A73FF'
+        borderRadius: 15,
+        backgroundColor: colors.light
     }
 };
