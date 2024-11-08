@@ -1,18 +1,18 @@
 import { React, useEffect, useState } from 'react';
 import { Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
-import { css } from './styles';
+import { css, colors } from './styles';
 
 import Header from './components/Header';
 import Calculator from './components/Calculator';
 import Products from './components/Products';
 import Transactions from './components/Transactions';
 import Customers from './components/Customers';
+import Customer from './components/Customer';
 import CustomerEntry from './components/CustomerEntry';
-import Scanner from './components/Scanner';
 import Settings from './components/Settings';
 
-export default function App({ navigation, route }) {
+export default function App({ route }) {
   // Default page is Calculator
   const page = route.params?.page ?? 'Calculator';
 
@@ -20,8 +20,12 @@ export default function App({ navigation, route }) {
   const [initialized, setInitialized] = useState(false);
   const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
 
+  const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent } = useStripeTerminal();
+
   const checkPermissionsAndInitialize = async () => {
     setInfoMsg("Checking location permissions");
+
+    // Get caneera and location permissions
     const cameraPermission = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
       {
@@ -30,7 +34,8 @@ export default function App({ navigation, route }) {
         buttonPositive: 'Accept',
       }
     );
-    const granted = await PermissionsAndroid.request(
+
+    const locationPermission = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
         title: 'Location Permission',
@@ -38,13 +43,12 @@ export default function App({ navigation, route }) {
         buttonPositive: 'Accept',
       }
     );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+
+    // Initialize Stripe Terminal
+    if (locationPermission === PermissionsAndroid.RESULTS.GRANTED) {
       setInfoMsg("Location permissions checked");
       await initializeReader();
     } else {
-      console.error(
-        'Location services are required in order to connect to a reader.'
-      );
       setInfoMsg("Location services are required");
     }
   }
@@ -54,24 +58,21 @@ export default function App({ navigation, route }) {
     const { error, reader } = await initialize();
 
     if (error) {
-      Alert.alert('StripeTerminal init failed', error.message);
+      setInfoMsg('StripeTerminal init failed - ' + error.message);
       return;
     }
 
     if (reader) {
       setInfoMsg("Stripe Terminal has been initialized properly");
-      // console.log('StripeTerminal has been initialized properly and connected to the reader', reader);
       return;
     }
 
     setInitialized(true);
-    // console.log('Stripe Terminal has been initialized properly');
   };
 
   useEffect(() => {
     checkPermissionsAndInitialize();
   }, []);
-
 
   const { discoverReaders, discoveredReaders, connectHandoffReader } =
     useStripeTerminal({
@@ -98,7 +99,7 @@ export default function App({ navigation, route }) {
       discoveryMethod: 'handoff'
     });
     if (error) {
-      console.log('Failed to discover handoff reader.\n', error);
+      setInfoMsg('Failed to discover handoff reader. ' + error.message);
     }
   };
 
@@ -108,18 +109,16 @@ export default function App({ navigation, route }) {
       simulated: true
     });
     if (error) {
-      console.log('Failed to discover readers.\n' + error.message);
+      setInfoMsg('Failed to discover readers. ' + error.message);
     }
   };
 
   const connectReader = async (reader) => {
-    console.log("Starting connectHandoffReader", reader);
     const { error } = await connectHandoffReader({
       reader: reader
     });
-    console.log("connectHandoffReader done");
     if (error) {
-      console.log('connectHandoffReader error:', error);
+      setInfoMsg('Failed to discover readers. ' + error.message);
       return;
     }
     return;
@@ -132,21 +131,61 @@ export default function App({ navigation, route }) {
     }
   }, [initialized]);
 
+  const pay = async (payload, onSuccess) => {
+    const { error, paymentIntent } = await createPaymentIntent(payload);
+    if (error) {
+      console.log("createPaymentIntent error: ", error);
+      return;
+    }
+    collectPM(paymentIntent, onSuccess);
+  }
+
+  const collectPM = async (pi, onSuccess) => {
+    console.log("collectPM: ", pi);
+    const { error, paymentIntent } = await collectPaymentMethod({
+      paymentIntent: pi
+    });
+    if (error) {
+      console.log("collectPaymentMethod error: ", error);
+      return;
+    }
+    confirmPayment(paymentIntent, onSuccess);
+  }
+
+  const confirmPayment = async (pi, onSuccess) => {
+    console.log("confirmPayment: ", pi);
+    const { error, paymentIntent } = await confirmPaymentIntent({
+      paymentIntent: pi
+      // pi
+    });
+    if (error) {
+      console.log("confirmPaymentIntent error: ", error);
+      return;
+    }
+    console.log("confirmPaymentIntent success: ", paymentIntent);
+    if (onSuccess) onSuccess();
+    // if (paymentIntent.status === 'succeeded') reset();
+  };
+
+
+
+
   return (
     <SafeAreaView style={css.app}>
       {!initialized &&
-        <View style={[css.container, { justifyContent: 'center', alignItems: 'center' }]}>
-          <ActivityIndicator size="large" color="#425466" />
+        <>
+          <ActivityIndicator size="large" color={colors.primary} />
           <Text style={{ padding: 40 }}>{infoMsg}</Text>
-        </View>
+        </>
       }
       {initialized &&
         <>
           <Header page={page} />
-          {page == 'Calculator' && <Calculator />}
-          {page == 'Products' && <Products />}
+          {page == 'Calculator' && <Calculator pay={pay} />}
+          {page == 'Products' && <Products pay={pay}/>}
           {page == 'Transactions' && <Transactions />}
           {page == 'Customers' && <Customers />}
+          {page == 'Customer' && <Customer id={route.params.id} />}
           {page == 'CustomerEntry' && <CustomerEntry />}
           {page == 'Scanner' && <Scanner />}
           {page == 'Settings' && <Settings />}

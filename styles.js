@@ -1,9 +1,22 @@
+import { text } from "@fortawesome/fontawesome-svg-core";
+
 export const colors = {
     blurple: '#635BFF',
     paleblurple: '#7A73FF',
     yellow: '#FFBB00',
     slate: '#425466',
-    white: '#fff'
+    white: '#fff',
+    primary: '#0C343D',
+    secondary: '#635BFF',
+    tertiary: '#FFBB00',
+    success: '#00C851',
+    danger: '#ff4444',
+    warning: '#ffbb33',
+    info: '#33b5e5',
+}
+
+export const defaults = {
+    fontSize: 15,
 }
 
 export const css = {
@@ -11,14 +24,28 @@ export const css = {
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         flexDirection: 'column',
+        backgroundColor: 'white',
     },
     container: {
         flex: 1,
         width: '100%',
         padding: 20,
-        backgroundColor: 'white',
+    },
+    defaultText: {
+        fontSize: defaults.fontSize,
+    },
+    crossedText: {
+        fontSize: defaults.fontSize,
+        textDecorationLine: 'line-through',
+    },
+    cell: {
+        paddingRight: 5,
+    },
+    cameraPreview: {
+        height: '40%',
+        zIndex: 100,
     },
     row: {
         width: '100%',
@@ -26,12 +53,9 @@ export const css = {
         justifyContent: 'flex-start',
         padding: 10,
     },
-    label: {
+    spacedText: {
         marginBottom: 8,
-    },
-    text: {
-        marginBottom: 8,
-        // fontWeight: 'bolder',
+        fontSize: defaults.fontSize,
     },
     input: {
         marginBottom: 16,
@@ -42,7 +66,25 @@ export const css = {
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 5,
-        paddingBottom: 5
+        paddingBottom: 5,
+        fontSize: defaults.fontSize,
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalView: {
+        width: '70%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 20,
+        alignItems: 'center',
+        paddingBottom: 100,
+        marginTop: 120,
+        elevation: 20,
+        borderWidth: 1,
+        borderColor: "lightgray",
     },
     button: {
         height: 50,

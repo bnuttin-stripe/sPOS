@@ -1,18 +1,16 @@
 import { React, useState } from 'react';
-import { Text, Image, View, Pressable, Vibration } from 'react-native';
+import { Text, View, Pressable, Vibration } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCreditCard, faDeleteLeft } from '@fortawesome/pro-solid-svg-icons';
 import * as Utils from '../utilities';
-import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { css, colors } from '../styles';
 import { useRecoilValue } from 'recoil';
 import { settingsAtom } from '../atoms';
 
 
-export default Calculator = () => {
-    const [amount, setAmount] = useState(0);
-    const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent } = useStripeTerminal();
+export default Calculator = (props) => {
     const settings = useRecoilValue(settingsAtom);
+    const [amount, setAmount] = useState(0);
 
     const reset = () => {
         setAmount(0);
@@ -25,51 +23,21 @@ export default Calculator = () => {
         }
     }
 
-    const createPayment = async () => {
-        Vibration.vibrate(500);
-        const { error, paymentIntent } = await createPaymentIntent({
+    const pay = () => {
+        const payload = {
             amount: amount,
-            currency: "usd",
+            currency: settings.currency,
+            customer: 'cus_PL6CGSVAibQfIi',
             captureMethod: 'automatic',
             metadata: {
                 app: 'sPOS',
                 channel: 'calculator',
                 orderNumber: Utils.generateOrderNumber(settings.orderPrefix)
             }
-        });
-        if (error) {
-            console.log("createPaymentIntent error: ", error);
-            return;
         }
-        collectPM(paymentIntent);
+        props.pay(payload, reset);
     }
-
-    const collectPM = async (pi) => {
-        console.log("collectPM: ", pi);
-        const { error, paymentIntent } = await collectPaymentMethod({ 
-            paymentIntent: pi
-        });
-        if (error) {
-            console.log("collectPaymentMethod error: ", error);
-            return;
-        }
-        confirmPayment(paymentIntent);
-    }
-
-    const confirmPayment = async (pi) => {
-        console.log("confirmPayment: ", pi);
-        const {error, paymentIntent} = await confirmPaymentIntent({
-            paymentIntent: pi
-            // pi
-        });
-        if (error) {
-            console.log("confirmPaymentIntent error: ", error);
-            return;
-        }
-        console.log("confirmPaymentIntent success: ", paymentIntent);
-        if (paymentIntent.status === 'succeeded') reset();
-    };
-
+    
     return (
         <View style={css.container}>
             <View style={styles.amount}>
@@ -98,9 +66,9 @@ export default Calculator = () => {
                 <Pressable style={[styles.tile, { backgroundColor: '#425466' }]} onPress={reset}>
                     <FontAwesomeIcon icon={faDeleteLeft} color={'white'} size={32} />
                 </Pressable>
-                <Pressable onPress={createPayment} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
+                <Pressable onPress={pay} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: '#FFBB00' }]}>
                     <FontAwesomeIcon icon={faCreditCard} color={'white'} size={32} />
-                    <Text style={{color: 'white', fontSize: 22, marginLeft: 10}}>Pay</Text>
+                    <Text style={{ color: 'white', fontSize: 22, marginLeft: 10 }}>Pay</Text>
                     {/* <Image source={require('../assets/contactless.png')} style={{ width: 48, height: 48, marginLeft: 20 }} /> */}
                 </Pressable>
             </View>

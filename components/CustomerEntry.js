@@ -1,44 +1,34 @@
 import { React, useState, useEffect, useRef } from 'react';
 import { Text, TextInput, View, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Linking, ActivityIndicator } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useNavigation } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
-import * as Utils from '../utilities';
-import { useRecoilState, useResetRecoilState } from 'recoil';
-import { settingsAtom } from '../atoms';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBarcodeRead, faXmark, faChevronRight, faSave, faIdCard, faMobile } from '@fortawesome/pro-solid-svg-icons';
-import { css, colors } from '../styles';
 import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
 
-export default CustomerEntry = (props) => {
-    const [settings, setSettings] = useRecoilState(settingsAtom);
-    const [customer, setCustomer] = useState({});
+import { useRecoilValue } from 'recoil';
+import { settingsAtom } from '../atoms';
 
-    const [savingCustomer, setSavingCustomer] = useState(false);
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faBarcodeRead, faXmark, faChevronRight, faSave, faIdCard, faMobile } from '@fortawesome/pro-solid-svg-icons';
+
+import * as Utils from '../utilities';
+import { css, colors } from '../styles';
+
+export default CustomerEntry = () => {
     const navigation = useNavigation();
+    const settings = useRecoilValue(settingsAtom);
+
+    const [customer, setCustomer] = useState({});
+    const [savingCustomer, setSavingCustomer] = useState(false);
 
     const device = useCameraDevice('back');
 
     const [scannerOpen, setScannerOpen] = useState(false);
     const [foundCode, setFoundCode] = useState(false);
 
-    const openScanner = () => {
-        setScannerOpen(false);
-    }
-
-    const closeScanner = () => {
-        setScannerOpen(true);
-    }
-
-    const saveCustomer = () => {
-    }
-
     const codeScanner = useCodeScanner({
         codeTypes: ['pdf-417'],
         onCodeScanned: (codes) => {
             const payload = codes[0].value;
-            console.log(payload);
             const lastNameRegex = /(?:\nDCS)(.*)(?:\n)/;
             const firstNameRegex = /(?:\nDAC)(.*)(?:\n)/;
             const addressLine1Regex = /(?:\nDAG)(.*)(?:\n)/;
@@ -55,6 +45,7 @@ export default CustomerEntry = (props) => {
                 state: addressStateRegex.exec(payload)[1],
                 postalCode: addressPostalCodeRegex.exec(payload)[1]
             });
+            setFoundCode(true);
             setScannerOpen(false);
             return;
         }
@@ -86,10 +77,8 @@ export default CustomerEntry = (props) => {
                 postalCode: customer.postalCode
             })
         });
-        const data = await response.json();
         setSavingCustomer(false);
         navigation.navigate("App", { page: "Customers" });
-        //getTransactions();
     }
 
     return (
@@ -123,6 +112,7 @@ export default CustomerEntry = (props) => {
                     style={css.input}
                     inputMode="email"
                     value={customer.email}
+                    autoCapitalize='none'
                     onChangeText={text => setCustomer({ ...customer, email: text })}
                     ref={emailRef}
                     returnKeyType="next"
@@ -186,7 +176,7 @@ export default CustomerEntry = (props) => {
             </ScrollView>
 
             {scannerOpen && <>
-                <View style={styles.cameraPreview}>
+                <View style={[css.cameraPreview, {margin: -20}]}>
                     <Camera
                         style={StyleSheet.absoluteFill}
                         device={device}
@@ -196,37 +186,30 @@ export default CustomerEntry = (props) => {
                         codeScanner={codeScanner}
                     />
                 </View>
-                <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.yellow, zIndex: 110 }]} onPress={() => setScannerOpen(false)}>
+                <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.warning, zIndex: 110 }]} onPress={() => setScannerOpen(false)}>
                     <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
                 </Pressable>
             </>}
+
             {settings.currency == 'usd' && <>
-                {scannerOpen && <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.slate }]} onPress={openScanner}>
-                    <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
-                </Pressable>}
-                {!scannerOpen && <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.slate }]} onPress={closeScanner}>
-                    <FontAwesomeIcon icon={faIdCard} color={'white'} size={18} />
-                </Pressable>}
+                {scannerOpen
+                    ? <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary }]} onPress={() => setScannerOpen(false)}>
+                        <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
+                    </Pressable>
+                    : <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]} onPress={() => setScannerOpen(true)}>
+                        <FontAwesomeIcon icon={faIdCard} color={'white'} size={18} />
+                    </Pressable>
+                }
             </>
             }
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.blurple, color: 'white' }]} onPress={createCustomer}>
-                {!savingCustomer && <>
-                    <FontAwesomeIcon icon={faSave} color={'white'} size={18} />
-                </>}
-                {savingCustomer &&
-                    <ActivityIndicator size="small" color="white" />
+            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, color: 'white' }]} onPress={createCustomer}>
+                {savingCustomer
+                    ? <ActivityIndicator size="small" color="white" />
+                    : <FontAwesomeIcon icon={faSave} color={'white'} size={18} />
                 }
             </Pressable>
         </View>
     )
 }
 
-const styles = {
-    cameraPreview: {
-        height: '40%',
-        margin: -20,
-        borderColor: colors.slate,
-        zIndex: 100,
-    },
-}

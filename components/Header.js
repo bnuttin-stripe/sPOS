@@ -1,10 +1,14 @@
 import { React } from 'react';
 import { Text, Image, View, Pressable, Vibration } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCalculator, faGrid, faList, faUser, faGear, faBarcodeRead } from '@fortawesome/pro-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
+
 import { useRecoilValue } from 'recoil';
 import { settingsAtom, cartAtom } from '../atoms';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCalculator, faGrid, faList, faUser, faGear, faBox } from '@fortawesome/pro-solid-svg-icons';
+
+import * as Utils from '../utilities';
 import { css, colors } from '../styles';
 
 import BatteryIndicator from './BatteryIndicator';
@@ -21,7 +25,7 @@ export default Header = (props) => {
         <>
             <View style={styles.topBanner}>
                 <View style={{ flex: 2, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-                    <Image source={require('../assets/StripePressLogoWhite.png')} style={[styles.logo, { width: 100, marginLeft: 15 }]} />
+                    <Image source={require('../assets/logo.png')} style={[styles.logo, { width: 100, marginLeft: 15 }]} />
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: -15 }}>
                     <Text style={{ color: colors.white }}>Powered by</Text>
@@ -35,7 +39,7 @@ export default Header = (props) => {
                     <Text style={styles.title}>Calculator</Text>
                 </Pressable>
                 <Pressable style={props.page == 'Products' ? styles.tabSelected : styles.tab} onPress={() => goTo('Products')}>
-                    <FontAwesomeIcon icon={faGrid} style={styles.icon} size={22} />
+                    <FontAwesomeIcon icon={faBox} style={styles.icon} size={22} />
                     <Text style={styles.title}>Products</Text>
                 </Pressable>
                 <Pressable style={props.page == 'Transactions' ? styles.tabSelected : styles.tab} onPress={() => goTo('Transactions')}>
@@ -58,10 +62,9 @@ export default Header = (props) => {
 const styles = {
     topBanner: {
         flexDirection: 'row',
-        backgroundColor: colors.slate,
+        backgroundColor: colors.primary,
         height: 100,
         padding: 10,
-        // marginTop: -30
     },
     logo: {
         flex: 1,
@@ -76,11 +79,11 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderBottomWidth: 2,
-        borderBottomColor: colors.slate,
+        borderBottomColor: colors.primary,
     },
     icon: {
         marginBottom: 10,
-        color: colors.slate,
+        color: colors.primary,
     },
     tab: {
         flexDirection: 'column',
@@ -91,7 +94,7 @@ const styles = {
         alignItems: 'center',
         borderBottomWidth: 2,
         marginBottom: -10,
-        borderBottomColor: colors.slate,
+        borderBottomColor: colors.primary,
     },
     title: {
         color: colors.slate,

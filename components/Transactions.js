@@ -1,29 +1,33 @@
 import { React, useState, useEffect } from 'react';
 import { Text, View, Pressable, ScrollView, RefreshControl, Modal, ActivityIndicator } from 'react-native';
-import * as Utils from '../utilities';
 import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTurnLeft, faXmark, faArrowRightArrowLeft, faArrowUp } from '@fortawesome/pro-solid-svg-icons';
+
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { transactionAtom, settingsAtom } from '../atoms';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faTurnLeft, faXmark, faArrowRightArrowLeft, faBoxCheck } from '@fortawesome/pro-solid-svg-icons';
+
+import * as Utils from '../utilities';
 import { css, colors } from '../styles';
 
-
-
 export default Transactions = (props) => {
-    const [transactions, setTransactions] = useRecoilState(transactionAtom);
-    const settings = useRecoilValue(settingsAtom);
     const navigation = useNavigation();
+    const settings = useRecoilValue(settingsAtom);
+
     const [refreshing, setRefreshing] = useState(true);
+    const [transactions, setTransactions] = useRecoilState(transactionAtom);
 
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [isRefunding, setIsRefunding] = useState(false);
+
     const [modalVisible, setModalVisible] = useState(false);
 
     const getTransactions = async () => {
         setRefreshing(true);
-        const response = await fetch(settings.backendUrl + '/transactions', {
+        const url = props.customer ? settings.backendUrl + '/transactions/' + props.customer : settings.backendUrl + '/transactions';
+        const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,26 +56,34 @@ export default Transactions = (props) => {
     }
 
     const showTransaction = (pi) => {
-        setModalVisible(!modalVisible);
+        setModalVisible(true);
         setSelectedTransaction(pi);
     }
 
     const closeModal = () => {
-        // getTransactions();
+        if (props.refresh) props.refresh(true);
         setModalVisible(false);
     }
+
+    useEffect(() => {
+        getTransactions();
+    }, []);
 
     const Row = (pi) => {
         return (
             <Pressable key={pi.id} onPress={() => showTransaction(pi)}>
                 <DataTable.Row>
-                    <DataTable.Cell style={{ flex: 0.8 }}>{pi.metadata?.orderNumber}</DataTable.Cell>
-                    <DataTable.Cell style={{ flex: 0.7 }} numeric>
-                        <Text style={pi.latest_charge.amount_refunded > 0 ? { textDecorationLine: 'line-through' } : {}}>{Utils.displayPrice(pi.amount / 100, 'usd')}</Text><Text>     </Text>
+                    <DataTable.Cell style={[css.cell, { flex: 0.8 }]}>
+                        <Text style={css.defaultText}>{pi.metadata?.orderNumber}</Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={{ flex: 1.4 }}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</DataTable.Cell>
-                    <DataTable.Cell style={{ flex: 0.8 }}>
-                        {Utils.capitalize(pi.latest_charge.payment_method_details.card_present.brand)} {pi.latest_charge.payment_method_details.card_present.last4}
+                    <DataTable.Cell style={[css.cell, { flex: 0.8, paddingRight: 10 }]} numeric>
+                        <Text style={pi.latest_charge.amount_refunded > 0 ? css.crossedText : css.defaultText}>{Utils.displayPrice(pi.amount / 100, 'usd')}</Text>
+                    </DataTable.Cell>
+                    <DataTable.Cell style={[css.cell, { flex: 1.4 }]}>
+                        <Text style={css.defaultText}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</Text>
+                    </DataTable.Cell>
+                    <DataTable.Cell style={[css.cell, { flex: 0.8 }]}>
+                        <Text style={css.defaultText}>{Utils.capitalize(pi.latest_charge.payment_method_details.card_present.brand)} {pi.latest_charge.payment_method_details.card_present.last4}</Text>
                     </DataTable.Cell>
                 </DataTable.Row>
             </Pressable >
@@ -86,18 +98,22 @@ export default Transactions = (props) => {
         }
     }
 
-    useEffect(() => {
-        getTransactions();
-    }, []);
-
     return (
-        <View style={[css.container, { padding: 0, backgroundColor: modalVisible ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0)' }]}>
+        <View style={[css.container, { padding: 0 }]}>
             <DataTable>
                 <DataTable.Header style={css.tableHeader}>
-                    <DataTable.Title style={{ flex: 0.8 }}>Order ID</DataTable.Title>
-                    <DataTable.Title style={{ flex: 0.7 }} numeric>Amount     </DataTable.Title>
-                    <DataTable.Title style={{ flex: 1.4 }}>Date</DataTable.Title>
-                    <DataTable.Title style={{ flex: 0.8 }}>Card</DataTable.Title>
+                    <DataTable.Title style={[css.cell, { flex: 0.8 }]}>
+                        <Text style={css.defaultText}>Order ID</Text>
+                    </DataTable.Title>
+                    <DataTable.Title style={[css.cell, { flex: 0.8, paddingRight: 10 }]} numeric>
+                        <Text style={css.defaultText}>Amount</Text>
+                    </DataTable.Title>
+                    <DataTable.Title style={[css.cell, { flex: 1.4 }]}>
+                        <Text style={css.defaultText}>Date</Text>
+                    </DataTable.Title>
+                    <DataTable.Title style={[css.cell, { flex: 0.8 }]}>
+                        <Text style={css.defaultText}>Card</Text>
+                    </DataTable.Title>
                 </DataTable.Header>
                 <ScrollView
                     refreshControl={
@@ -106,7 +122,7 @@ export default Transactions = (props) => {
                             onRefresh={getTransactions}
                             progressViewOffset={150}
                             colors={['white']}
-                            progressBackgroundColor={colors.slate}
+                            progressBackgroundColor={colors.primary}
                         />
                     }
                 >
@@ -121,41 +137,36 @@ export default Transactions = (props) => {
                 onRequestClose={() => {
                     setModalVisible(!modalVisible);
                 }}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+                <View style={css.centeredView}>
+                    <View style={css.modalView}>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={css.label}>Order ID</Text>
-                                <Text style={css.label}>Date</Text>
-                                <Text style={css.label}>Status</Text>
-                                <Text style={css.label}>Amount</Text>
+                                <Text style={css.spacedText}>Order ID</Text>
+                                <Text style={css.spacedText}>Date</Text>
+                                <Text style={css.spacedText}>Status</Text>
+                                <Text style={css.spacedText}>Amount</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 2 }}>
                                 {selectedTransaction && <>
-                                    <Text style={css.text}>{selectedTransaction?.metadata?.orderNumber}</Text>
-                                    <Text style={css.text}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
-                                    <Text style={css.text}>{status(selectedTransaction)}</Text>
-                                    <Text style={css.text}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, 'usd')}</Text>
+                                    <Text style={css.spacedText}>{selectedTransaction?.metadata?.orderNumber}</Text>
+                                    <Text style={css.spacedText}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
+                                    <Text style={css.spacedText}>{status(selectedTransaction)}</Text>
+                                    <Text style={css.spacedText}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, 'usd')}</Text>
                                 </>}
                             </View>
                         </View>
-                        {/* <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}>
-                            <Text style={styles.textStyle}>Hide Modal</Text>
-                        </Pressable> */}
 
-                        <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.slate, elevation: 0 }]} onPress={closeModal}>
+                        <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, elevation: 0 }]} onPress={closeModal}>
                             <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
                         </Pressable>
+                        <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary, elevation: 0 }]} onPress={closeModal}>
+                            <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
+                        </Pressable>
                         {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
-                            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.yellow, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
-                                {!isRefunding && <>
-                                    <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} size={18} />
-                                    {/* <Text style={css.buttonText}>Refund</Text> */}
-                                </>}
-                                {isRefunding &&
-                                    <ActivityIndicator size="small" color="white" />
+                            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.warning, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
+                                {isRefunding
+                                    ? <ActivityIndicator size="small" color="white" />
+                                    : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} size={18} />
                                 }
                             </Pressable>
                         }
@@ -163,40 +174,5 @@ export default Transactions = (props) => {
                 </View>
             </Modal>
         </View>
-
     )
 }
-
-const styles = {
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    modalView: {
-        width: '70%',
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 20,
-        alignItems: 'center',
-        // shadowColor: '#000',
-        // shadowOffset: {
-        //     width: 0,
-        //     height: 2,
-        // },
-        // shadowOpacity: 0.25,
-        // shadowRadius: 4,
-        // elevation: 5,
-        paddingBottom: 100,
-        marginTop: 120
-    },
-    textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
-    },
-};

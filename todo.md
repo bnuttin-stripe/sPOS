@@ -1,7 +1,11 @@
-- [x] Refactor styles   
-- [ ] Payment interface into own script  
-- [x] Catalog view  
-- [ ] Customer view  
+- [ ] Add list of products to metadata, show on transaction modal
+- [ ] Calculator.js
+- [ ] Why activity loader not showing until render?
+- [ ] Verify vibration patterns - remove all?
+- [ ] Checkout screen to find customer / add email
+- [ ] Verify currency throughout
 - [ ] BOPIS  
-- [ ] Handling software updates
+- [ ] Gate in additional accounts and create AOD and countertop locations for all
+- [ ] Handling software updates?
 - [ ] Better performance of /transactions
+- [ ] Add items being bought into metadata of PIs, show on transaction details modal

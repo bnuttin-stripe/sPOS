@@ -41,25 +41,16 @@ export default function Root() {
         <NavigationContainer>
           <Drawer.Navigator initialRouteName="App" screenOptions={{ headerShown: false, swipeEnabled: false }}>
             <Drawer.Screen name="App" component={App} />
-            <Drawer.Screen name="Calculator" component={Calculator} />
+            {/* <Drawer.Screen name="Calculator" component={Calculator} />
             <Drawer.Screen name="Products" component={Products} />
             <Drawer.Screen name="Transactions" component={Transactions} />
-            <Drawer.Screen name="Settings" component={Settings} />
+            <Drawer.Screen name="Settings" component={Settings} /> */}
           </Drawer.Navigator>
         </NavigationContainer>
       </RecoilRoot>
     </StripeTerminalProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 registerRootComponent(Root);
 
