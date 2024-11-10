@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Text, View, Pressable, ScrollView, RefreshControl } from 'react-native';
+import { Text, View, Pressable, ScrollView, ActivityIndicator } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { customerAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlus } from '@fortawesome/pro-solid-svg-icons';
+import { faPlus, faArrowsRotate } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
@@ -81,21 +81,27 @@ export default Customers = () => {
                     </DataTable.Title>
                 </DataTable.Header>
                 <ScrollView
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={getCustomers}
-                            progressViewOffset={150}
-                            colors={['white']}
-                            progressBackgroundColor={colors.primary}
-                        />
-                    }
+                    // refreshControl={
+                    //     <RefreshControl
+                    //         refreshing={refreshing}
+                    //         onRefresh={getCustomers}
+                    //         progressViewOffset={150}
+                    //         colors={['white']}
+                    //         progressBackgroundColor={colors.primary}
+                    //     />
+                    // }
                 >
                     {customers.length > 0 && customers.map && customers.map((customer) => Row(customer))}
                 </ScrollView>
             </DataTable>
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary }]}
+            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getCustomers}>
+                {refreshing
+                    ? <ActivityIndicator size="small" color="white" />
+                    : <FontAwesomeIcon icon={faArrowsRotate} color={'white'} size={18} />
+                }
+            </Pressable>
+            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]}
                 onPress={() => navigation.navigate("App", { page: "CustomerEntry" })}>
                 <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
             </Pressable>

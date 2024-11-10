@@ -6,6 +6,7 @@ import { css, colors } from './styles';
 import Header from './components/Header';
 import Calculator from './components/Calculator';
 import Products from './components/Products';
+import Checkout from './components/Checkout';
 import Transactions from './components/Transactions';
 import Customers from './components/Customers';
 import Customer from './components/Customer';
@@ -173,16 +174,17 @@ export default function App({ route }) {
   return (
     <SafeAreaView style={css.app}>
       {!initialized &&
-        <>
+        <View style={{justifyContent: 'center', flex: 1}}>
           <ActivityIndicator size="large" color={colors.primary} />
           <Text style={{ padding: 40 }}>{infoMsg}</Text>
-        </>
+        </View>
       }
       {initialized &&
         <>
           <Header page={page} />
           {page == 'Calculator' && <Calculator pay={pay} />}
           {page == 'Products' && <Products pay={pay}/>}
+          {page == 'Checkout' && <Checkout pay={pay}/>}
           {page == 'Transactions' && <Transactions />}
           {page == 'Customers' && <Customers />}
           {page == 'Customer' && <Customer id={route.params.id} />}

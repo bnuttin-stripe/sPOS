@@ -24,12 +24,12 @@ export default Header = (props) => {
     return (
         <>
             <View style={styles.topBanner}>
-                <View style={{ flex: 2, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-                    <Image source={require('../assets/logo.png')} style={[styles.logo, { width: 100, marginLeft: 15 }]} />
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Image source={require('../assets/logo.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: -15 }}>
-                    <Text style={{ color: colors.white }}>Powered by</Text>
-                    <Image source={require('../assets/stripe.png')} style={[styles.logo, { height: 24, marginBottom: -3, marginLeft: -10 }]} />
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+                    <Text style={{ color: colors.white, fontSize: 12 }}>Powered by</Text>
+                    <Image source={require('../assets/stripe.png')} style={{width: 80, height: 20, marginLeft: -18, marginRight: -20, marginBottom: -3, resizeMode: 'contain'}} />
                 </View>
                 <BatteryIndicator />
             </View>
@@ -61,14 +61,16 @@ export default Header = (props) => {
 
 const styles = {
     topBanner: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         backgroundColor: colors.primary,
         height: 100,
         padding: 10,
+        width: '100%',
     },
     logo: {
         flex: 1,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        // backgroundColor: colors.white,
     },
     header: {
         width: '100%',

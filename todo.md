@@ -1,8 +1,5 @@
 - [ ] Add list of products to metadata, show on transaction modal
-- [ ] Why activity loader not showing until render?
 - [ ] Checkout screen to find customer / add email
-- [ ] BOPIS  
+- [ ] BOPIS
 - [ ] Gate in additional accounts and create AOD and countertop locations for all
 - [ ] Handling software updates?
-- [ ] Better performance of /transactions
-- [ ] Add items being bought into metadata of PIs, show on transaction details modal

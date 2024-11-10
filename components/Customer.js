@@ -32,7 +32,6 @@ export default Customer = (props) => {
     };
 
     useEffect(() => {
-        console.log("Customer useEffect");
         getCustomer(false);
     }, []);
 

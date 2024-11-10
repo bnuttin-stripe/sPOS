@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { transactionAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTurnLeft, faXmark, faArrowRightArrowLeft, faBoxCheck } from '@fortawesome/pro-solid-svg-icons';
+import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
@@ -74,18 +74,18 @@ export default Transactions = (props) => {
         return (
             <Pressable key={pi.id} onPress={() => showTransaction(pi)}>
                 <DataTable.Row>
-                    <DataTable.Cell style={[css.cell, { flex: 0.8 }]}>
+                    <DataTable.Cell style={[css.cell, { flex: 1 }]}>
                         <Text style={css.defaultText}>{pi.metadata?.orderNumber}</Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 0.8, paddingRight: 10 }]} numeric>
+                    <DataTable.Cell style={[css.cell, { flex: 1, paddingRight: 20 }]} numeric>
                         <Text style={pi.latest_charge.amount_refunded > 0 ? css.crossedText : css.defaultText}>{Utils.displayPrice(pi.amount / 100, settings.currency)}</Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 1.4 }]}>
+                    <DataTable.Cell style={[css.cell, { flex: 1.5 }]}>
                         <Text style={css.defaultText}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 0.8 }]}>
+                    {/* <DataTable.Cell style={[css.cell, { flex: 0.8 }]}>
                         <Text style={css.defaultText}>{Utils.capitalize(pi.latest_charge.payment_method_details.card_present.brand)} {pi.latest_charge.payment_method_details.card_present.last4}</Text>
-                    </DataTable.Cell>
+                    </DataTable.Cell> */}
                 </DataTable.Row>
             </Pressable >
         )
@@ -103,33 +103,40 @@ export default Transactions = (props) => {
         <View style={[css.container, { padding: 0 }]}>
             <DataTable>
                 <DataTable.Header style={css.tableHeader}>
-                    <DataTable.Title style={[css.cell, { flex: 0.8 }]}>
+                    <DataTable.Title style={[css.cell, { flex: 1 }]}>
                         <Text style={css.defaultText}>Order ID</Text>
                     </DataTable.Title>
-                    <DataTable.Title style={[css.cell, { flex: 0.8, paddingRight: 10 }]} numeric>
+                    <DataTable.Title style={[css.cell, { flex: 1, paddingRight: 20 }]} numeric>
                         <Text style={css.defaultText}>Amount</Text>
                     </DataTable.Title>
-                    <DataTable.Title style={[css.cell, { flex: 1.4 }]}>
+                    <DataTable.Title style={[css.cell, { flex: 1.5 }]}>
                         <Text style={css.defaultText}>Date</Text>
                     </DataTable.Title>
-                    <DataTable.Title style={[css.cell, { flex: 0.8 }]}>
+                    {/* <DataTable.Title style={[css.cell, { flex: 0.8 }]}>
                         <Text style={css.defaultText}>Card</Text>
-                    </DataTable.Title>
+                    </DataTable.Title> */}
                 </DataTable.Header>
                 <ScrollView
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={getTransactions}
-                            progressViewOffset={150}
-                            colors={['white']}
-                            progressBackgroundColor={colors.primary}
-                        />
-                    }
+                    // refreshControl={
+                    //     <RefreshControl
+                    //         refreshing={refreshing}
+                    //         onRefresh={getTransactions}
+                    //         progressViewOffset={150}
+                    //         colors={['white']}
+                    //         progressBackgroundColor={colors.primary}
+                    //     />
+                    // }
                 >
                     {transactions.length > 0 && transactions.map && transactions.map((pi) => Row(pi, navigation))}
                 </ScrollView>
             </DataTable>
+
+            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getTransactions}>
+                {refreshing
+                    ? <ActivityIndicator size="small" color="white" />
+                    : <FontAwesomeIcon icon={faArrowsRotate} color={'white'} size={18} />
+                }
+            </Pressable>
 
             <Modal
                 animationType="fade"
