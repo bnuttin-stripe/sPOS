@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { transactionAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck } from '@fortawesome/pro-solid-svg-icons';
+import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faListCheck } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
@@ -21,11 +21,11 @@ export default Transactions = (props) => {
 
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [isRefunding, setIsRefunding] = useState(false);
+    const [isPickingUp, setIsPickingUp] = useState(false);
 
     const [modalVisible, setModalVisible] = useState(false);
 
     const getTransactions = async () => {
-        setTransactions([]);
         setRefreshing(true);
         const url = props.customer ? settings.backendUrl + '/transactions/' + props.customer : settings.backendUrl + '/transactions';
         const response = await fetch(url, {
@@ -56,6 +56,23 @@ export default Transactions = (props) => {
         getTransactions();
     }
 
+    const bopisDone = async () => {
+        setIsPickingUp(true);
+        const response = await fetch(settings.backendUrl + '/bopis', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: selectedTransaction.id
+            })
+        });
+        const data = await response.json();
+        setSelectedTransaction(data);
+        setIsPickingUp(false);
+        getTransactions();
+    }
+
     const showTransaction = (pi) => {
         setModalVisible(true);
         setSelectedTransaction(pi);
@@ -75,7 +92,8 @@ export default Transactions = (props) => {
             <Pressable key={pi.id} onPress={() => showTransaction(pi)}>
                 <DataTable.Row>
                     <DataTable.Cell style={[css.cell, { flex: 1 }]}>
-                        <Text style={css.defaultText}>{pi.metadata?.orderNumber}</Text>
+                        <Text style={css.defaultText}>{pi.metadata?.orderNumber}   </Text>
+                        {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBoxCheck} color={colors.warning} style={{ margin: 30 }} size={18} />}
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 1, paddingRight: 20 }]} numeric>
                         <Text style={pi.latest_charge.amount_refunded > 0 ? css.crossedText : css.defaultText}>{Utils.displayPrice(pi.amount / 100, settings.currency)}</Text>
@@ -117,15 +135,15 @@ export default Transactions = (props) => {
                     </DataTable.Title> */}
                 </DataTable.Header>
                 <ScrollView
-                    // refreshControl={
-                    //     <RefreshControl
-                    //         refreshing={refreshing}
-                    //         onRefresh={getTransactions}
-                    //         progressViewOffset={150}
-                    //         colors={['white']}
-                    //         progressBackgroundColor={colors.primary}
-                    //     />
-                    // }
+                // refreshControl={
+                //     <RefreshControl
+                //         refreshing={refreshing}
+                //         onRefresh={getTransactions}
+                //         progressViewOffset={150}
+                //         colors={['white']}
+                //         progressBackgroundColor={colors.primary}
+                //     />
+                // }
                 >
                     {transactions.length > 0 && transactions.map && transactions.map((pi) => Row(pi, navigation))}
                 </ScrollView>
@@ -153,6 +171,8 @@ export default Transactions = (props) => {
                                 <Text style={css.spacedText}>Date</Text>
                                 <Text style={css.spacedText}>Status</Text>
                                 <Text style={css.spacedText}>Amount</Text>
+                                {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>BOPIS</Text>}
+                                {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>Items</Text>}
                             </View>
                             <View style={{ flexDirection: 'column', flex: 2 }}>
                                 {selectedTransaction && <>
@@ -160,6 +180,8 @@ export default Transactions = (props) => {
                                     <Text style={css.spacedText}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
                                     <Text style={css.spacedText}>{status(selectedTransaction)}</Text>
                                     <Text style={css.spacedText}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, settings.currency)}</Text>
+                                    {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.bopis)}</Text>}
+                                    {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>{selectedTransaction?.metadata?.cart}</Text>}
                                 </>}
                             </View>
                         </View>
@@ -167,14 +189,19 @@ export default Transactions = (props) => {
                         <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, elevation: 0 }]} onPress={closeModal}>
                             <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
                         </Pressable>
-                        <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary, elevation: 0 }]} onPress={closeModal}>
-                            <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
-                        </Pressable>
                         {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
-                            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.warning, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
+                            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.warning, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
                                 {isRefunding
                                     ? <ActivityIndicator size="small" color="white" />
                                     : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} size={18} />
+                                }
+                            </Pressable>
+                        }
+                        {selectedTransaction?.metadata?.bopis == 'pending' &&
+                            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.warning, elevation: 0 }]} onPress={bopisDone}>
+                                {isPickingUp
+                                    ? <ActivityIndicator size="small" color="white" />
+                                    : <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
                                 }
                             </Pressable>
                         }

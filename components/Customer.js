@@ -58,7 +58,7 @@ export default Customer = (props) => {
                 </View>
             }
 
-            <View style={{ flex: 1, marginTop: 20, marginLeft: -15, marginRight: -15, marginBottom: 30 }}>
+            <View style={{ flex: 1, marginTop: 20, marginLeft: -15, marginRight: -15, marginBottom: -20 }}>
                 <Transactions customer={props.id} refresh={getCustomer}/>
             </View>
 

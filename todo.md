@@ -1,5 +1,3 @@
-- [ ] Add list of products to metadata, show on transaction modal
 - [ ] Checkout screen to find customer / add email
-- [ ] BOPIS
 - [ ] Gate in additional accounts and create AOD and countertop locations for all
 - [ ] Handling software updates?

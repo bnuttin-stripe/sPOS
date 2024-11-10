@@ -75,7 +75,7 @@ export const css = {
         alignItems: 'center',
     },
     modalView: {
-        width: '70%',
+        width: '80%',
         backgroundColor: 'white',
         borderRadius: 10,
         padding: 20,

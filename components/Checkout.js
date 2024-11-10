@@ -40,14 +40,20 @@ export default Checkout = (props) => {
             metadata: {
                 app: 'sPOS',
                 channel: 'catalog',
-                orderNumber: Utils.generateOrderNumber(settings.orderPrefix)
+                orderNumber: Utils.generateOrderNumber(settings.orderPrefix),
+                cart: cart.map(x => x.name).join('\n')
             }
         }
-        props.pay(payload, resetCart);
+        props.pay(payload, goBackAndReset);
     }
 
     const goBack = () => {
         navigation.navigate("App", { page: "Products" });
+    }
+
+    const goBackAndReset = () => {
+        resetCart();
+        goBack();
     }
 
     const Row = (product) => {

@@ -184,10 +184,10 @@ export default Products = (props) => {
             <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={resetCart}>
                 <FontAwesomeIcon icon={faCartXmark} color={'white'} size={20} />
             </Pressable>
-            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
+            {/* <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
                 <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
                 <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart), settings.currency)}</Text>
-            </Pressable>
+            </Pressable> */}
             <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={goToCheckout}>
                 <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
                 <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart), settings.currency)}</Text>
