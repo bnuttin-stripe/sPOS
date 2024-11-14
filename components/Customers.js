@@ -1,27 +1,45 @@
 import { React, useState, useEffect } from 'react';
-import { Text, View, Pressable, ScrollView, ActivityIndicator } from 'react-native';
+import { Text, View, Pressable, ScrollView, ActivityIndicator, TextInput } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { customerAtom, settingsAtom } from '../atoms';
+import { customersAtom, settingsAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlus, faArrowsRotate } from '@fortawesome/pro-solid-svg-icons';
+import { faPlus, faArrowsRotate, faMagnifyingGlass, faXmark, faXmarkCircle } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
 
-export default Customers = () => {
+export default Customers = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
 
     const [refreshing, setRefreshing] = useState(false);
-    const [customers, setCustomers] = useRecoilState(customerAtom);
+    const [customers, setCustomers] = useRecoilState(customersAtom);
+    const [currentCustomer, setCurrentCustomer] = useRecoilState(currentCustomerAtom);
 
-    const getCustomers = async () => {
+    const [searchActive, setSearchActive] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const openSearch = () => {
+        setSearchActive(true);
+        setSearchTerm('');
+    }
+
+    const closeSearch = () => {
+        setSearchActive(false);
+        setSearchTerm('');
+        getCustomers('');
+    }
+
+    const getCustomers = async (search) => {
         setRefreshing(true);
-        const response = await fetch(settings.backendUrl + '/customers', {
+        const url = props.showLTV
+            ? settings.backendUrl + '/customers/ltv/' + search
+            : settings.backendUrl + '/customers/noltv/' + search;
+        const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,12 +51,28 @@ export default Customers = () => {
     };
 
     useEffect(() => {
-        getCustomers();
-    }, []);
+        props.initialLoad
+            ? getCustomers('')
+            : setCustomers([]);
+    }, [props.initialLoad]);
+
+    useEffect(() => {
+        setSearchActive(props.search);
+    }, [props.search]);
+
+    const customerAction = (customer) => {
+        if (props.mode == 'details') {
+            navigation.navigate("App", { page: "Customer", id: customer.id })
+        }
+        else {
+            setCurrentCustomer(customer);
+            props.onPick();
+        }
+    }
 
     const Row = (customer) => {
         return (
-            <Pressable key={customer.id} onPress={() => navigation.navigate("App", { page: "Customer", id: customer.id })}>
+            <Pressable key={customer.id} onPress={() => customerAction(customer)}>
                 <DataTable.Row>
                     <DataTable.Cell style={[css.cell, { flex: 1 }]}>
                         <Text style={css.defaultText}>
@@ -50,11 +84,11 @@ export default Customers = () => {
                             {customer.email}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell numeric style={[css.cell, { flex: 1 }]}>
+                    {props.showLTV && <DataTable.Cell numeric style={[css.cell, { flex: 1 }]}>
                         <Text style={css.defaultText}>
                             {Utils.displayPrice(customer.ltv / 100, settings.currency)}
                         </Text>
-                    </DataTable.Cell>
+                    </DataTable.Cell>}
                 </DataTable.Row>
             </Pressable >
         )
@@ -62,6 +96,21 @@ export default Customers = () => {
 
     return (
         <View style={[css.container, { padding: 0 }]}>
+            {searchActive &&
+                <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, marginBottom: -10 }}>
+                    <TextInput
+                        style={[css.input, { flex: 1, marginBottom: 0 }]}
+                        inputMode="tel"
+                        value={searchTerm}
+                        placeholder="Phone number"
+                        onChangeText={text => setSearchTerm(text)}
+                        returnKeyType="search"
+                        onSubmitEditing={event => getCustomers(event.nativeEvent.text)}
+                    />
+                    {props.showIcons && <Pressable onPress={closeSearch}>
+                        <FontAwesomeIcon icon={faXmarkCircle} size={24} style={{ color: colors.primary, marginLeft: 10 }} />
+                    </Pressable>}
+                </View>}
             <DataTable>
                 <DataTable.Header style={css.tableHeader}>
                     <DataTable.Title style={[css.cell, { flex: 1 }]}>
@@ -74,37 +123,33 @@ export default Customers = () => {
                             Email
                         </Text>
                     </DataTable.Title>
-                    <DataTable.Title numeric style={[css.cell, { flex: 1 }]}>
+                    {props.showLTV && <DataTable.Title numeric style={[css.cell, { flex: 1 }]}>
                         <Text style={css.defaultText}>
                             LTV
                         </Text>
-                    </DataTable.Title>
+                    </DataTable.Title>}
                 </DataTable.Header>
-                <ScrollView
-                    // refreshControl={
-                    //     <RefreshControl
-                    //         refreshing={refreshing}
-                    //         onRefresh={getCustomers}
-                    //         progressViewOffset={150}
-                    //         colors={['white']}
-                    //         progressBackgroundColor={colors.primary}
-                    //     />
-                    // }
-                >
+                <ScrollView>
                     {customers.length > 0 && customers.map && customers.map((customer) => Row(customer))}
                 </ScrollView>
             </DataTable>
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getCustomers}>
-                {refreshing
-                    ? <ActivityIndicator size="small" color="white" />
-                    : <FontAwesomeIcon icon={faArrowsRotate} color={'white'} size={18} />
-                }
-            </Pressable>
-            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]}
-                onPress={() => navigation.navigate("App", { page: "CustomerEntry" })}>
-                <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
-            </Pressable>
+            {props.showIcons &&
+                <>
+                    <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getCustomers}>
+                        {refreshing
+                            ? <ActivityIndicator size="small" color="white" />
+                            : <FontAwesomeIcon icon={faArrowsRotate} color={'white'} size={18} />
+                        }
+                    </Pressable>
+                    <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: searchActive ? colors.primary : colors.secondary }]} onPress={searchActive ? closeSearch : openSearch}>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} color={'white'} size={18} />
+                    </Pressable>
+                    <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary }]}
+                        onPress={() => navigation.navigate("App", { page: "CustomerEntry" })}>
+                        <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
+                    </Pressable>
+                </>}
         </View>
     )
 }

@@ -3,7 +3,7 @@ import { Text, Image, View, Pressable, Vibration } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilValue } from 'recoil';
-import { settingsAtom, cartAtom } from '../atoms';
+import { settingsAtom, cartAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalculator, faGrid, faList, faUser, faGear, faBox } from '@fortawesome/pro-solid-svg-icons';
@@ -15,6 +15,7 @@ import BatteryIndicator from './BatteryIndicator';
 
 export default Header = (props) => {
     const navigation = useNavigation();
+    const currentCustomer = useRecoilValue(currentCustomerAtom);
 
     const goTo = (page) => {
         // Vibration.vibrate(250);
@@ -26,6 +27,7 @@ export default Header = (props) => {
             <View style={styles.topBanner}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Image source={require('../assets/logo.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />
+                    <Text style={{color: 'white'}}>Customer: {currentCustomer?.name}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
                     <Text style={{ color: colors.white, fontSize: 12 }}>Powered by</Text>

@@ -5,10 +5,12 @@ import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { cartAtom, productAtom, settingsAtom } from '../atoms';
+import { cartAtom, productAtom, settingsAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark, faUserPlus, faUserMagnifyingGlass, faUserCheck } from '@fortawesome/pro-solid-svg-icons';
+
+import Customers from './Customers';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
@@ -182,6 +184,7 @@ export default Products = (props) => {
                     <FontAwesomeIcon icon={faChevronRight} color={'white'} size={18} />
                 </Pressable>
             </>}
+
             {!scannerOpen && <>
                 <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={() => setScannerOpen(true)}>
                     <FontAwesomeIcon icon={faBarcodeRead} color={'white'} size={18} />
@@ -197,48 +200,29 @@ export default Products = (props) => {
                     setModalVisible(false);
                 }}>
                 <View style={css.centeredView}>
-                    <View style={css.modalView}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={css.spacedText}>Order ID</Text>
-                                <Text style={css.spacedText}>Date</Text>
-
-                            </View>
-                            <View style={{ flexDirection: 'column', flex: 2 }}>
-
-                            </View>
-                        </View>
-
+                    <View style={[css.modalView, { height: '40%', padding: 10  }]}>
+                        <Customers
+                            mode="pick"
+                            showIcons={false}
+                            showLTV={false}
+                            search={true}
+                            initialLoad={false}
+                            onPick={closeModal}
+                        />
                         <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, elevation: 0 }]} onPress={closeModal}>
                             <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
                         </Pressable>
-                        {/* {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
-                            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.warning, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
-                                {isRefunding
-                                    ? <ActivityIndicator size="small" color="white" />
-                                    : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} size={18} />
-                                }
-                            </Pressable>
-                        }
-                        {selectedTransaction?.metadata?.bopis == 'pending' &&
-                            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.warning, elevation: 0 }]} onPress={bopisDone}>
-                                {isPickingUp
-                                    ? <ActivityIndicator size="small" color="white" />
-                                    : <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
-                                }
-                            </Pressable>
-                        } */}
                     </View>
                 </View>
             </Modal>
 
-
-
-
-
             <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={() => setModalVisible(true)}>
                 <FontAwesomeIcon icon={faUserPlus} color={'white'} size={20} />
             </Pressable>
+
+            {/* <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={() => setModalVisible(true)}>
+                <FontAwesomeIcon icon={faUserPlus} color={'white'} size={20} />
+            </Pressable> */}
 
             <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={resetCart}>
                 <FontAwesomeIcon icon={faCartXmark} color={'white'} size={20} />
