@@ -27,6 +27,7 @@ export default Calculator = (props) => {
     }
 
     const pay = () => {
+        console.log("Test")
         const payload = {
             amount: amount,
             currency: settings.currency,

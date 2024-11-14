@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useCallback } from 'react';
-import { Text, View, Pressable, ScrollView, RefreshControl, Image, StyleSheet } from 'react-native';
+import { Text, View, Pressable, ScrollView, RefreshControl, Image, StyleSheet, Modal } from 'react-native';
 import { Camera, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
 import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, productAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark } from '@fortawesome/pro-solid-svg-icons';
+import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark, faUserPlus, faUserMagnifyingGlass, faUserCheck } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
@@ -26,6 +26,13 @@ export default Products = (props) => {
 
     const [scannerOpen, setScannerOpen] = useState(false);
     const [foundCode, setFoundCode] = useState(false);
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const closeModal = () => {
+        //if (props.refresh) props.refresh(true);
+        setModalVisible(false);
+    }
 
     // Scan QR codes of the product IDs
     const codeScanner = useCodeScanner({
@@ -181,14 +188,66 @@ export default Products = (props) => {
                 </Pressable>
             </>}
 
-            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={resetCart}>
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(false);
+                }}>
+                <View style={css.centeredView}>
+                    <View style={css.modalView}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text style={css.spacedText}>Order ID</Text>
+                                <Text style={css.spacedText}>Date</Text>
+
+                            </View>
+                            <View style={{ flexDirection: 'column', flex: 2 }}>
+
+                            </View>
+                        </View>
+
+                        <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, elevation: 0 }]} onPress={closeModal}>
+                            <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
+                        </Pressable>
+                        {/* {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
+                            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.warning, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
+                                {isRefunding
+                                    ? <ActivityIndicator size="small" color="white" />
+                                    : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} size={18} />
+                                }
+                            </Pressable>
+                        }
+                        {selectedTransaction?.metadata?.bopis == 'pending' &&
+                            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.warning, elevation: 0 }]} onPress={bopisDone}>
+                                {isPickingUp
+                                    ? <ActivityIndicator size="small" color="white" />
+                                    : <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
+                                }
+                            </Pressable>
+                        } */}
+                    </View>
+                </View>
+            </Modal>
+
+
+
+
+
+            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={() => setModalVisible(true)}>
+                <FontAwesomeIcon icon={faUserPlus} color={'white'} size={20} />
+            </Pressable>
+
+            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={resetCart}>
                 <FontAwesomeIcon icon={faCartXmark} color={'white'} size={20} />
             </Pressable>
             {/* <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
                 <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
                 <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart), settings.currency)}</Text>
             </Pressable> */}
-            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={goToCheckout}>
+            <Pressable style={[css.floatingIcon, { left: 200, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={goToCheckout}>
                 <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
                 <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart), settings.currency)}</Text>
             </Pressable>

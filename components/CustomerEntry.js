@@ -53,6 +53,7 @@ export default CustomerEntry = () => {
 
     const lastNameRef = useRef(null);
     const emailRef = useRef(null);
+    const phoneRef = useRef(null);
     const addressLine1Ref = useRef(null);
     const addressLine2Ref = useRef(null);
     const cityRef = useRef(null);
@@ -70,6 +71,7 @@ export default CustomerEntry = () => {
                 firstName: customer.firstName,
                 lastName: customer.lastName,
                 email: customer.email,
+                phone: customer.phone,
                 addressLine1: customer.addressLine1,
                 addressLine2: customer.addressLine2,
                 city: customer.city,
@@ -115,6 +117,18 @@ export default CustomerEntry = () => {
                     autoCapitalize='none'
                     onChangeText={text => setCustomer({ ...customer, email: text })}
                     ref={emailRef}
+                    returnKeyType="next"
+                    onSubmitEditing={() => { phoneRef.current.focus(); }}
+                />
+
+                <Text style={css.label}>Phone</Text>
+                <TextInput
+                    style={css.input}
+                    inputMode="tel"
+                    value={customer.phone}
+                    autoCapitalize='none'
+                    onChangeText={text => setCustomer({ ...customer, phone: text })}
+                    ref={phoneRef}
                     returnKeyType="next"
                     onSubmitEditing={() => { addressLine1Ref.current.focus(); }}
                 />
@@ -176,7 +190,7 @@ export default CustomerEntry = () => {
             </ScrollView>
 
             {scannerOpen && <>
-                <View style={[css.cameraPreview, {margin: -20}]}>
+                <View style={[css.cameraPreview, { margin: -20 }]}>
                     <Camera
                         style={StyleSheet.absoluteFill}
                         device={device}

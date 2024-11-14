@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
-import { Text, View, Pressable, ScrollView, RefreshControl, Image, StyleSheet } from 'react-native';
+import { Text, View, Pressable, ScrollView, Modal, Image, StyleSheet } from 'react-native';
 import { Camera, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
-import { DataTable } from 'react-native-paper';
+import { DataTable, TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -9,7 +9,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, productAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBarcodeRead, faXmark, faChevronLeft, faCartShopping, faCartXmark } from '@fortawesome/pro-solid-svg-icons';
+import { faBarcodeRead, faUser, faChevronLeft, faCartShopping, faCartXmark } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
@@ -21,6 +21,11 @@ export default Checkout = (props) => {
     const cart = useRecoilValue(cartAtom);
     const uniqueCart = [...new Set(cart)];
     const resetCart = useResetRecoilState(cartAtom);
+
+    const [customer, setCustomer] = useState({});
+    const [customers, setCustomers] = useState([]);
+    const [telSearch, setTelSearch] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
 
     const numInCart = (product) => {
         return cart.filter(x => (x == product)).length;
@@ -47,6 +52,17 @@ export default Checkout = (props) => {
         props.pay(payload, goBackAndReset);
     }
 
+    const searchCustomer = async () => {
+        const response = await fetch(settings.backendUrl + '/customers/' + telSearch, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+        setCustomers(data);
+    };
+
     const goBack = () => {
         navigation.navigate("App", { page: "Products" });
     }
@@ -60,14 +76,6 @@ export default Checkout = (props) => {
         return (
             <Pressable key={product.id}>
                 <DataTable.Row style={{ paddingTop: 20, paddingBottom: 20 }} >
-                    {/* <DataTable.Cell style={{ flex: 1, paddingTop: 5 , paddingBottom: 5, paddingRight: 5 }}>
-                        <Image
-                            style={styles.productImage}
-                            source={{
-                                uri: product?.images[0]
-                            }}
-                        />
-                    </DataTable.Cell> */}
                     <DataTable.Cell style={[css.cell, { flex: 3 }]}>
                         <Text style={css.defaultText}>
                             {product.name}
@@ -114,14 +122,58 @@ export default Checkout = (props) => {
                     {uniqueCart.length > 0 && uniqueCart.map && uniqueCart.map((product) => Row(product))}
                     {cart.length == 0 && <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>Cart is empty.</Text>}
                     <DataTable.Row></DataTable.Row>
-                    <DataTable.Row></DataTable.Row>
                 </ScrollView>
             </DataTable>
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(false);
+                }}>
+                <View style={css.centeredView}>
+                    <View style={css.modalView}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text style={css.spacedText}>Phone</Text>
+                            </View>
+                            <View style={{ flexDirection: 'column', flex: 2 }}>
+                                <TextInput
+                                    style={css.input}
+                                    inputMode="tel"
+                                    value={telSearch}
+                                    autoCapitalize='none'
+                                    onChangeText={text => setTelSearch(text)}
+                                    onSubmitEditing={searchCustomer}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+
+
+
+            {/* <View style={css.container}>
+                <TextInput
+                    // style={css.input}
+                    inputMode="tel"
+                    value={telSearch}
+                    autoCapitalize='none'
+                    onChangeText={text => setTelSearch(text)}
+                    onSubmitEditing={searchCustomer}
+                />
+            </View> */}
 
             <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={goBack}>
                 <FontAwesomeIcon icon={faChevronLeft} color={'white'} size={20} />
             </Pressable>
-            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
+            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={() => setModalVisible(true)}>
+                <FontAwesomeIcon icon={faUser} color={'white'} size={20} />
+            </Pressable>
+            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
                 <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
                 <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart), settings.currency)}</Text>
             </Pressable>

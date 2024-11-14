@@ -3,6 +3,9 @@ import { Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView } from 
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { css, colors } from './styles';
 
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faTriangleExclamation } from '@fortawesome/pro-solid-svg-icons';
+
 import Header from './components/Header';
 import Calculator from './components/Calculator';
 import Products from './components/Products';
@@ -20,6 +23,7 @@ export default function App({ route }) {
   const { initialize } = useStripeTerminal();
   const [initialized, setInitialized] = useState(false);
   const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
+  const [readerFound, setReaderFound] = useState(true);
 
   const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent } = useStripeTerminal();
 
@@ -79,7 +83,10 @@ export default function App({ route }) {
     useStripeTerminal({
       onUpdateDiscoveredReaders: (readers) => {
         console.log("onUpdateDiscoveredReaders");
-        connectReader(readers[0]);
+        setReaderFound(readers.length > 0);
+        readers.length > 0
+          ? connectReader(readers[0])
+          : setInfoMsg("No reader found");
       },
       onFinishDiscoveringReaders: (error) => {
         console.log("onFinishDiscoveringReaders", error);
@@ -168,30 +175,35 @@ export default function App({ route }) {
     // if (paymentIntent.status === 'succeeded') reset();
   };
 
-
-
-
   return (
     <SafeAreaView style={css.app}>
       {!initialized &&
-        <View style={{justifyContent: 'center', flex: 1}}>
+        <View style={{ justifyContent: 'center', flex: 1 }}>
           <ActivityIndicator size="large" color={colors.primary} />
           <Text style={{ padding: 40 }}>{infoMsg}</Text>
         </View>
       }
-      {initialized &&
-        <>
-          <Header page={page} />
-          {page == 'Calculator' && <Calculator pay={pay} />}
-          {page == 'Products' && <Products pay={pay}/>}
-          {page == 'Checkout' && <Checkout pay={pay}/>}
-          {page == 'Transactions' && <Transactions />}
-          {page == 'Customers' && <Customers />}
-          {page == 'Customer' && <Customer id={route.params.id} />}
-          {page == 'CustomerEntry' && <CustomerEntry />}
-          {page == 'Scanner' && <Scanner />}
-          {page == 'Settings' && <Settings />}
-        </>
+      {initialized && <>
+        {readerFound
+          ? <>
+            <Header page={page} />
+            {page == 'Calculator' && <Calculator pay={pay} />}
+            {page == 'Products' && <Products />}
+            {page == 'Checkout' && <Checkout pay={pay} />}
+            {page == 'Transactions' && <Transactions />}
+            {page == 'Customers' && <Customers />}
+            {page == 'Customer' && <Customer id={route.params.id} />}
+            {page == 'CustomerEntry' && <CustomerEntry />}
+            {page == 'Scanner' && <Scanner />}
+            {page == 'Settings' && <Settings />}
+          </>
+          : <>
+            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+              <FontAwesomeIcon icon={faTriangleExclamation} color={colors.primary} size={30} />
+              <Text style={{ padding: 40, lineHeight: 30 }}>No reader detected. The Stripe account may not be enabled for Apps on Device, or the device may not have the required specifications.</Text>
+            </View>
+          </>}
+      </>
       }
     </SafeAreaView>
   );
