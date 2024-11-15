@@ -44,12 +44,6 @@ export const cartAtom = atom({
     default: [],
 });
 
-export const currentCustomerAtom = atom({
-    key: 'currentCustomerAtom',
-    default: {}
-});
-
-
 export const productAtom = atom({
     key: 'productAtom',
     default: [],
@@ -58,4 +52,14 @@ export const productAtom = atom({
 export const customersAtom = atom({
     key: 'customersAtom',
     default: []
+});
+
+export const searchedCustomersAtom = atom({
+    key: 'searchedCustomersAtom',
+    default: []
+});
+
+export const currentCustomerAtom = atom({
+    key: 'currentCustomerAtom',
+    default: {}
 });

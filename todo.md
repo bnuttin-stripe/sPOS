@@ -1,5 +1,10 @@
 - [ ] Cart protection (and add toggle to Settings)
-- [ ] Checkout screen to find customer / add email
+- [ ] Change customer search to in-memory
+- [ ] Move back to a Checkout confirmation page
+- [ ] Transaction modal: show customer name
+- [ ] How to add a new customer info on Checkout page
+- [ ] Confirmation page to show where email will go (if customer selected) or to enter a new one
+- [ ] Lookup customer via card tap
 - [ ] How to edit a customer's details?
 - [ ] Gate in additional accounts and create AOD and countertop locations for all
 - [ ] Handling software updates?

@@ -4,8 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
 
-import { useRecoilValue } from 'recoil';
-import { settingsAtom } from '../atoms';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { currentCustomerAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBarcodeRead, faXmark, faChevronRight, faSave, faIdCard, faMobile } from '@fortawesome/pro-solid-svg-icons';
@@ -13,12 +13,14 @@ import { faBarcodeRead, faXmark, faChevronRight, faSave, faIdCard, faMobile } fr
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
 
-export default CustomerEntry = () => {
+export default CustomerEntry = (props) => {
+    console.log(props.origin);
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
 
     const [customer, setCustomer] = useState({});
     const [savingCustomer, setSavingCustomer] = useState(false);
+    const [currentCustomer, setCurrentCustomer] = useRecoilState(currentCustomerAtom);
 
     const device = useCameraDevice('back');
 
@@ -79,8 +81,15 @@ export default CustomerEntry = () => {
                 postalCode: customer.postalCode
             })
         });
+        const newCustomer = await response.json();
         setSavingCustomer(false);
-        navigation.navigate("App", { page: "Customers" });
+        if (props.origin == 'Checkout') {
+            setCurrentCustomer(newCustomer);
+            navigation.navigate("App", { page: "Checkout" })
+        }
+        else {
+            navigation.navigate("App", { page: "Customers" });
+        }
     }
 
     return (

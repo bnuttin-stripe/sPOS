@@ -188,12 +188,14 @@ export default function App({ route }) {
           ? <>
             <Header page={page} />
             {page == 'Calculator' && <Calculator pay={pay} />}
-            {page == 'Products' && <Products />}
+            {page == 'Products' && <Products pay={pay}/>}
             {page == 'Checkout' && <Checkout pay={pay} />}
             {page == 'Transactions' && <Transactions />}
-            {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} initialLoad={true}/>}
+            {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} 
+            // initialLoad={true}
+            />}
             {page == 'Customer' && <Customer id={route.params.id}/>}
-            {page == 'CustomerEntry' && <CustomerEntry />}
+            {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin}/>}
             {page == 'Scanner' && <Scanner />}
             {page == 'Settings' && <Settings />}
           </>

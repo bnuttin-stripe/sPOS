@@ -4,7 +4,7 @@ import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { customersAtom, settingsAtom, currentCustomerAtom } from '../atoms';
+import { settingsAtom, customersAtom, searchedCustomersAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus, faArrowsRotate, faMagnifyingGlass, faXmark, faXmarkCircle } from '@fortawesome/pro-solid-svg-icons';
@@ -18,6 +18,7 @@ export default Customers = (props) => {
 
     const [refreshing, setRefreshing] = useState(false);
     const [customers, setCustomers] = useRecoilState(customersAtom);
+    const [searchedCustomers, setSearchedCustomers] = useRecoilState(searchedCustomersAtom);
     const [currentCustomer, setCurrentCustomer] = useRecoilState(currentCustomerAtom);
 
     const [searchActive, setSearchActive] = useState(false);
@@ -46,15 +47,15 @@ export default Customers = (props) => {
             },
         });
         const data = await response.json();
-        setCustomers(data);
+        props.search
+            ? setSearchedCustomers(data)
+            : setCustomers(data);
         setRefreshing(false);
     };
 
     useEffect(() => {
-        props.initialLoad
-            ? getCustomers('')
-            : setCustomers([]);
-    }, [props.initialLoad]);
+        getCustomers('')
+    }, []);
 
     useEffect(() => {
         setSearchActive(props.search);
@@ -112,25 +113,30 @@ export default Customers = (props) => {
                     </Pressable>}
                 </View>}
             <DataTable>
-                <DataTable.Header style={css.tableHeader}>
-                    <DataTable.Title style={[css.cell, { flex: 1 }]}>
-                        <Text style={css.defaultText}>
-                            Name
-                        </Text>
-                    </DataTable.Title>
-                    <DataTable.Title style={[css.cell, { flex: 2 }]}>
-                        <Text style={css.defaultText}>
-                            Email
-                        </Text>
-                    </DataTable.Title>
-                    {props.showLTV && <DataTable.Title numeric style={[css.cell, { flex: 1 }]}>
-                        <Text style={css.defaultText}>
-                            LTV
-                        </Text>
-                    </DataTable.Title>}
-                </DataTable.Header>
+                {(props.search && searchedCustomers.length > 0 || !props.search) &&
+                    <DataTable.Header style={css.tableHeader}>
+                        <DataTable.Title style={[css.cell, { flex: 1 }]}>
+                            <Text style={css.defaultText}>
+                                Name
+                            </Text>
+                        </DataTable.Title>
+                        <DataTable.Title style={[css.cell, { flex: 2 }]}>
+                            <Text style={css.defaultText}>
+                                Email
+                            </Text>
+                        </DataTable.Title>
+                        {props.showLTV && <DataTable.Title numeric style={[css.cell, { flex: 1 }]}>
+                            <Text style={css.defaultText}>
+                                LTV
+                            </Text>
+                        </DataTable.Title>}
+                    </DataTable.Header>
+                }
                 <ScrollView>
-                    {customers.length > 0 && customers.map && customers.map((customer) => Row(customer))}
+                    {props.search
+                        ? searchedCustomers.length > 0 && searchedCustomers.map && searchedCustomers.map((customer) => Row(customer))
+                        : customers.length > 0 && customers.map && customers.map((customer) => Row(customer))
+                    }
                 </ScrollView>
             </DataTable>
 
@@ -146,7 +152,7 @@ export default Customers = (props) => {
                         <FontAwesomeIcon icon={faMagnifyingGlass} color={'white'} size={18} />
                     </Pressable>
                     <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary }]}
-                        onPress={() => navigation.navigate("App", { page: "CustomerEntry" })}>
+                        onPress={() => navigation.navigate("App", { page: "CustomerEntry", origin: "Customers"})}>
                         <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
                     </Pressable>
                 </>}

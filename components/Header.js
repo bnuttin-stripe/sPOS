@@ -27,7 +27,7 @@ export default Header = (props) => {
             <View style={styles.topBanner}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Image source={require('../assets/logo.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />
-                    <Text style={{color: 'white'}}>Customer: {currentCustomer?.name}</Text>
+                    {/* <Text style={{color: 'white'}}>Customer: {currentCustomer?.name}</Text> */}
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
                     <Text style={{ color: colors.white, fontSize: 12 }}>Powered by</Text>
