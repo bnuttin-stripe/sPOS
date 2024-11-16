@@ -57,6 +57,10 @@ export const css = {
         marginBottom: 12,
         fontSize: defaults.fontSize + 1,
     },
+    bold: {
+        fontWeight: 'bold'
+
+    },
     input: {
         marginBottom: 16,
         borderColor: "gray",
@@ -119,12 +123,12 @@ export const css = {
         flexDirection: 'column',
         height: '100%'
     },
-    tableHeader:{
+    tableHeader: {
         borderBottomWidth: 2,
     },
     title: {
         fontSize: 20,
-        marginBottom:20,
+        marginBottom: 20,
         marginTop: 10,
         fontWeight: 'bold',
         color: colors.slate

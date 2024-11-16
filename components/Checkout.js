@@ -35,13 +35,56 @@ export default Checkout = (props) => {
     }
 
     const getCartTotal = (cart) => {
-        return cart.reduce((a, b) => a + b.default_price.unit_amount / 100, 0);
+        const subtotal = cart.reduce((a, b) => a + b.default_price.unit_amount, 0);
+        const taxes = Math.round(subtotal * settings.taxPercentage / 100);
+        const adjustment = adjustFinalAmount(subtotal + taxes);
+        const total = subtotal + taxes + adjustment;
+        // console.log(subtotal, taxes, adjustment, total);
+        return {
+            subtotal: subtotal,
+            taxes: taxes,
+            adjustment: adjustment,
+            total: total
+        }
+    }
+
+    const adjustFinalAmount = (amount) => {
+        let output = 0;
+        if (!settings.magicCentProtection) return 0;
+        const decimal = amount.toString().slice(-2);
+        switch (decimal) {
+            case '01':
+                output = 99;
+                break;
+            case '02':
+                output = 98;
+                break;
+            case '03':
+                output = 97;
+                break;
+            case '05':
+                output = 95;
+                break;
+            // case '40':
+            //     output = 60;
+            //     break;
+            case '55':
+                output = 49;
+                break;
+            case '65':
+                output = 35;
+                break;
+            case '75':
+                output = 25;
+                break;
+        }
+        return output;
     }
 
     const pay = () => {
         if (cart.length == 0) return;
         const payload = {
-            amount: getCartTotal(cart) * 100,
+            amount: getCartTotal(cart).total,
             currency: settings.currency,
             captureMethod: 'automatic',
             metadata: {
@@ -52,16 +95,12 @@ export default Checkout = (props) => {
             }
         }
         if (currentCustomer.id) payload.customer = currentCustomer.id;
-        props.pay(payload, goBackAndReset);
+        //adjustFinalAmount(payload.amount);
+        // props.pay(payload, goBackAndReset);
     }
 
     const goBack = () => {
         navigation.navigate("App", { page: "Products" });
-    }
-
-    const goBackAndReset = () => {
-        resetCart();
-        goBack();
     }
 
     const Row = (product) => {
@@ -81,8 +120,48 @@ export default Checkout = (props) => {
         <View style={[css.container]}>
             <ScrollView>
                 <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: 'bold' }}>Cart</Text>
-                {uniqueCart.length > 0 && uniqueCart.map && uniqueCart.map((product) => Row(product))}
-                {cart.length == 0 && <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>Cart is empty.</Text>}
+                {cart.length == 0
+                    ? <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>Cart is empty.</Text>
+                    : <>
+                        {uniqueCart.map && uniqueCart.map((product) => Row(product))}
+
+                        <View style={{ flexDirection: 'row', borderTopWidth: 1, borderStyle: 'dashed', paddingTop: 8 }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={css.spacedText}>Subtotal</Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
+                                <Text style={css.spacedText}>{Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}</Text>
+                            </View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={css.spacedText}>Tax</Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
+                                <Text style={css.spacedText}>{Utils.displayPrice(getCartTotal(cart).taxes / 100, settings.currency)}</Text>
+                            </View>
+                        </View>
+
+                        {getCartTotal(cart).adjustment > 0 && <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={css.spacedText}>Climate contribution</Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
+                                <Text style={css.spacedText}>{Utils.displayPrice(getCartTotal(cart).adjustment / 100, settings.currency)}</Text>
+                            </View>
+                        </View>}
+
+                        <View style={{ flexDirection: 'row', borderTopWidth: 1, borderStyle: 'dashed', paddingTop: 8 }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={[css.spacedText, css.bold]}>Total</Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
+                                <Text style={[css.spacedText, css.bold]}>{Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}</Text>
+                            </View>
+                        </View>
+                    </>
+                }
 
                 <Text style={{ fontSize: 20, marginTop: 20, marginBottom: 10, fontWeight: 'bold' }}>Customer</Text>
                 {currentCustomer.id
@@ -121,7 +200,7 @@ export default Checkout = (props) => {
                             <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
                         </Pressable>
                         <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]}
-                            onPress={() => navigation.navigate("App", { page: "CustomerEntry", origin: "Checkout"})}>
+                            onPress={() => navigation.navigate("App", { page: "CustomerEntry", origin: "Checkout" })}>
                             <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
                         </Pressable>
                     </View>
@@ -142,7 +221,7 @@ export default Checkout = (props) => {
 
             <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
                 <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
-                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart), settings.currency)}</Text>
+                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}</Text>
             </Pressable>
 
         </View>

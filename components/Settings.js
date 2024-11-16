@@ -1,5 +1,5 @@
 import { React } from 'react';
-import { Text, TextInput, View, Pressable, ScrollView, Linking } from 'react-native';
+import { Text, TextInput, View, Pressable, ScrollView, Linking, Switch } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 import { useRecoilState, useResetRecoilState } from 'recoil';
@@ -64,6 +64,20 @@ export default Settings = (props) => {
                     value={settings?.productFilter}
                     onChangeText={value => setSettings({ ...settings, productFilter: value })}
                 />
+
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
+                    <Text style={css.label}>Magic Cent Protection</Text>
+                    <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
+                        <Switch
+                            trackColor={{ false: colors.light, true: colors.secondary }}
+                            thumbColor={settings?.magicCentProtection ? colors.primary : colors.secondary}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={value => setSettings({ ...settings, magicCentProtection: !settings?.magicCentProtection })}
+                            value={settings?.magicCentProtection}
+                        />
+                    </View>
+                </View>
+                {/* <Text>{settings.magicCentProtection ? "ON" : "OFF"}</Text> */}
 
                 <Text style={css.label}>Currency</Text>
                 <RNPickerSelect

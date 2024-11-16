@@ -28,7 +28,8 @@ const defaultSettings = {
     orderPrefix: 'STP-',
     taxPercentage: '10',
     currency: 'usd',
-    productFilter: ''
+    productFilter: '',
+    magicCentProtection: true,
 };
 
 export const settingsAtom = atom({
