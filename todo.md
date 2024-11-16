@@ -1,4 +1,3 @@
-- [ ] Transaction modal: show customer name
 - [ ] How to add a new customer info on Checkout page
 - [ ] Confirmation page to show where email will go (if customer selected) or to enter a new one
 - [ ] Lookup customer via card tap

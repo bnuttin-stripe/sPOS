@@ -171,6 +171,7 @@ export default Transactions = (props) => {
                                 <Text style={css.spacedText}>Date</Text>
                                 <Text style={css.spacedText}>Status</Text>
                                 <Text style={css.spacedText}>Amount</Text>
+                                {selectedTransaction?.customer?.id && <Text style={css.spacedText}>Customer</Text>}
                                 {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>BOPIS</Text>}
                                 {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>Items</Text>}
                             </View>
@@ -180,6 +181,7 @@ export default Transactions = (props) => {
                                     <Text style={css.spacedText}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
                                     <Text style={css.spacedText}>{status(selectedTransaction)}</Text>
                                     <Text style={css.spacedText}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, settings.currency)}</Text>
+                                    {selectedTransaction?.customer?.id && <Text style={css.spacedText}>{selectedTransaction?.customer?.name}</Text>}
                                     {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.bopis)}</Text>}
                                     {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>{selectedTransaction?.metadata?.cart}</Text>}
                                 </>}
