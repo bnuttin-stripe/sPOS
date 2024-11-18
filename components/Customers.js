@@ -75,17 +75,17 @@ export default Customers = (props) => {
         return (
             <Pressable key={customer.id} onPress={() => customerAction(customer)}>
                 <DataTable.Row>
-                    <DataTable.Cell style={[css.cell, { flex: 1 }]}>
+                    <DataTable.Cell style={css.cell}>
                         <Text style={css.defaultText}>
                             {customer.name}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 2 }]}>
+                    <DataTable.Cell style={css.cell}>
                         <Text style={css.defaultText}>
                             {customer.email}
                         </Text>
                     </DataTable.Cell>
-                    {props.showLTV && <DataTable.Cell numeric style={[css.cell, { flex: 1 }]}>
+                    {props.showLTV && <DataTable.Cell numeric style={css.cell}>
                         <Text style={css.defaultText}>
                             {Utils.displayPrice(customer.ltv / 100, settings.currency)}
                         </Text>
@@ -115,17 +115,17 @@ export default Customers = (props) => {
             <DataTable>
                 {(props.search && searchedCustomers.length > 0 || !props.search) &&
                     <DataTable.Header style={css.tableHeader}>
-                        <DataTable.Title style={[css.cell, { flex: 1 }]}>
+                        <DataTable.Title style={css.cell}>
                             <Text style={css.defaultText}>
                                 Name
                             </Text>
                         </DataTable.Title>
-                        <DataTable.Title style={[css.cell, { flex: 2 }]}>
+                        <DataTable.Title style={css.cell}>
                             <Text style={css.defaultText}>
                                 Email
                             </Text>
                         </DataTable.Title>
-                        {props.showLTV && <DataTable.Title numeric style={[css.cell, { flex: 1 }]}>
+                        {props.showLTV && <DataTable.Title numeric style={css.cell}>
                             <Text style={css.defaultText}>
                                 LTV
                             </Text>

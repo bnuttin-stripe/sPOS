@@ -25,7 +25,7 @@ export default function App({ route }) {
   const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
   const [readerFound, setReaderFound] = useState(true);
 
-  const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent } = useStripeTerminal();
+  const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent } = useStripeTerminal();
 
   const checkPermissionsAndInitialize = async () => {
     setInfoMsg("Checking location permissions");
@@ -139,6 +139,7 @@ export default function App({ route }) {
     }
   }, [initialized]);
 
+  /// PAYMENT INTENTS
   const pay = async (payload, onSuccess) => {
     const { error, paymentIntent } = await createPaymentIntent(payload);
     if (error) {
@@ -164,7 +165,6 @@ export default function App({ route }) {
     console.log("confirmPayment: ", pi);
     const { error, paymentIntent } = await confirmPaymentIntent({
       paymentIntent: pi
-      // pi
     });
     if (error) {
       console.log("confirmPaymentIntent error: ", error);
@@ -172,8 +172,44 @@ export default function App({ route }) {
     }
     console.log("confirmPaymentIntent success: ", paymentIntent);
     if (onSuccess) onSuccess();
-    // if (paymentIntent.status === 'succeeded') reset();
   };
+
+  // SETUP INTENTS
+  const setup = async () => {
+    const { error, setupIntent } = await createSetupIntent({
+    });
+    console.log(setupIntent);
+    if (error) {
+      console.log("createSetupIntent error: ", error);
+      return;
+    }
+    return collectSIPM(setupIntent);
+  }
+
+  const collectSIPM = async (si) => {
+    const { setupIntent, error } = await collectSetupIntentPaymentMethod({
+      setupIntent: si,
+      allowRedisplay: "always",
+      customerConsentCollected: true
+    });
+    if (error) {
+      console.log("collectSetupIntentPaymentMethod error: ", error);
+      return;
+    }
+    return confirmSetup(setupIntent);
+  }
+
+  const confirmSetup = async (si) => {
+    const { setupIntent, error } = await confirmSetupIntent({
+      setupIntent: si
+    });
+
+    if (error) {
+      console.log("confirmSetupIntent error: ", error);
+      return;
+    }
+    return setupIntent.paymentMethodId;
+  }
 
   return (
     <SafeAreaView style={css.app}>
@@ -188,14 +224,14 @@ export default function App({ route }) {
           ? <>
             <Header page={page} />
             {page == 'Calculator' && <Calculator pay={pay} />}
-            {page == 'Products' && <Products pay={pay}/>}
+            {page == 'Products' && <Products pay={pay} />}
             {page == 'Checkout' && <Checkout pay={pay} />}
-            {page == 'Transactions' && <Transactions />}
-            {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} 
+            {page == 'Transactions' && <Transactions setup={setup} />}
+            {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true}
             // initialLoad={true}
             />}
-            {page == 'Customer' && <Customer id={route.params.id}/>}
-            {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin}/>}
+            {page == 'Customer' && <Customer id={route.params.id} />}
+            {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
             {page == 'Scanner' && <Scanner />}
             {page == 'Settings' && <Settings />}
           </>

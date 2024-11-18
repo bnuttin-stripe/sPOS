@@ -19,8 +19,9 @@ export default Checkout = (props) => {
     const settings = useRecoilValue(settingsAtom);
 
     const cart = useRecoilValue(cartAtom);
-    const uniqueCart = [...new Set(cart)];
-    const resetCart = useResetRecoilState(cartAtom);
+    const uniqueCart = [...new Map(cart.map(item => [item['id'], item])).values()]
+    // const [uniqueCart, setUniqueCart] = useState([]);
+    // const resetCart = useResetRecoilState(cartAtom);
     const resetCurrentCustomer = useResetRecoilState(currentCustomerAtom);
     const currentCustomer = useRecoilValue(currentCustomerAtom);
 
@@ -31,8 +32,14 @@ export default Checkout = (props) => {
     }
 
     const numInCart = (product) => {
-        return cart.filter(x => (x == product)).length;
+        return cart.filter(x => (x.id == product.id)).length;
     }
+
+    console.log(cart);
+
+    // useEffect(() => {
+    //     setUniqueCart([...new Map(cart.map(item => [item['id'], item])).values()]);
+    // }, [cart]);
 
     const getCartTotal = (cart) => {
         const subtotal = cart.reduce((a, b) => a + b.default_price.unit_amount, 0);
@@ -52,31 +59,8 @@ export default Checkout = (props) => {
         let output = 0;
         if (!settings.magicCentProtection) return 0;
         const decimal = amount.toString().slice(-2);
-        switch (decimal) {
-            case '01':
-                output = 99;
-                break;
-            case '02':
-                output = 98;
-                break;
-            case '03':
-                output = 97;
-                break;
-            case '05':
-                output = 95;
-                break;
-            // case '40':
-            //     output = 60;
-            //     break;
-            case '55':
-                output = 49;
-                break;
-            case '65':
-                output = 35;
-                break;
-            case '75':
-                output = 25;
-                break;
+        if (['01', '02', '03', '05', '40', '55', '65', '75'].includes(decimal)) {
+            output = 100 - parseInt(decimal);
         }
         return output;
     }
@@ -116,6 +100,8 @@ export default Checkout = (props) => {
         )
     }
 
+    console.log(cart)
+
     return (
         <View style={[css.container]}>
             <ScrollView>
@@ -145,7 +131,7 @@ export default Checkout = (props) => {
 
                         {getCartTotal(cart).adjustment > 0 && <View style={{ flexDirection: 'row' }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={css.spacedText}>Climate contribution</Text>
+                                <Text style={css.spacedText}>Round up for charity</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
                                 <Text style={css.spacedText}>{Utils.displayPrice(getCartTotal(cart).adjustment / 100, settings.currency)}</Text>

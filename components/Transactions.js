@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { transactionAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faListCheck } from '@fortawesome/pro-solid-svg-icons';
+import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
@@ -38,6 +38,22 @@ export default Transactions = (props) => {
         setTransactions(data);
         setRefreshing(false);
     };
+
+    const searchTransactions = async () => {
+        const pm = await props.setup();
+        setRefreshing(true);
+        const url = settings.backendUrl + '/transactionsByFingerprint/' + pm;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+        console.log(data);
+        setTransactions(data);
+        setRefreshing(false);
+    }
 
     const refundTransaction = async () => {
         setIsRefunding(true);
@@ -91,14 +107,14 @@ export default Transactions = (props) => {
         return (
             <Pressable key={pi.id} onPress={() => showTransaction(pi)}>
                 <DataTable.Row>
-                    <DataTable.Cell style={[css.cell, { flex: 1 }]}>
+                    <DataTable.Cell style={css.cell}>
                         <Text style={css.defaultText}>{pi.metadata?.orderNumber}   </Text>
                         {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBoxCheck} color={colors.warning} style={{ margin: 30 }} size={18} />}
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 1, paddingRight: 20 }]} numeric>
+                    <DataTable.Cell style={css.cell} >
                         <Text style={pi.latest_charge.amount_refunded > 0 ? css.crossedText : css.defaultText}>{Utils.displayPrice(pi.amount / 100, settings.currency)}</Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 1.5 }]}>
+                    <DataTable.Cell style={css.cell}>
                         <Text style={css.defaultText}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</Text>
                     </DataTable.Cell>
                     {/* <DataTable.Cell style={[css.cell, { flex: 0.8 }]}>
@@ -121,30 +137,20 @@ export default Transactions = (props) => {
         <View style={[css.container, { padding: 0 }]}>
             <DataTable>
                 <DataTable.Header style={css.tableHeader}>
-                    <DataTable.Title style={[css.cell, { flex: 1 }]}>
+                    <DataTable.Title style={css.cell}>
                         <Text style={css.defaultText}>Order ID</Text>
                     </DataTable.Title>
-                    <DataTable.Title style={[css.cell, { flex: 1, paddingRight: 20 }]} numeric>
+                    <DataTable.Title style={css.cell} >
                         <Text style={css.defaultText}>Amount</Text>
                     </DataTable.Title>
-                    <DataTable.Title style={[css.cell, { flex: 1.5 }]}>
+                    <DataTable.Title style={css.cell}>
                         <Text style={css.defaultText}>Date</Text>
                     </DataTable.Title>
                     {/* <DataTable.Title style={[css.cell, { flex: 0.8 }]}>
                         <Text style={css.defaultText}>Card</Text>
                     </DataTable.Title> */}
                 </DataTable.Header>
-                <ScrollView
-                // refreshControl={
-                //     <RefreshControl
-                //         refreshing={refreshing}
-                //         onRefresh={getTransactions}
-                //         progressViewOffset={150}
-                //         colors={['white']}
-                //         progressBackgroundColor={colors.primary}
-                //     />
-                // }
-                >
+                <ScrollView>
                     {transactions.length > 0 && transactions.map && transactions.map((pi) => Row(pi, navigation))}
                 </ScrollView>
             </DataTable>
@@ -154,6 +160,10 @@ export default Transactions = (props) => {
                     ? <ActivityIndicator size="small" color="white" />
                     : <FontAwesomeIcon icon={faArrowsRotate} color={'white'} size={18} />
                 }
+            </Pressable>
+
+            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]} onPress={searchTransactions}>
+                <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
             </Pressable>
 
             <Modal
