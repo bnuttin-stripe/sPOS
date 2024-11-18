@@ -1,5 +1,6 @@
 export const displayPrice = (amount, currency) => {
-    if (amount === null || isNaN(amount)) return ' - ';
+    if (amount === null || isNaN(amount) || currency == undefined) return ' - ';
+    console.log(currency);
     return amount.toLocaleString('en-US', {
         style: 'currency',
         currency: currency,

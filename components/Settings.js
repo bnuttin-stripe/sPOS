@@ -1,6 +1,7 @@
-import { React } from 'react';
+import { React, useEffect, useState } from 'react';
 import { Text, TextInput, View, Pressable, ScrollView, Linking, Switch } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { NetworkInfo } from 'react-native-network-info';
 
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { settingsAtom } from '../atoms';
@@ -13,6 +14,7 @@ import { css, colors } from '../styles';
 
 export default Settings = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
+    const [accounts, setAccounts] = useState([]);
 
     const resetSettings = useResetRecoilState(settingsAtom);
 
@@ -20,17 +22,29 @@ export default Settings = (props) => {
         Linking.openURL('stripe://settings/');
     }
 
+    const getAccounts = async () => {
+        const response = await fetch(settings.backendUrl + "/accounts", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+        setAccounts(data);
+    }
+
+    useEffect(() => {
+        getAccounts();
+    }, []);
+
+    useEffect(() => {
+        const accountCurrency = accounts.find(account => account.id === settings.account)?.currency;
+        setSettings({ ...settings, currency: accountCurrency })
+    }, [settings.account])
+
     return (
         <View style={css.container}>
             <ScrollView>
-                {/* <Text style={css.label}>Backend URL</Text>
-                    <TextInput
-                        style={css.input}
-                        inputMode="url"
-                        value={settings?.backendUrl}
-                        onChangeText={text => setSettings({ ...settings, backendUrl: text })}
-                    /> */}
-
                 <Text style={css.label}>Store Name</Text>
                 <TextInput
                     style={css.input}
@@ -77,22 +91,14 @@ export default Settings = (props) => {
                         />
                     </View>
                 </View>
-                {/* <Text>{settings.magicCentProtection ? "ON" : "OFF"}</Text> */}
 
-                <Text style={css.label}>Currency</Text>
+                <Text style={css.label}>Account</Text>
                 <RNPickerSelect
-                    onValueChange={value => setSettings({ ...settings, currency: value })}
-                    value={settings.currency}
-                    items={[
-                        { label: 'USD', value: 'usd' },
-                        { label: 'EUR', value: 'eur' },
-                        { label: 'AUD', value: 'aud' },
-                        { label: 'GBP', value: 'gbp' },
-                        { label: 'CAD', value: 'cad' },
-                    ]}
+                    onValueChange={value => setSettings({ ...settings, account: value })}
+                    value={settings.account}
+                    items={accounts.map(account => ({ label: account.name + " (" + account.currency?.toUpperCase() + ")", value: account.id }))}
                 />
 
-                {/* <View style={{ height: 50 }}></View> */}
             </ScrollView>
 
             <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary }]} onPress={resetSettings}>

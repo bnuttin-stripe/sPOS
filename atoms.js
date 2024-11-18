@@ -30,6 +30,7 @@ const defaultSettings = {
     currency: 'usd',
     productFilter: '',
     magicCentProtection: true,
+    account: 'acct_1O7Pg4FyN0fE9mUH'
 };
 
 export const settingsAtom = atom({
