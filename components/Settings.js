@@ -7,14 +7,16 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import { settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSave, faRotateLeft, faMobile } from '@fortawesome/pro-solid-svg-icons';
+import { faSave, faRotateLeft, faMobile, faTrash } from '@fortawesome/pro-solid-svg-icons';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
 
 export default Settings = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
-    const [accounts, setAccounts] = useState([]);
+    const [resettingStorage, setResettingStorage] = useState(false);
 
     const resetSettings = useResetRecoilState(settingsAtom);
 
@@ -22,29 +24,21 @@ export default Settings = (props) => {
         Linking.openURL('stripe://settings/');
     }
 
-    const getAccounts = async () => {
-        const response = await fetch(settings.backendUrl + "/accounts", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = await response.json();
-        setAccounts(data);
-    }
-
-    useEffect(() => {
-        getAccounts();
-    }, []);
-
-    useEffect(() => {
-        const accountCurrency = accounts.find(account => account.id === settings.account)?.currency;
-        setSettings({ ...settings, currency: accountCurrency })
-    }, [settings.account])
+    const resetLocalStorage = async () => {
+        setResettingStorage(true);
+        try {
+            await AsyncStorage.clear();
+            console.log('Local storage cleared successfully.');
+        } catch (error) {
+            console.error('Error clearing local storage:', error);
+        }
+        setResettingStorage(false);
+    };
 
     return (
         <View style={css.container}>
             <ScrollView>
+                <Text style={css.label}>{settings.account}</Text>
                 <Text style={css.label}>Store Name</Text>
                 <TextInput
                     style={css.input}
@@ -92,12 +86,20 @@ export default Settings = (props) => {
                     </View>
                 </View>
 
-                <Text style={css.label}>Account</Text>
+                {/* <Text style={css.label}>Account</Text>
                 <RNPickerSelect
-                    onValueChange={value => setSettings({ ...settings, account: value })}
-                    value={settings.account}
-                    items={accounts.map(account => ({ label: account.name + " (" + account.currency?.toUpperCase() + ")", value: account.id }))}
-                />
+                    onValueChange={value => setSettings({ ...settings, accountId: value })}
+                    value={settings.accountId}
+                    items={accounts.map(acct => ({ label: acct.name + " (" + acct.currency?.toUpperCase() + ")", value: acct.id }))}
+                /> */}
+
+                <Pressable style={{ marginTop: 20, marginBottom: 80 }} onPress={resetLocalStorage}>
+                    <Text style={{ color: colors.danger }}>
+                        {resettingStorage
+                            ? "Resetting local storage..."
+                            : "Debug only - reset local storage"}
+                    </Text>
+                </Pressable>
 
             </ScrollView>
 
@@ -108,6 +110,8 @@ export default Settings = (props) => {
             <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary }]} onPress={deviceSettings}>
                 <FontAwesomeIcon icon={faMobile} color={'white'} size={18} />
             </Pressable>
+
+
 
         </View>
     )

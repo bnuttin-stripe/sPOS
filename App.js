@@ -6,6 +6,9 @@ import { css, colors } from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/pro-solid-svg-icons';
 
+import { useRecoilState, useResetRecoilState } from 'recoil';
+import { settingsAtom } from './atoms';
+
 import Header from './components/Header';
 import Calculator from './components/Calculator';
 import Products from './components/Products';
@@ -15,6 +18,9 @@ import Customers from './components/Customers';
 import Customer from './components/Customer';
 import CustomerEntry from './components/CustomerEntry';
 import Settings from './components/Settings';
+import SettingsHandler from './components/SettingsHandler';
+
+import * as Utils from './utilities';
 
 export default function App({ route }) {
   // Default page is Calculator
@@ -24,6 +30,7 @@ export default function App({ route }) {
   const [initialized, setInitialized] = useState(false);
   const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
   const [readerFound, setReaderFound] = useState(true);
+  const [serial, setSerial] = useState();
 
   const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent } = useStripeTerminal();
 
@@ -125,6 +132,8 @@ export default function App({ route }) {
     const { error } = await connectHandoffReader({
       reader: reader
     });
+    // setCurrency(Utils.getCurrencyFromCountry(reader?.location?.address?.country));
+    setSerial(reader.serialNumber);
     if (error) {
       setInfoMsg('Failed to discover readers. ' + error.message);
       return;
@@ -218,18 +227,17 @@ export default function App({ route }) {
           <ActivityIndicator size="large" color={colors.primary} />
           <Text style={{ padding: 40 }}>{infoMsg}</Text>
         </View>
-      }
+      } 
       {initialized && <>
         {readerFound
           ? <>
             <Header page={page} />
+            <SettingsHandler serial={serial}/>
             {page == 'Calculator' && <Calculator pay={pay} />}
             {page == 'Products' && <Products pay={pay} />}
             {page == 'Checkout' && <Checkout pay={pay} />}
             {page == 'Transactions' && <Transactions setup={setup} />}
-            {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true}
-            // initialLoad={true}
-            />}
+            {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} />}
             {page == 'Customer' && <Customer id={route.params.id} />}
             {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
             {page == 'Scanner' && <Scanner />}

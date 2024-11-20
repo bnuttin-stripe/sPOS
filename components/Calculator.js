@@ -1,7 +1,7 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { Text, View, Pressable } from 'react-native';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { settingsAtom } from '../atoms';
 
 
@@ -27,11 +27,9 @@ export default Calculator = (props) => {
     }
 
     const pay = () => {
-        console.log("Test")
         const payload = {
             amount: amount,
             currency: settings.currency,
-            customer: 'cus_PL6CGSVAibQfIi',
             captureMethod: 'automatic',
             metadata: {
                 app: 'sPOS',

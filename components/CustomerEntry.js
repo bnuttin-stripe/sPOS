@@ -14,9 +14,9 @@ import * as Utils from '../utilities';
 import { css, colors } from '../styles';
 
 export default CustomerEntry = (props) => {
-    console.log(props.origin);
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [customer, setCustomer] = useState({});
     const [savingCustomer, setSavingCustomer] = useState(false);
@@ -64,10 +64,11 @@ export default CustomerEntry = (props) => {
 
     const createCustomer = async () => {
         setSavingCustomer(true);
-        const response = await fetch(settings.backendUrl + '/customer', {
+        const response = await fetch(backendUrl + '/customer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Account': settings.account
             },
             body: JSON.stringify({
                 firstName: customer.firstName,

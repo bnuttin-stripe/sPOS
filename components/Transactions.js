@@ -15,6 +15,7 @@ import { css, colors } from '../styles';
 export default Transactions = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [refreshing, setRefreshing] = useState(true);
     const [transactions, setTransactions] = useRecoilState(transactionAtom);
@@ -27,11 +28,13 @@ export default Transactions = (props) => {
 
     const getTransactions = async () => {
         setRefreshing(true);
-        const url = props.customer ? settings.backendUrl + '/transactions/' + props.customer : settings.backendUrl + '/transactions';
+        const url = props.customer ? backendUrl + '/transactions/' + props.customer : backendUrl + '/transactions';
+        // console.log(url);
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Account': settings.account
             },
         });
         const data = await response.json();
@@ -42,25 +45,27 @@ export default Transactions = (props) => {
     const searchTransactions = async () => {
         const pm = await props.setup();
         setRefreshing(true);
-        const url = settings.backendUrl + '/transactionsByFingerprint/' + pm;
+        const url = backendUrl + '/transactionsByFingerprint/' + pm;
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Account': settings.account
             },
         });
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         setTransactions(data);
         setRefreshing(false);
     }
 
     const refundTransaction = async () => {
         setIsRefunding(true);
-        const response = await fetch(settings.backendUrl + '/refund', {
+        const response = await fetch(backendUrl + '/refund', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Account': settings.account
             },
             body: JSON.stringify({
                 id: selectedTransaction.id
@@ -74,10 +79,11 @@ export default Transactions = (props) => {
 
     const bopisDone = async () => {
         setIsPickingUp(true);
-        const response = await fetch(settings.backendUrl + '/bopis', {
+        const response = await fetch(backendUrl + '/bopis', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Account': settings.account
             },
             body: JSON.stringify({
                 id: selectedTransaction.id
@@ -90,6 +96,7 @@ export default Transactions = (props) => {
     }
 
     const showTransaction = (pi) => {
+        // console.log(pi);
         setModalVisible(true);
         setSelectedTransaction(pi);
     }

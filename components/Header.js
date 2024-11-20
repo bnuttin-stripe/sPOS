@@ -1,12 +1,12 @@
 import { React } from 'react';
-import { Text, Image, View, Pressable, Vibration } from 'react-native';
+import { Text, Image, View, Pressable, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilValue } from 'recoil';
 import { settingsAtom, cartAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCalculator, faGrid, faList, faUser, faGear, faBox } from '@fortawesome/pro-solid-svg-icons';
+import { faCalculator, faGrid, faList, faUser, faGear, faBox, faCheck, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
@@ -15,10 +15,9 @@ import BatteryIndicator from './BatteryIndicator';
 
 export default Header = (props) => {
     const navigation = useNavigation();
-    const currentCustomer = useRecoilValue(currentCustomerAtom);
+    const settings = useRecoilValue(settingsAtom);
 
     const goTo = (page) => {
-        // Vibration.vibrate(250);
         navigation.navigate('App', { page: page })
     }
 
@@ -27,11 +26,19 @@ export default Header = (props) => {
             <View style={styles.topBanner}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Image source={require('../assets/logo.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />
-                    {/* <Text style={{color: 'white'}}>Customer: {currentCustomer?.name}</Text> */}
+                    {/* <Text style={{ color: 'white' }}>{settings?.account} -- {settings.country} -- {settings?.currency}</Text> */}
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-                    <Text style={{ color: colors.white, fontSize: 12 }}>Powered by</Text>
-                    <Image source={require('../assets/stripe.png')} style={{width: 80, height: 20, marginLeft: -18, marginRight: -20, marginBottom: -3, resizeMode: 'contain'}} />
+                <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
+                        {settings?.account
+                            ? <FontAwesomeIcon icon={faCheckCircle} style={[styles.icon, {color: 'white', marginBottom: 0}]} size={16} />
+                            : <ActivityIndicator size="small" color={colors.white} />
+                        }
+                    </View>
+                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                        <Text style={{ color: colors.white, fontSize: 12 }}>Powered by</Text>
+                        <Image source={require('../assets/stripe.png')} style={{ width: 80, height: 20, marginLeft: -18, marginRight: -20, marginBottom: -3, resizeMode: 'contain' }} />
+                    </View>
                 </View>
                 <BatteryIndicator />
             </View>

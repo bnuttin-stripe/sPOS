@@ -1,6 +1,6 @@
 export const displayPrice = (amount, currency) => {
+    // console.log("Currency: ", currency);
     if (amount === null || isNaN(amount) || currency == undefined) return ' - ';
-    console.log(currency);
     return amount.toLocaleString('en-US', {
         style: 'currency',
         currency: currency,
@@ -48,4 +48,28 @@ export const defaultAddress = {
 
 export const generateOrderNumber = (prefix) => {
     return (prefix || 'Order-') + Math.floor(Math.random() * 10000);
+}
+
+export const getCurrencyFromCountry = (country) => {
+    // console.log("Country: ", country);
+    switch (country) {
+        case 'US':
+            return 'usd';
+        case 'CA':
+            return 'cad';
+        case 'GB':
+            return 'gbp';
+        case 'AU':
+            return 'aud';
+        case 'IE':
+            return 'eur';
+        case 'NL':
+            return 'eur';
+        case 'FR':
+            return 'eur';
+        case 'FI':
+            return 'eur';
+        default:
+            return 'usd';
+    }
 }

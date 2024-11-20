@@ -35,12 +35,6 @@ export default Checkout = (props) => {
         return cart.filter(x => (x.id == product.id)).length;
     }
 
-    console.log(cart);
-
-    // useEffect(() => {
-    //     setUniqueCart([...new Map(cart.map(item => [item['id'], item])).values()]);
-    // }, [cart]);
-
     const getCartTotal = (cart) => {
         const subtotal = cart.reduce((a, b) => a + b.default_price.unit_amount, 0);
         const taxes = Math.round(subtotal * settings.taxPercentage / 100);
@@ -78,9 +72,9 @@ export default Checkout = (props) => {
                 cart: cart.map(x => x.name).join('\n')
             }
         }
+        // console.log("currentCustomer", currentCustomer);
         if (currentCustomer.id) payload.customer = currentCustomer.id;
-        //adjustFinalAmount(payload.amount);
-        // props.pay(payload, goBackAndReset);
+        props.pay(payload);
     }
 
     const goBack = () => {
@@ -94,13 +88,13 @@ export default Checkout = (props) => {
                     <Text style={css.spacedText}>{product.name}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
-                    <Text style={css.spacedText}>{numInCart(product)} x {Utils.displayPrice(product.default_price.unit_amount / 100, settings.currency)}</Text>
+                    <Text style={css.spacedText}>{numInCart(product)} x {Utils.displayPrice(product.default_price.unit_amount / 100, product.default_price.currency)}</Text>
                 </View>
             </View>
         )
     }
 
-    console.log(cart)
+    // console.log(cart)
 
     return (
         <View style={[css.container]}>

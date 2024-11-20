@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { registerRootComponent } from 'expo';
 import { StripeTerminalProvider } from '@stripe/stripe-terminal-react-native';
+import { usePowerState, getCarrier, getSerialNumber } from 'react-native-device-info';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,18 +9,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import { RecoilRoot } from 'recoil';
 
 import App from './App';
-import Transactions from './components/Transactions';
-import Settings from './components/Settings';
-import Calculator from './components/Calculator';
-import Products from './components/Products';
 
 export default function Root() {
   const fetchTokenProvider = async () => {
-    const response = await fetch(`https://western-honey-chamomile.glitch.me/connection_token`, {
+    const serial = await getSerialNumber();
+
+    const response = await fetch('https://fog-climbing-currant.glitch.me/connection_token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        serialNumber: serial
+      })
     });
     const { secret } = await response.json();
     return secret;
@@ -28,23 +29,24 @@ export default function Root() {
 
   useEffect(() => {
     fetchTokenProvider();
-  }, [StripeTerminalProvider]);
+  }, []);
 
   const Drawer = createDrawerNavigator();
 
   return (
-    <StripeTerminalProvider
-      logLevel="verbose"
-      tokenProvider={fetchTokenProvider}
-    >
-      <RecoilRoot>
+    <RecoilRoot>
+      <StripeTerminalProvider
+        // logLevel="verbose"
+        logLevel="error"
+        tokenProvider={fetchTokenProvider}
+      >
         <NavigationContainer>
           <Drawer.Navigator initialRouteName="App" screenOptions={{ headerShown: false, swipeEnabled: false }}>
             <Drawer.Screen name="App" component={App} />
           </Drawer.Navigator>
         </NavigationContainer>
-      </RecoilRoot>
-    </StripeTerminalProvider>
+      </StripeTerminalProvider>
+    </RecoilRoot>
   );
 }
 

@@ -15,6 +15,7 @@ import { css, colors } from '../styles';
 export default Customers = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [refreshing, setRefreshing] = useState(false);
     const [customers, setCustomers] = useRecoilState(customersAtom);
@@ -38,12 +39,13 @@ export default Customers = (props) => {
     const getCustomers = async (search) => {
         setRefreshing(true);
         const url = props.showLTV
-            ? settings.backendUrl + '/customers/ltv/' + search
-            : settings.backendUrl + '/customers/noltv/' + search;
+            ? backendUrl + '/customers/ltv/' + search
+            : backendUrl + '/customers/noltv/' + search;
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Account': settings.account
             },
         });
         const data = await response.json();

@@ -14,16 +14,18 @@ import Transactions from './Transactions';
 
 export default Customer = (props) => {
     const settings = useRecoilValue(settingsAtom);
+    const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [isLoading, setIsLoading] = useState(false);
     const [customer, setCustomer] = useState({});
 
     const getCustomer = async (silent) => {
         if (!silent) setIsLoading(true);
-        const response = await fetch(settings.backendUrl + '/customer/' + props.id, {
+        const response = await fetch(backendUrl + '/customer/' + props.id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Account': settings.account
             },
         });
         const data = await response.json();

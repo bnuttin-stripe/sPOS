@@ -10,14 +10,13 @@ import { cartAtom, productAtom, settingsAtom, currentCustomerAtom } from '../ato
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark, faUserPlus, faUserMagnifyingGlass, faUserCheck } from '@fortawesome/pro-solid-svg-icons';
 
-import Customers from './Customers';
-
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
 
 export default Products = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [refreshing, setRefreshing] = useState(true);
     const [products, setProducts] = useRecoilState(productAtom);
@@ -52,32 +51,17 @@ export default Products = (props) => {
 
     const getProducts = async () => {
         setRefreshing(true);
-        const response = await fetch(settings.backendUrl + '/products/' + settings.currency + '/' + settings.productFilter, {
+        const response = await fetch(backendUrl + '/products/' + settings.currency + "/" + settings.productFilter, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Account': settings.account
             },
         });
         const data = await response.json();
         setProducts(data);
         setRefreshing(false);
     };
-
-    const pay = () => {
-        if (cart.length == 0) return;
-        const payload = {
-            amount: getCartTotal(cart) * 100,
-            currency: settings.currency,
-            captureMethod: 'automatic',
-            metadata: {
-                app: 'sPOS',
-                channel: 'catalog',
-                orderNumber: Utils.generateOrderNumber(settings.orderPrefix)
-            }
-        }
-        if (currentCustomer.id) payload.customer = currentCustomer.id;
-        props.pay(payload, resetCart);
-    }
 
     const goToCheckout = () => {
         navigation.navigate("App", { page: "Checkout" });
@@ -106,7 +90,7 @@ export default Products = (props) => {
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 1 }]} numeric>
                         <Text style={css.defaultText}>
-                            {Utils.displayPrice(product.default_price.unit_amount / 100, settings.currency)}
+                            {Utils.displayPrice(product.default_price.unit_amount / 100, product.default_price.currency)}
                         </Text>
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 1 }]} numeric>
