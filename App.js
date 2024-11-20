@@ -31,6 +31,7 @@ export default function App({ route }) {
   const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
   const [readerFound, setReaderFound] = useState(true);
   const [serial, setSerial] = useState();
+  const [settings, setSettings] = useRecoilState(settingsAtom);
 
   const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent } = useStripeTerminal();
 
@@ -67,6 +68,7 @@ export default function App({ route }) {
 
   const initializeReader = async () => {
     setInfoMsg("Starting reader software");
+    console.log("initializeReader");
     const { error, reader } = await initialize();
 
     if (error) {
@@ -227,21 +229,29 @@ export default function App({ route }) {
           <ActivityIndicator size="large" color={colors.primary} />
           <Text style={{ padding: 40 }}>{infoMsg}</Text>
         </View>
-      } 
+      }
       {initialized && <>
         {readerFound
           ? <>
-            <Header page={page} />
-            <SettingsHandler serial={serial}/>
-            {page == 'Calculator' && <Calculator pay={pay} />}
-            {page == 'Products' && <Products pay={pay} />}
-            {page == 'Checkout' && <Checkout pay={pay} />}
-            {page == 'Transactions' && <Transactions setup={setup} />}
-            {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} />}
-            {page == 'Customer' && <Customer id={route.params.id} />}
-            {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
-            {page == 'Scanner' && <Scanner />}
-            {page == 'Settings' && <Settings />}
+            <SettingsHandler serial={serial} setInfoMsg={setInfoMsg} />
+            {!settings.account
+              ? <View style={{ justifyContent: 'center', flex: 1 }}>
+                <ActivityIndicator size="large" color={colors.primary} />
+                <Text style={{ padding: 40 }}>{infoMsg}</Text>
+              </View>
+              : <>
+                <Header page={page} />
+                {page == 'Calculator' && <Calculator pay={pay} />}
+                {page == 'Products' && <Products pay={pay} />}
+                {page == 'Checkout' && <Checkout pay={pay} />}
+                {page == 'Transactions' && <Transactions setup={setup} />}
+                {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} />}
+                {page == 'Customer' && <Customer id={route.params.id} />}
+                {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
+                {page == 'Scanner' && <Scanner />}
+                {page == 'Settings' && <Settings />}
+              </>}
+
           </>
           : <>
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>

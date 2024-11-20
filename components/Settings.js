@@ -86,20 +86,13 @@ export default Settings = (props) => {
                     </View>
                 </View>
 
-                {/* <Text style={css.label}>Account</Text>
-                <RNPickerSelect
-                    onValueChange={value => setSettings({ ...settings, accountId: value })}
-                    value={settings.accountId}
-                    items={accounts.map(acct => ({ label: acct.name + " (" + acct.currency?.toUpperCase() + ")", value: acct.id }))}
-                /> */}
-
-                <Pressable style={{ marginTop: 20, marginBottom: 80 }} onPress={resetLocalStorage}>
+                {/* <Pressable style={{ marginTop: 20, marginBottom: 80 }} onPress={resetLocalStorage}>
                     <Text style={{ color: colors.danger }}>
                         {resettingStorage
                             ? "Resetting local storage..."
                             : "Debug only - reset local storage"}
                     </Text>
-                </Pressable>
+                </Pressable> */}
 
             </ScrollView>
 

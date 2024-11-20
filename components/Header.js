@@ -29,12 +29,12 @@ export default Header = (props) => {
                     {/* <Text style={{ color: 'white' }}>{settings?.account} -- {settings.country} -- {settings?.currency}</Text> */}
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
+                    {/* <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
                         {settings?.account
-                            ? <FontAwesomeIcon icon={faCheckCircle} style={[styles.icon, {color: 'white', marginBottom: 0}]} size={16} />
+                            ? <FontAwesomeIcon icon={faCheck} style={[styles.icon, {color: 'white', marginBottom: 0}]} size={16} />
                             : <ActivityIndicator size="small" color={colors.white} />
                         }
-                    </View>
+                    </View> */}
                     <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <Text style={{ color: colors.white, fontSize: 12 }}>Powered by</Text>
                         <Image source={require('../assets/stripe.png')} style={{ width: 80, height: 20, marginLeft: -18, marginRight: -20, marginBottom: -3, resizeMode: 'contain' }} />

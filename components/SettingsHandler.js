@@ -17,6 +17,7 @@ export default SettingsHandler = (props) => {
     };
    
     const getAccount = async () => {
+        props.setInfoMsg("Getting account details");
         if (props.serial == undefined) return;
         const response = await fetch(backendUrl + "/account/" + props.serial, {
             method: 'GET',
@@ -32,10 +33,6 @@ export default SettingsHandler = (props) => {
         getAccount();
     }, [props.serial]);
 
-    // useEffect(() => {
-    //     console.log("SETTINGS", settings);
-    // }, [settings]);
-    
     return (
         <></>
     )
