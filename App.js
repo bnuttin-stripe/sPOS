@@ -91,23 +91,23 @@ export default function App({ route }) {
   const { discoverReaders, discoveredReaders, connectHandoffReader } =
     useStripeTerminal({
       onUpdateDiscoveredReaders: (readers) => {
-        console.log("onUpdateDiscoveredReaders");
+        // console.log("onUpdateDiscoveredReaders");
         setReaderFound(readers.length > 0);
         readers.length > 0
           ? connectReader(readers[0])
           : setInfoMsg("No reader found");
       },
       onFinishDiscoveringReaders: (error) => {
-        console.log("onFinishDiscoveringReaders", error);
+        // console.log("onFinishDiscoveringReaders", error);
       },
       onDidChangeOfflineStatus: (status) => {
-        console.log("onDidChangeOfflineStatus");
+        // console.log("onDidChangeOfflineStatus");
       },
       onDidSucceedReaderReconnect: () => {
-        console.log("onDidSucceedReaderReconnect");
+        // console.log("onDidSucceedReaderReconnect");
       },
       onDidChangePaymentStatus: (status) => {
-        console.log("onDidChangePaymentStatus");
+        // console.log("onDidChangePaymentStatus");
       },
     });
 
@@ -173,7 +173,6 @@ export default function App({ route }) {
   }
 
   const confirmPayment = async (pi, onSuccess) => {
-    console.log("confirmPayment: ", pi);
     const { error, paymentIntent } = await confirmPaymentIntent({
       paymentIntent: pi
     });
@@ -181,7 +180,6 @@ export default function App({ route }) {
       console.log("confirmPaymentIntent error: ", error);
       return;
     }
-    console.log("confirmPaymentIntent success: ", paymentIntent);
     if (onSuccess) onSuccess();
   };
 
@@ -189,7 +187,6 @@ export default function App({ route }) {
   const setup = async () => {
     const { error, setupIntent } = await createSetupIntent({
     });
-    console.log(setupIntent);
     if (error) {
       console.log("createSetupIntent error: ", error);
       return;

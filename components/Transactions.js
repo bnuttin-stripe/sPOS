@@ -210,7 +210,7 @@ export default Transactions = (props) => {
                             <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.warning, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
                                 {isRefunding
                                     ? <ActivityIndicator size="small" color="white" />
-                                    : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} size={18} />
+                                    : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} style={{transform: [{rotateZ: '90deg'}]}} size={18} />
                                 }
                             </Pressable>
                         }

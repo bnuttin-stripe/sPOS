@@ -59,7 +59,6 @@ export const css = {
     },
     bold: {
         fontWeight: 'bold'
-
     },
     input: {
         marginBottom: 16,
@@ -89,42 +88,6 @@ export const css = {
         elevation: 20,
         borderWidth: 1,
         borderColor: "lightgray",
-    },
-    button: {
-        height: 50,
-        justifyContent: 'center',
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderRadius: 5,
-        margin: -10,
-        marginTop: 10,
-        paddingLeft: 20,
-        paddingRight: 20,
-        marginRight: 20
-    },
-    smallButton: {
-        height: 30,
-        justifyContent: 'center',
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderRadius: 5,
-        margin: -10,
-        marginTop: 10,
-        paddingLeft: 20,
-        paddingRight: 20,
-        marginRight: 20
-    },
-    buttonText: {
-        color: 'white',
-        marginLeft: 10
-    },
-    loader: {
-        justifyContent: 'center',
-        flexDirection: 'column',
-        height: '100%'
-    },
-    tableHeader: {
-        borderBottomWidth: 2,
     },
     title: {
         fontSize: 20,

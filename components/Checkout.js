@@ -20,8 +20,7 @@ export default Checkout = (props) => {
 
     const cart = useRecoilValue(cartAtom);
     const uniqueCart = [...new Map(cart.map(item => [item['id'], item])).values()]
-    // const [uniqueCart, setUniqueCart] = useState([]);
-    // const resetCart = useResetRecoilState(cartAtom);
+    const resetCart = useResetRecoilState(cartAtom);
     const resetCurrentCustomer = useResetRecoilState(currentCustomerAtom);
     const currentCustomer = useRecoilValue(currentCustomerAtom);
 
@@ -74,7 +73,7 @@ export default Checkout = (props) => {
         }
         // console.log("currentCustomer", currentCustomer);
         if (currentCustomer.id) payload.customer = currentCustomer.id;
-        props.pay(payload);
+        props.pay(payload, resetCart);
     }
 
     const goBack = () => {
