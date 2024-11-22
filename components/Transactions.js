@@ -29,7 +29,6 @@ export default Transactions = (props) => {
     const getTransactions = async () => {
         setRefreshing(true);
         const url = props.customer ? backendUrl + '/transactions/' + props.customer : backendUrl + '/transactions';
-        // console.log(url);
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -54,7 +53,6 @@ export default Transactions = (props) => {
             },
         });
         const data = await response.json();
-        // console.log(data);
         setTransactions(data);
         setRefreshing(false);
     }
@@ -169,9 +167,9 @@ export default Transactions = (props) => {
                 }
             </Pressable>
 
-            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]} onPress={searchTransactions}>
+            {/* <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]} onPress={searchTransactions}>
                 <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
-            </Pressable>
+            </Pressable> */}
 
             <Modal
                 animationType="fade"

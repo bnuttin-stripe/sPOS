@@ -13,7 +13,7 @@ import App from './App';
 export default function Root() {
   const fetchTokenProvider = async () => {
     const serial = await getSerialNumber();
-    console.log('Serial Number:', serial);
+    // console.log('Serial Number:', serial);
 
     const response = await fetch('https://fog-climbing-currant.glitch.me/connection_token', {
       method: 'POST',

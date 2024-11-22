@@ -38,15 +38,14 @@ export default Settings = (props) => {
     return (
         <View style={css.container}>
             <ScrollView>
-                <Text style={css.label}>{settings.account}</Text>
-                <Text style={css.label}>Store Name</Text>
+                {/* <Text style={css.label}>Store Name</Text>
                 <TextInput
                     style={css.input}
                     inputMode="text"
                     autoCapitalize='words'
                     value={settings?.storeName}
                     onChangeText={value => setSettings({ ...settings, storeName: value })}
-                />
+                /> */}
 
                 <Text style={css.label}>Order ID Prefix</Text>
                 <TextInput
@@ -86,6 +85,7 @@ export default Settings = (props) => {
                     </View>
                 </View>
 
+
                 {/* <Pressable style={{ marginTop: 20, marginBottom: 80 }} onPress={resetLocalStorage}>
                     <Text style={{ color: colors.danger }}>
                         {resettingStorage
@@ -96,11 +96,11 @@ export default Settings = (props) => {
 
             </ScrollView>
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary }]} onPress={resetSettings}>
+            {/* <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary }]} onPress={resetSettings}>
                 <FontAwesomeIcon icon={faRotateLeft} color={'white'} size={18} />
-            </Pressable>
+            </Pressable> */}
 
-            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary }]} onPress={deviceSettings}>
+            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={deviceSettings}>
                 <FontAwesomeIcon icon={faMobile} color={'white'} size={18} />
             </Pressable>
 
