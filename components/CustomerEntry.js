@@ -71,17 +71,17 @@ export default CustomerEntry = (props) => {
                 'Account': settings.account
             },
             body: JSON.stringify({
-                firstName: customer.firstName,
-                lastName: customer.lastName,
+                name: customer.firstName + ' ' + customer.lastName,
                 email: customer.email,
                 phone: customer.phone,
-                addressLine1: customer.addressLine1,
-                addressLine2: customer.addressLine2,
+                line1: customer.addressLine1,
                 city: customer.city,
                 state: customer.state,
-                postalCode: customer.postalCode
+                postal_code: customer.postalCode,
+                country: 'US'
             })
         });
+
         const newCustomer = await response.json();
         setSavingCustomer(false);
         if (props.origin == 'Checkout') {
@@ -143,7 +143,7 @@ export default CustomerEntry = (props) => {
                     onSubmitEditing={() => { addressLine1Ref.current.focus(); }}
                 />
 
-                <Text style={css.label}>Address Line 1</Text>
+                <Text style={css.label}>Address</Text>
                 <TextInput
                     style={css.input}
                     inputMode="text"
@@ -151,10 +151,10 @@ export default CustomerEntry = (props) => {
                     onChangeText={text => setCustomer({ ...customer, addressLine1: text })}
                     ref={addressLine1Ref}
                     returnKeyType="next"
-                    onSubmitEditing={() => { addressLine1Ref.current.focus(); }}
+                    onSubmitEditing={() => { cityRef.current.focus(); }}
                 />
 
-                <Text style={css.label}>Address Line 2</Text>
+                {/* <Text style={css.label}>Address Line 2</Text>
                 <TextInput
                     style={css.input}
                     inputMode="text"
@@ -163,7 +163,7 @@ export default CustomerEntry = (props) => {
                     ref={addressLine2Ref}
                     returnKeyType="next"
                     onSubmitEditing={() => { cityRef.current.focus(); }}
-                />
+                /> */}
 
                 <Text style={css.label}>City</Text>
                 <TextInput

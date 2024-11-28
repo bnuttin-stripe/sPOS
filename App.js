@@ -209,9 +209,9 @@ export default function App({ route }) {
 
   const confirmSetup = async (si) => {
     const { setupIntent, error } = await confirmSetupIntent({
-      setupIntent: si
+      setupIntent: si,
     });
-
+console.log(setupIntent);
     if (error) {
       console.log("confirmSetupIntent error: ", error);
       return;

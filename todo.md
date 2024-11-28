@@ -1,5 +1,5 @@
 Bugs:
-- [ ] Issue with BOPIS flow - fingerprint not the same??
+- [ ] BOPIS pick up - get PAR from SetupIntent to auth the customer
 
 Features:
 - [ ] Confirmation page to show where email will go (if customer selected) or to enter a new one
@@ -11,7 +11,7 @@ Features:
 - [ ] Edit a customer's details?
 
 Structure:
-- [ ] Set up all remaining local accounts
+- [ ] In docs - show qr codes
 - [ ] Move server code to stripe360.stripedemos.com
 - [ ] How to show console logs in app?
 - [ ] Deploy to Elo??

@@ -75,14 +75,14 @@ export default Products = (props) => {
         return (
             <Pressable key={product.id} onPress={() => setCart([...cart, product])}>
                 <DataTable.Row style={{ paddingTop: 20, paddingBottom: 20 }} >
-                    {/* <DataTable.Cell style={{ flex: 1, paddingTop: 5 , paddingBottom: 5, paddingRight: 5 }}>
+                    <DataTable.Cell style={{ flex: 1, paddingTop: 5 , paddingBottom: 5, paddingRight: 5 }}>
                         <Image
                             style={styles.productImage}
                             source={{
                                 uri: product?.images[0]
                             }}
                         />
-                    </DataTable.Cell> */}
+                    </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 3 }]}>
                         <Text style={css.defaultText}>
                             {product.name}

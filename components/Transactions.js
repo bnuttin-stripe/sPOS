@@ -112,14 +112,17 @@ export default Transactions = (props) => {
         return (
             <Pressable key={pi.id} onPress={() => showTransaction(pi)}>
                 <DataTable.Row>
-                    <DataTable.Cell style={css.cell}>
-                        <Text style={css.defaultText}>{pi.metadata?.orderNumber}   </Text>
-                        {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBoxCheck} color={colors.warning} style={{ margin: 30 }} size={18} />}
+                    <DataTable.Cell style={[css.cell, { flex: 2 }]}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={css.defaultText}>{pi.metadata?.orderNumber}</Text>
+                            {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBoxCheck} color={colors.warning} style={{marginLeft: 10}} size={20} />}
+                            {pi.metadata?.bopis == 'done' && <FontAwesomeIcon icon={faBoxCheck} color={colors.success} style={{marginLeft: 10}} size={20} />}
+                        </View>
                     </DataTable.Cell>
-                    <DataTable.Cell style={css.cell} >
+                    <DataTable.Cell style={[css.cell, { flex: 1 }]}>
                         <Text style={pi.latest_charge.amount_refunded > 0 ? css.crossedText : css.defaultText}>{Utils.displayPrice(pi.amount / 100, settings.currency)}</Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={css.cell}>
+                    <DataTable.Cell style={[css.cell, { flex: 2 }]}>
                         <Text style={css.defaultText}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</Text>
                     </DataTable.Cell>
                     {/* <DataTable.Cell style={[css.cell, { flex: 0.8 }]}>
@@ -142,13 +145,13 @@ export default Transactions = (props) => {
         <View style={[css.container, { padding: 0 }]}>
             <DataTable>
                 <DataTable.Header style={css.tableHeader}>
-                    <DataTable.Title style={css.cell}>
+                    <DataTable.Title style={[css.cell, { flex: 2 }]}>
                         <Text style={css.defaultText}>Order ID</Text>
                     </DataTable.Title>
-                    <DataTable.Title style={css.cell} >
+                    <DataTable.Title style={[css.cell, { flex: 1 }]}>
                         <Text style={css.defaultText}>Amount</Text>
                     </DataTable.Title>
-                    <DataTable.Title style={css.cell}>
+                    <DataTable.Title style={[css.cell, { flex: 2 }]}>
                         <Text style={css.defaultText}>Date</Text>
                     </DataTable.Title>
                     {/* <DataTable.Title style={[css.cell, { flex: 0.8 }]}>
@@ -210,7 +213,7 @@ export default Transactions = (props) => {
                             <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.warning, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
                                 {isRefunding
                                     ? <ActivityIndicator size="small" color="white" />
-                                    : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} style={{transform: [{rotateZ: '90deg'}]}} size={18} />
+                                    : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} style={{ transform: [{ rotateZ: '90deg' }] }} size={18} />
                                 }
                             </Pressable>
                         }
