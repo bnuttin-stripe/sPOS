@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { transactionAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
+import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faCheck, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
@@ -21,6 +21,8 @@ export default Transactions = (props) => {
     const [transactions, setTransactions] = useRecoilState(transactionAtom);
 
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const [verificationPM, setVerificationPM] = useState(null);
+    const [verificationSuccessful, setVerificationSuccessful] = useState(false);
     const [isRefunding, setIsRefunding] = useState(false);
     const [isPickingUp, setIsPickingUp] = useState(false);
 
@@ -94,7 +96,6 @@ export default Transactions = (props) => {
     }
 
     const showTransaction = (pi) => {
-        // console.log(pi);
         setModalVisible(true);
         setSelectedTransaction(pi);
     }
@@ -102,11 +103,35 @@ export default Transactions = (props) => {
     const closeModal = () => {
         if (props.refresh) props.refresh(true);
         setModalVisible(false);
+        setVerificationSuccessful(false);
+        setVerificationPM(null);
     }
 
     useEffect(() => {
         getTransactions();
     }, []);
+
+    const checkCard = async () => {
+        const pm = await props.setup();
+        setVerificationPM(pm);
+    }
+
+    useEffect(() => {
+        if (verificationPM != null) {
+            // console.log("verificationPM", verificationPM)
+            // console.log(verificationPM?.card_present?.payment_account_reference);
+            // console.log(verificationPM?.card_present?.fingerprint);
+            // console.log(selectedTransaction?.latest_charge?.payment_method_details?.card.fingerprint);
+            // // console.log("selectedTransaction", selectedTransaction)
+            setVerificationSuccessful(cardValid());
+        }
+    }, [verificationPM, selectedTransaction]);
+
+    const cardValid = () => {
+        if (verificationPM == null) return false;
+        return verificationPM?.card_present?.fingerprint == selectedTransaction?.latest_charge?.payment_method_details?.card.fingerprint ||
+            verificationPM?.card_present?.payment_account_reference == selectedTransaction?.latest_charge?.payment_method_details?.card.payment_account_reference
+    }
 
     const Row = (pi) => {
         return (
@@ -115,8 +140,8 @@ export default Transactions = (props) => {
                     <DataTable.Cell style={[css.cell, { flex: 2 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={css.defaultText}>{pi.metadata?.orderNumber}</Text>
-                            {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBoxCheck} color={colors.warning} style={{marginLeft: 10}} size={20} />}
-                            {pi.metadata?.bopis == 'done' && <FontAwesomeIcon icon={faBoxCheck} color={colors.success} style={{marginLeft: 10}} size={20} />}
+                            {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBoxCheck} color={colors.warning} style={{ marginLeft: 10 }} size={20} />}
+                            {pi.metadata?.bopis == 'done' && <FontAwesomeIcon icon={faBoxCheck} color={colors.success} style={{ marginLeft: 10 }} size={20} />}
                         </View>
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 1 }]}>
@@ -189,6 +214,8 @@ export default Transactions = (props) => {
                                 <Text style={css.spacedText}>Date</Text>
                                 <Text style={css.spacedText}>Status</Text>
                                 <Text style={css.spacedText}>Amount</Text>
+                                <Text style={css.spacedText}>Channel</Text>
+                                <Text style={css.spacedText}>Card</Text>
                                 {selectedTransaction?.customer?.id && <Text style={css.spacedText}>Customer</Text>}
                                 {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>BOPIS</Text>}
                                 {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>Items</Text>}
@@ -199,6 +226,12 @@ export default Transactions = (props) => {
                                     <Text style={css.spacedText}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
                                     <Text style={css.spacedText}>{status(selectedTransaction)}</Text>
                                     <Text style={css.spacedText}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, settings.currency)}</Text>
+                                    <Text style={css.spacedText}>{selectedTransaction?.metadata?.channel}</Text>
+                                    <Text style={css.spacedText}>{
+                                        selectedTransaction?.latest_charge?.payment_method_details?.card
+                                            ? selectedTransaction?.latest_charge?.payment_method_details?.card?.brand + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card?.last4
+                                            : selectedTransaction?.latest_charge?.payment_method_details?.card_present?.brand + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card_present?.last4
+                                    }</Text>
                                     {selectedTransaction?.customer?.id && <Text style={css.spacedText}>{selectedTransaction?.customer?.name}</Text>}
                                     {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.bopis)}</Text>}
                                     {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>{selectedTransaction?.metadata?.cart}</Text>}
@@ -218,12 +251,21 @@ export default Transactions = (props) => {
                             </Pressable>
                         }
                         {selectedTransaction?.metadata?.bopis == 'pending' &&
-                            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.warning, elevation: 0 }]} onPress={bopisDone}>
-                                {isPickingUp
-                                    ? <ActivityIndicator size="small" color="white" />
-                                    : <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
-                                }
-                            </Pressable>
+                            <>
+                                <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.warning, elevation: 0 }]} onPress={bopisDone}>
+                                    {isPickingUp
+                                        ? <ActivityIndicator size="small" color="white" />
+                                        : <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
+                                    }
+                                </Pressable>
+                                <Pressable style={[css.floatingIcon, {
+                                    left: 200, bottom: 20,
+                                    backgroundColor: verificationPM ? verificationSuccessful ? colors.success : colors.danger : colors.warning, elevation: 0
+                                }]}
+                                    onPress={checkCard}>
+                                    <FontAwesomeIcon icon={verificationPM ? verificationSuccessful ? faCheck : faBan : faMagnifyingGlass} color={'white'} size={18} />
+                                </Pressable>
+                            </>
                         }
                     </View>
                 </View>

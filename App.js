@@ -33,7 +33,7 @@ export default function App({ route }) {
   const [serial, setSerial] = useState();
   const [settings, setSettings] = useRecoilState(settingsAtom);
 
-  const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent } = useStripeTerminal();
+  const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent, getPaymentMethod } = useStripeTerminal();
 
   const checkPermissionsAndInitialize = async () => {
     setInfoMsg("Checking location permissions");
@@ -211,12 +211,21 @@ export default function App({ route }) {
     const { setupIntent, error } = await confirmSetupIntent({
       setupIntent: si,
     });
-console.log(setupIntent);
     if (error) {
       console.log("confirmSetupIntent error: ", error);
       return;
     }
-    return setupIntent.paymentMethodId;
+    else{
+      const response = await fetch('https://stripe360.stripedemos.com/payment-method/' + setupIntent.paymentMethodId, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Account': settings.account
+        }
+      });
+      const data = await response.json();
+      return data;
+    }
   }
 
   return (

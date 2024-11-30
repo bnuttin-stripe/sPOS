@@ -186,7 +186,7 @@ app.get("/transactions/:customer?", async (req, res) => {
   let output = [];
   let payload = {
     limit: 50,
-    expand: ['data.customer', 'data.latest_charge.payment_method_details']
+    expand: ['data.customer', 'data.latest_charge.payment_method_details', 'data.latest_charge.payment_method']
   }
   if (req.params.customer != undefined) payload.customer = req.params.customer;
   const paymentIntents = await stripe.paymentIntents.list(

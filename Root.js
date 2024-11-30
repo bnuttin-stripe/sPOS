@@ -15,7 +15,8 @@ export default function Root() {
     const serial = await getSerialNumber();
     // console.log('Serial Number:', serial);
 
-    const response = await fetch('https://fog-climbing-currant.glitch.me/connection_token', {
+    // const response = await fetch('https://fog-climbing-currant.glitch.me/connection_token', {
+    const response = await fetch('https://stripe360.stripedemos.com/connection_token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
