@@ -47,7 +47,7 @@ export const defaultAddress = {
 }
 
 export const generateOrderNumber = (prefix) => {
-    return (prefix || 'Order-') + Math.floor(Math.random() * 10000).toString();
+    return (prefix || 'Order-') + Math.floor(10000 + Math.random() * 90000);
 }
 
 export const getCurrencyFromCountry = (country) => {

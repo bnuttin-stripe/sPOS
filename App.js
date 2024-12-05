@@ -68,7 +68,7 @@ export default function App({ route }) {
 
   const initializeReader = async () => {
     setInfoMsg("Starting reader software");
-    console.log("initializeReader");
+    // console.log("initializeReader");
     const { error, reader } = await initialize();
 
     if (error) {
@@ -88,13 +88,14 @@ export default function App({ route }) {
     checkPermissionsAndInitialize();
   }, []);
 
-  const { discoverReaders, discoveredReaders, connectHandoffReader } =
+  const { discoverReaders, discoveredReaders, connectHandoffReader, connectLocalMobileReader } =
     useStripeTerminal({
       onUpdateDiscoveredReaders: (readers) => {
         // console.log("onUpdateDiscoveredReaders");
         setReaderFound(readers.length > 0);
         readers.length > 0
           ? connectReader(readers[0])
+          // ? connectTTPAReader(readers[0])
           : setInfoMsg("No reader found");
       },
       onFinishDiscoveringReaders: (error) => {
@@ -134,7 +135,21 @@ export default function App({ route }) {
     const { error } = await connectHandoffReader({
       reader: reader
     });
-    // setCurrency(Utils.getCurrencyFromCountry(reader?.location?.address?.country));
+    // console.log('READERDETAILS', reader);
+    setSerial(reader.serialNumber);
+    if (error) {
+      setInfoMsg('Failed to discover readers. ' + error.message);
+      return;
+    }
+    return;
+  };
+
+  const connectTTPAReader = async (reader) => {
+    console.log('READERDETAILS', reader);
+    const { error } = await connectLocalMobileReader({
+      reader: reader,
+      location: 'tml_F0V0HAjyiFF9Q8'
+    });
     setSerial(reader.serialNumber);
     if (error) {
       setInfoMsg('Failed to discover readers. ' + error.message);
@@ -161,7 +176,7 @@ export default function App({ route }) {
   }
 
   const collectPM = async (pi, onSuccess) => {
-    console.log("collectPM: ", pi);
+    // console.log("collectPM: ", pi);
     const { error, paymentIntent } = await collectPaymentMethod({
       paymentIntent: pi
     });

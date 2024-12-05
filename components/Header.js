@@ -36,8 +36,8 @@ export default Header = (props) => {
                         }
                     </View> */}
                     <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                        <Text style={{ color: colors.white, fontSize: 12 }}>Powered by</Text>
-                        <Image source={require('../assets/stripe.png')} style={{ width: 80, height: 20, marginLeft: -18, marginRight: -20, marginBottom: -3, resizeMode: 'contain' }} />
+                        <Text style={{ color: colors.white, fontSize: 10, marginTop: 2 }}>Powered by</Text>
+                        <Image source={require('../assets/stripe.png')} style={{ width: 60, height: 19, marginLeft: -8, marginRight: -16, marginBottom: -13, resizeMode: 'contain' }} />
                     </View>
                 </View>
                 <BatteryIndicator />

@@ -28,7 +28,7 @@ export default Settings = (props) => {
         setResettingStorage(true);
         try {
             await AsyncStorage.clear();
-            console.log('Local storage cleared successfully.');
+            // console.log('Local storage cleared successfully.');
         } catch (error) {
             console.error('Error clearing local storage:', error);
         }

@@ -226,11 +226,11 @@ export default Transactions = (props) => {
                                     <Text style={css.spacedText}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
                                     <Text style={css.spacedText}>{status(selectedTransaction)}</Text>
                                     <Text style={css.spacedText}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, settings.currency)}</Text>
-                                    <Text style={css.spacedText}>{selectedTransaction?.metadata?.channel}</Text>
+                                    <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.channel)}</Text>
                                     <Text style={css.spacedText}>{
                                         selectedTransaction?.latest_charge?.payment_method_details?.card
-                                            ? selectedTransaction?.latest_charge?.payment_method_details?.card?.brand + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card?.last4
-                                            : selectedTransaction?.latest_charge?.payment_method_details?.card_present?.brand + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card_present?.last4
+                                            ? Utils.capitalize(selectedTransaction?.latest_charge?.payment_method_details?.card?.brand) + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card?.last4
+                                            : Utils.capitalize(selectedTransaction?.latest_charge?.payment_method_details?.card_present?.brand) + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card_present?.last4
                                     }</Text>
                                     {selectedTransaction?.customer?.id && <Text style={css.spacedText}>{selectedTransaction?.customer?.name}</Text>}
                                     {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.bopis)}</Text>}
