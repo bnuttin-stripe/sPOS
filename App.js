@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import { Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView } from 'react-native';
+import { getSerialNumber, isTablet } from 'react-native-device-info';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { css, colors } from './styles';
 
@@ -19,12 +20,18 @@ import Customer from './components/Customer';
 import CustomerEntry from './components/CustomerEntry';
 import Settings from './components/Settings';
 import SettingsHandler from './components/SettingsHandler';
+import Kiosk from './components/Kiosk';
+import CheckoutKiosk from './components/CheckoutKiosk';
 
 import * as Utils from './utilities';
 
 export default function App({ route }) {
-  // Default page is Calculator
-  const page = route.params?.page ?? 'Calculator';
+  const [formFactorDetermined, setFormFactorDetermined] = useState(false);
+  const [tablet, setTablet] = useState(false);
+
+  let page = route.params?.page;
+
+  console.log(page);
 
   const { initialize } = useStripeTerminal();
   const [initialized, setInitialized] = useState(false);
@@ -33,12 +40,17 @@ export default function App({ route }) {
   const [serial, setSerial] = useState();
   const [settings, setSettings] = useRecoilState(settingsAtom);
 
+  useEffect(() => {
+    setTablet(isTablet());
+    setFormFactorDetermined(true);
+  }, []);
+
   const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent, getPaymentMethod } = useStripeTerminal();
 
   const checkPermissionsAndInitialize = async () => {
     setInfoMsg("Checking location permissions");
 
-    // Get caneera and location permissions
+    // Get camera and location permissions
     const cameraPermission = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
       {
@@ -94,8 +106,9 @@ export default function App({ route }) {
         // console.log("onUpdateDiscoveredReaders");
         setReaderFound(readers.length > 0);
         readers.length > 0
-          ? connectReader(readers[0])
-          // ? connectTTPAReader(readers[0])
+          ? serial?.substring(0, 3) == 'STR'
+            ? connectReader(readers[0])
+            : connectTTPAReader(readers[0])
           : setInfoMsg("No reader found");
       },
       onFinishDiscoveringReaders: (error) => {
@@ -135,7 +148,6 @@ export default function App({ route }) {
     const { error } = await connectHandoffReader({
       reader: reader
     });
-    // console.log('READERDETAILS', reader);
     setSerial(reader.serialNumber);
     if (error) {
       setInfoMsg('Failed to discover readers. ' + error.message);
@@ -145,10 +157,9 @@ export default function App({ route }) {
   };
 
   const connectTTPAReader = async (reader) => {
-    console.log('READERDETAILS', reader);
     const { error } = await connectLocalMobileReader({
       reader: reader,
-      location: 'tml_F0V0HAjyiFF9Q8'
+      locationId: process.env.EXPO_TTPA_LOCATION
     });
     setSerial(reader.serialNumber);
     if (error) {
@@ -159,11 +170,19 @@ export default function App({ route }) {
   };
 
   useEffect(() => {
-    if (initialized) {
-      discoverHandoffReader();
-      // discoverLocalMobileReader();
+    (async () => {
+      const sn = await getSerialNumber();
+      setSerial(sn);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (initialized && serial !== undefined) {
+      serial.substring(0, 3) == 'STR'
+        ? discoverHandoffReader()
+        : discoverLocalMobileReader();
     }
-  }, [initialized]);
+  }, [initialized, serial]);
 
   /// PAYMENT INTENTS
   const pay = async (payload, onSuccess) => {
@@ -230,7 +249,7 @@ export default function App({ route }) {
       console.log("confirmSetupIntent error: ", error);
       return;
     }
-    else{
+    else {
       const response = await fetch('https://stripe360.stripedemos.com/payment-method/' + setupIntent.paymentMethodId, {
         method: 'GET',
         headers: {
@@ -243,6 +262,8 @@ export default function App({ route }) {
     }
   }
 
+  console.log(page)
+
   return (
     <SafeAreaView style={css.app}>
       {!initialized &&
@@ -252,7 +273,7 @@ export default function App({ route }) {
         </View>
       }
       {initialized && <>
-        {readerFound
+        {readerFound && formFactorDetermined
           ? <>
             <SettingsHandler serial={serial} setInfoMsg={setInfoMsg} />
             {!settings.account
@@ -261,17 +282,24 @@ export default function App({ route }) {
                 <Text style={{ padding: 40 }}>{infoMsg}</Text>
               </View>
               : <>
-                <Header page={page} />
-                {page == 'Calculator' && <Calculator pay={pay} />}
-                {page == 'Products' && <Products pay={pay} />}
-                {page == 'Checkout' && <Checkout pay={pay} />}
-                {page == 'Transactions' && <Transactions setup={setup} />}
-                {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} />}
-                {page == 'Customer' && <Customer id={route.params.id} />}
-                {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
-                {page == 'Scanner' && <Scanner />}
-                {page == 'Settings' && <Settings />}
-              </>}
+                {!tablet && <>
+                  {(page == 'Kiosk' || page == undefined) && <Kiosk columns={2} />}
+                  {page == 'CheckoutKiosk' && <CheckoutKiosk pay={pay} />}
+                </>}
+                {tablet && <>
+                  <Header page={page} />
+                  {(page == 'Calculator' || page == undefined) && <Calculator pay={pay} />}
+                  {page == 'Products' && <Products pay={pay} />}
+                  {page == 'Checkout' && <Checkout pay={pay} />}
+                  {page == 'Transactions' && <Transactions setup={setup} />}
+                  {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} />}
+                  {page == 'Customer' && <Customer id={route.params.id} />}
+                  {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
+                  {page == 'Scanner' && <Scanner />}
+                  {page == 'Settings' && <Settings />}
+                </>}
+              </>
+            }
 
           </>
           : <>

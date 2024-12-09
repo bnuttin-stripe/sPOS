@@ -14,22 +14,14 @@ import Customers from './Customers';
 import * as Utils from '../utilities';
 import { css, colors } from '../styles';
 
-export default Checkout = (props) => {
+export default CheckoutKiosk = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
 
     const cart = useRecoilValue(cartAtom);
     const uniqueCart = [...new Map(cart.map(item => [item['id'], item])).values()]
     const resetCart = useResetRecoilState(cartAtom);
-    const currentCustomer = useRecoilValue(currentCustomerAtom);
-    const resetCurrentCustomer = useResetRecoilState(currentCustomerAtom);
-
-    const [modalVisible, setModalVisible] = useState(false);
-
-    const closeModal = () => {
-        setModalVisible(false);
-    }
-
+    
     const numInCart = (product) => {
         return cart.filter(x => (x.id == product.id)).length;
     }
@@ -39,7 +31,6 @@ export default Checkout = (props) => {
         const taxes = Math.round(subtotal * settings.taxPercentage / 100);
         const adjustment = adjustFinalAmount(subtotal + taxes);
         const total = subtotal + taxes + adjustment;
-        // console.log(subtotal, taxes, adjustment, total);
         return {
             subtotal: subtotal,
             taxes: taxes,
@@ -58,11 +49,6 @@ export default Checkout = (props) => {
         return output;
     }
 
-    const resetCartAndCustomer = () => {
-        resetCart();
-        resetCurrentCustomer();
-    }
-
     const pay = () => {
         if (cart.length == 0) return;
         const payload = {
@@ -76,13 +62,11 @@ export default Checkout = (props) => {
                 cart: cart.map(x => x.name).join('\n')
             }
         }
-        // console.log("currentCustomer", currentCustomer);
-        if (currentCustomer.id) payload.customer = currentCustomer.id;
-        props.pay(payload, resetCartAndCustomer);
+        props.pay(payload, resetCart);
     }
 
     const goBack = () => {
-        navigation.navigate("App", { page: "Products" });
+        navigation.navigate("App", { page: "Kiosk" });
     }
 
     const Row = (product) => {
@@ -97,8 +81,6 @@ export default Checkout = (props) => {
             </View>
         )
     }
-
-    // console.log(cart)
 
     return (
         <View style={[css.container]}>
@@ -146,62 +128,11 @@ export default Checkout = (props) => {
                         </View>
                     </>
                 }
-
-                <Text style={{ fontSize: 20, marginTop: 20, marginBottom: 10, fontWeight: 'bold' }}>Customer</Text>
-                {currentCustomer.id
-                    ? <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={css.spacedText}>{currentCustomer.name}</Text>
-                        </View>
-                        <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
-                            <Text style={css.spacedText}>{currentCustomer.email}</Text>
-                        </View>
-                    </View>
-                    : <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={css.spacedText}>Guest</Text>
-                        </View>
-                    </View>}
             </ScrollView>
-
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(false);
-                }}>
-                <View style={css.centeredView}>
-                    <View style={[css.modalView, { height: '40%', padding: 10 }]}>
-                        <Customers
-                            mode="pick"
-                            showIcons={false}
-                            showLTV={false}
-                            search={true}
-                            onPick={closeModal}
-                        />
-                        <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, elevation: 0 }]} onPress={closeModal}>
-                            <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
-                        </Pressable>
-                        <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]}
-                            onPress={() => navigation.navigate("App", { page: "CustomerEntry", origin: "Checkout" })}>
-                            <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
 
             <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={goBack}>
                 <FontAwesomeIcon icon={faChevronLeft} color={'white'} size={20} />
             </Pressable>
-
-            {currentCustomer.id
-                ? <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={resetCurrentCustomer}>
-                    <FontAwesomeIcon icon={faUserCheck} color={'white'} size={20} />
-                </Pressable>
-                : <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={() => setModalVisible(true)}>
-                    <FontAwesomeIcon icon={faUserPlus} color={'white'} size={20} />
-                </Pressable>}
 
             <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
                 <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />

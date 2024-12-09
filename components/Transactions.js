@@ -97,6 +97,7 @@ export default Transactions = (props) => {
 
     const showTransaction = (pi) => {
         setModalVisible(true);
+        // console.log(pi);
         setSelectedTransaction(pi);
     }
 
@@ -208,8 +209,8 @@ export default Transactions = (props) => {
                 }}>
                 <View style={css.centeredView}>
                     <View style={css.modalView}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                        <View style={{ flexDirection: 'row', paddingLeft: 40, paddingRight: 40 }}>
+                            <View style={{ flexDirection: 'column'}}>
                                 <Text style={css.spacedText}>Order ID</Text>
                                 <Text style={css.spacedText}>Date</Text>
                                 <Text style={css.spacedText}>Status</Text>
@@ -220,7 +221,8 @@ export default Transactions = (props) => {
                                 {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>BOPIS</Text>}
                                 {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>Items</Text>}
                             </View>
-                            <View style={{ flexDirection: 'column', flex: 2 }}>
+                            <View style={{ flexDirection: 'column', width: 20}}></View>
+                            <View style={{ flexDirection: 'column' }}>
                                 {selectedTransaction && <>
                                     <Text style={css.spacedText}>{selectedTransaction?.metadata?.orderNumber}</Text>
                                     <Text style={css.spacedText}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
@@ -234,7 +236,7 @@ export default Transactions = (props) => {
                                     }</Text>
                                     {selectedTransaction?.customer?.id && <Text style={css.spacedText}>{selectedTransaction?.customer?.name}</Text>}
                                     {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.bopis)}</Text>}
-                                    {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>{selectedTransaction?.metadata?.cart}</Text>}
+                                    {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>* {selectedTransaction?.metadata?.cart?.split("\n").join("\n* ")}</Text>}
                                 </>}
                             </View>
                         </View>
