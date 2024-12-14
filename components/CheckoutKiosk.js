@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
-import { Text, View, Pressable, ScrollView, Modal, Image, StyleSheet } from 'react-native';
-import { DataTable, TextInput } from 'react-native-paper';
+import { Text, View, Pressable, ScrollView, Modal, Image, StyleSheet, useWindowDimensions } from 'react-native';
+import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
@@ -12,16 +12,19 @@ import { faChevronLeft, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus
 import Customers from './Customers';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { css, themeColors } from '../styles';
 
 export default CheckoutKiosk = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const colors = themeColors[settings.theme];
+
+    const { height, width } = useWindowDimensions();
 
     const cart = useRecoilValue(cartAtom);
     const uniqueCart = [...new Map(cart.map(item => [item['id'], item])).values()]
     const resetCart = useResetRecoilState(cartAtom);
-    
+
     const numInCart = (product) => {
         return cart.filter(x => (x.id == product.id)).length;
     }
@@ -57,7 +60,7 @@ export default CheckoutKiosk = (props) => {
             captureMethod: 'automatic',
             metadata: {
                 app: 'sPOS',
-                channel: 'catalog',
+                channel: 'kiosk',
                 orderNumber: Utils.generateOrderNumber(settings.orderPrefix),
                 cart: cart.map(x => x.name).join('\n')
             }
@@ -82,9 +85,62 @@ export default CheckoutKiosk = (props) => {
         )
     }
 
+    const styles = {
+        header: {
+            flexDirection: 'column',
+            height: '10%',
+            padding: 10,
+            width: '100%',
+        },
+        logo: {
+            flex: 1,
+            resizeMode: 'contain',
+        },
+        cart: {
+            width: '100%',
+            marginHorizontal: "auto",
+            padding: 20
+        },
+        productImage: {
+            height: 140,
+            width: 140,
+            marginBottom: 10,
+        },
+        item: {
+            flexDirection: 'column',
+            justifyContent: 'center',
+            height: 240,
+            alignItems: "center",
+            padding: 20,
+            margin: 20,
+            borderColor: colors.primary,
+            width: width / props.columns - 50,
+            backgroundColor: colors.light,
+            borderRadius: 10,
+        },
+        footer: {
+            flexDirection: 'column',
+            height: '10%',
+            padding: 10,
+            width: '40%',
+            justifyContent: 'flex-end',
+            marginHorizontal: "auto",
+        },
+        buttons: {
+            flexDirection: 'row',
+            marginHorizontal: "auto",
+            justifyContent: 'space-between',
+        }
+    };
+
     return (
-        <View style={[css.container]}>
-            <ScrollView>
+        <View style={css.container}>
+            <View style={styles.header}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Image source={require('../assets/logoblack.png')} style={styles.logo} />
+                </View>
+            </View>
+            <ScrollView style={styles.cart}>
                 <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: 'bold' }}>Cart</Text>
                 {cart.length == 0
                     ? <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>Cart is empty.</Text>
@@ -129,16 +185,17 @@ export default CheckoutKiosk = (props) => {
                     </>
                 }
             </ScrollView>
+            <View style={styles.footer}>
+                <View style={styles.buttons}>
+                    <Button mode="contained" style={{ backgroundColor: colors.primary, marginRight: 20 }} onPress={goBack}>
+                        Go Back
+                    </Button>
+                    <Button mode="contained" style={{ backgroundColor: colors.primary, marginLeft: 20 }} onPress={pay}>
+                        Pay {Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)} now
+                    </Button>
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={goBack}>
-                <FontAwesomeIcon icon={faChevronLeft} color={'white'} size={20} />
-            </Pressable>
-
-            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
-                <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
-                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}</Text>
-            </Pressable>
-
+                </View>
+            </View>
         </View>
     )
 }

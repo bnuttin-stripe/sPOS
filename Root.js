@@ -13,6 +13,8 @@ import App from './App';
 export default function Root() {
   const fetchTokenProvider = async () => {
     const serial = await getSerialNumber();
+    const model = getModel();
+    console.log('MODEL:', model);
 
     try {
       // const response = await fetch('https://fog-climbing-currant.glitch.me/connection_token', {
@@ -42,8 +44,8 @@ export default function Root() {
   return (
     <RecoilRoot>
       <StripeTerminalProvider
-        // logLevel="verbose"
-        logLevel="error"
+        logLevel="verbose"
+        // logLevel="error"
         tokenProvider={fetchTokenProvider}
       >
         <NavigationContainer>

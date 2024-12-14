@@ -9,33 +9,73 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalculator, faGrid, faList, faUser, faGear, faBox, faCheck, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { css, themeColors } from '../styles';
 
 import BatteryIndicator from './BatteryIndicator';
 
 export default Header = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const colors = themeColors[settings.theme];
 
     const goTo = (page) => {
         navigation.navigate('App', { page: page })
     }
 
+    const styles = {
+        topBanner: {
+            flexDirection: 'column',
+            backgroundColor: colors.primary,
+            height: '15%',
+            padding: 10,
+            width: '100%',
+        },
+        logo: {
+            flex: 1,
+            resizeMode: 'contain',
+        },
+        header: {
+            width: '100%',
+            paddingTop: 15,
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingBottom: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            borderBottomWidth: 2,
+            borderBottomColor: colors.primary,
+            height: '10%'
+        },
+        icon: {
+            marginBottom: 10,
+            color: colors.primary,
+        },
+        tab: {
+            flexDirection: 'column',
+            alignItems: 'center',
+        },
+        tabSelected: {
+            flexDirection: 'column',
+            alignItems: 'center',
+            borderBottomWidth: 2,
+            marginBottom: -10,
+            borderBottomColor: colors.primary,
+        },
+        title: {
+            color: colors.primary,
+            fontSize: 13,
+        },
+    };
+
     return (
         <>
             <View style={styles.topBanner}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image source={require('../assets/logo.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />
-                    {/* <Text style={{ color: 'white' }}>{settings?.account} -- {settings.country} -- {settings?.currency}</Text> */}
+                    {settings.theme == 'wick' && <Image source={require('../assets/logo.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
+                    {settings.theme == 'boba' && <Image source={require('../assets/logoBoba.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                    {/* <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        {settings?.account
-                            ? <FontAwesomeIcon icon={faCheck} style={[styles.icon, {color: 'white', marginBottom: 0}]} size={16} />
-                            : <ActivityIndicator size="small" color={colors.white} />
-                        }
-                    </View> */}
-                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
                         <Text style={{ color: colors.white, fontSize: 10, marginTop: 2 }}>Powered by</Text>
                         <Image source={require('../assets/stripe.png')} style={{ width: 60, height: 19, marginLeft: -8, marginRight: -16, marginBottom: -13, resizeMode: 'contain' }} />
                     </View>
@@ -43,7 +83,7 @@ export default Header = (props) => {
                 <BatteryIndicator />
             </View>
             <View style={styles.header}>
-                <Pressable style={props.page == 'Calculator' ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>
+                <Pressable style={(props.page == 'Calculator' || props.page == undefined) ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>
                     <FontAwesomeIcon icon={faCalculator} style={styles.icon} size={22} />
                     <Text style={styles.title}>Calculator</Text>
                 </Pressable>
@@ -63,51 +103,13 @@ export default Header = (props) => {
                     <FontAwesomeIcon icon={faGear} style={styles.icon} size={22} />
                     <Text style={styles.title}>Settings</Text>
                 </Pressable>
+                {/* <Pressable style={props.page == 'Kiosk' ? styles.tabSelected : styles.tab} onPress={() => goTo('Kiosk')}>
+                    <FontAwesomeIcon icon={faGrid} style={styles.icon} size={22} />
+                    <Text style={styles.title}>Kiosk</Text>
+                </Pressable> */}
             </View>
         </>
     )
 }
 
-const styles = {
-    topBanner: {
-        flexDirection: 'column',
-        backgroundColor: colors.primary,
-        height: 100,
-        padding: 10,
-        width: '100%',
-    },
-    logo: {
-        flex: 1,
-        resizeMode: 'contain',
-        // backgroundColor: colors.white,
-    },
-    header: {
-        width: '100%',
-        paddingTop: 15,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderBottomWidth: 2,
-        borderBottomColor: colors.primary,
-    },
-    icon: {
-        marginBottom: 10,
-        color: colors.primary,
-    },
-    tab: {
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    tabSelected: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        borderBottomWidth: 2,
-        marginBottom: -10,
-        borderBottomColor: colors.primary,
-    },
-    title: {
-        color: colors.primary,
-    },
-};
+

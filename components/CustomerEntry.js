@@ -11,11 +11,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBarcodeRead, faXmark, faChevronRight, faSave, faIdCard, faMobile } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { css, themeColors } from '../styles';
 
 export default CustomerEntry = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const colors = themeColors[settings.theme];
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [customer, setCustomer] = useState({});

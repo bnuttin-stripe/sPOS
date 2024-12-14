@@ -11,11 +11,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark, faUserPlus, faUserMagnifyingGlass, faUserCheck } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { css, themeColors } from '../styles';
 
 export default Products = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const colors = themeColors[settings.theme];
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [refreshing, setRefreshing] = useState(true);

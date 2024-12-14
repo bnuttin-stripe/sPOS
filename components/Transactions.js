@@ -10,11 +10,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faCheck, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { css, themeColors } from '../styles';
 
 export default Transactions = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const colors = themeColors[settings.theme];
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [refreshing, setRefreshing] = useState(true);
@@ -97,7 +98,6 @@ export default Transactions = (props) => {
 
     const showTransaction = (pi) => {
         setModalVisible(true);
-        // console.log(pi);
         setSelectedTransaction(pi);
     }
 
@@ -114,10 +114,12 @@ export default Transactions = (props) => {
 
     const checkCard = async () => {
         const pm = await props.setup();
+        // console.log("checkCard", pm);
         setVerificationPM(pm);
     }
 
     useEffect(() => {
+        // console.log("verificationPM", verificationPM);
         if (verificationPM != null) {
             // console.log("verificationPM", verificationPM)
             // console.log(verificationPM?.card_present?.payment_account_reference);
@@ -129,6 +131,7 @@ export default Transactions = (props) => {
     }, [verificationPM, selectedTransaction]);
 
     const cardValid = () => {
+        // console.log("cardValid", verificationPM?.card_present?.fingerprint, selectedTransaction?.latest_charge?.payment_method_details?.card.fingerprint)
         if (verificationPM == null) return false;
         return verificationPM?.card_present?.fingerprint == selectedTransaction?.latest_charge?.payment_method_details?.card.fingerprint ||
             verificationPM?.card_present?.payment_account_reference == selectedTransaction?.latest_charge?.payment_method_details?.card.payment_account_reference

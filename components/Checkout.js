@@ -12,11 +12,12 @@ import { faChevronLeft, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus
 import Customers from './Customers';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { css, themeColors } from '../styles';
 
 export default Checkout = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const colors = themeColors[settings.theme];
 
     const cart = useRecoilValue(cartAtom);
     const uniqueCart = [...new Map(cart.map(item => [item['id'], item])).values()]

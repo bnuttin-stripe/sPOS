@@ -1,18 +1,25 @@
-export const colors = {
-    blurple: '#635BFF',
-    paleblurple: '#7A73FF',
-    yellow: '#FFBB00',
-    slate: '#425466',
-    white: '#fff',
-    //primary: '#0D1E15',
-    primary: '#36455A',
-    secondary: '#999C9B',
-    tertiary: '#FFBB00',
-    success: '#00C851',
-    danger: '#ff4444',
-    warning: '#ffbb33',
-    info: '#33b5e5',
-    light: '#F2F5F9',
+export const themeColors = {
+    wick:{
+        primary: '#36455A',
+        // primary: 'red',
+        secondary: '#999C9B',
+        tertiary: '#FFBB00',
+        success: '#00C851',
+        danger: '#ff4444',
+        warning: '#ffbb33',
+        info: '#33b5e5',
+        light: '#F2F5F9',
+    },
+    boba:{
+        primary: '#FFBB00',
+        secondary: '#36455A',
+        tertiary: '#999C9B',
+        success: '#00C851',
+        danger: '#ff4444',
+        warning: '#ffbb33',
+        info: '#33b5e5',
+        light: '#F2F5F9',
+    }
 }
 
 export const defaults = {
@@ -94,7 +101,7 @@ export const css = {
         marginBottom: 20,
         marginTop: 10,
         fontWeight: 'bold',
-        color: colors.slate
+        color: '#36455A'
     },
     floatingIcon: {
         position: 'absolute',

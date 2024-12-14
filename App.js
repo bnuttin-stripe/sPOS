@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView } from 'react-native';
+import { Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
 import { getSerialNumber, isTablet } from 'react-native-device-info';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { css, colors } from './styles';
@@ -31,14 +31,14 @@ export default function App({ route }) {
 
   let page = route.params?.page;
 
-  console.log(page);
-
   const { initialize } = useStripeTerminal();
   const [initialized, setInitialized] = useState(false);
   const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
   const [readerFound, setReaderFound] = useState(true);
   const [serial, setSerial] = useState();
   const [settings, setSettings] = useRecoilState(settingsAtom);
+
+  const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
   useEffect(() => {
     setTablet(isTablet());
@@ -50,31 +50,36 @@ export default function App({ route }) {
   const checkPermissionsAndInitialize = async () => {
     setInfoMsg("Checking location permissions");
 
-    // Get camera and location permissions
-    const cameraPermission = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-      {
-        title: 'Camera Permission',
-        message: 'Stripe Terminal needs access to your camera',
-        buttonPositive: 'Accept',
-      }
-    );
+    if (Platform.OS == 'android') {
+      // Get camera and location permissions
+      const cameraPermission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Camera Permission',
+          message: 'Stripe Terminal needs access to your camera',
+          buttonPositive: 'Accept',
+        }
+      );
 
-    const locationPermission = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Location Permission',
-        message: 'Stripe Terminal needs access to your location',
-        buttonPositive: 'Accept',
-      }
-    );
+      const locationPermission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Location Permission',
+          message: 'Stripe Terminal needs access to your location',
+          buttonPositive: 'Accept',
+        }
+      );
 
-    // Initialize Stripe Terminal
-    if (locationPermission === PermissionsAndroid.RESULTS.GRANTED) {
-      setInfoMsg("Location permissions checked");
+      // Initialize Stripe Terminal
+      if (locationPermission === PermissionsAndroid.RESULTS.GRANTED) {
+        setInfoMsg("Location permissions checked");
+        await initializeReader();
+      } else {
+        setInfoMsg("Location services are required");
+      }
+    }
+    else {
       await initializeReader();
-    } else {
-      setInfoMsg("Location services are required");
     }
   }
 
@@ -103,7 +108,6 @@ export default function App({ route }) {
   const { discoverReaders, discoveredReaders, connectHandoffReader, connectLocalMobileReader } =
     useStripeTerminal({
       onUpdateDiscoveredReaders: (readers) => {
-        // console.log("onUpdateDiscoveredReaders");
         setReaderFound(readers.length > 0);
         readers.length > 0
           ? serial?.substring(0, 3) == 'STR'
@@ -137,7 +141,7 @@ export default function App({ route }) {
   const discoverLocalMobileReader = async () => {
     const { error } = await discoverReaders({
       discoveryMethod: 'localMobile',
-      simulated: true
+      // simulated: true
     });
     if (error) {
       setInfoMsg('Failed to discover readers. ' + error.message);
@@ -159,7 +163,8 @@ export default function App({ route }) {
   const connectTTPAReader = async (reader) => {
     const { error } = await connectLocalMobileReader({
       reader: reader,
-      locationId: process.env.EXPO_TTPA_LOCATION
+      // locationId: process.env.EXPO_TTPA_LOCATION
+      locationId: 'tml_F0V0HAjyiFF9Q8'
     });
     setSerial(reader.serialNumber);
     if (error) {
@@ -242,15 +247,17 @@ export default function App({ route }) {
   }
 
   const confirmSetup = async (si) => {
+    // console.log("confirmSetup: ", si);
     const { setupIntent, error } = await confirmSetupIntent({
       setupIntent: si,
     });
+    // console.log("confirmSetupIntent: ", setupIntent);
     if (error) {
       console.log("confirmSetupIntent error: ", error);
       return;
     }
     else {
-      const response = await fetch('https://stripe360.stripedemos.com/payment-method/' + setupIntent.paymentMethodId, {
+      const response = await fetch(backendUrl + '/payment-method/' + setupIntent.paymentMethodId, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -258,11 +265,10 @@ export default function App({ route }) {
         }
       });
       const data = await response.json();
+      // console.log("confirmSetupIntent data: ", data);
       return data;
     }
   }
-
-  console.log(page)
 
   return (
     <SafeAreaView style={css.app}>
@@ -282,11 +288,11 @@ export default function App({ route }) {
                 <Text style={{ padding: 40 }}>{infoMsg}</Text>
               </View>
               : <>
-                {!tablet && <>
-                  {(page == 'Kiosk' || page == undefined) && <Kiosk columns={2} />}
+                {tablet && <>
+                  {(page == 'Kiosk' || page == undefined) && <Kiosk columns={4} />}
                   {page == 'CheckoutKiosk' && <CheckoutKiosk pay={pay} />}
                 </>}
-                {tablet && <>
+                {!tablet && <>
                   <Header page={page} />
                   {(page == 'Calculator' || page == undefined) && <Calculator pay={pay} />}
                   {page == 'Products' && <Products pay={pay} />}
@@ -297,6 +303,8 @@ export default function App({ route }) {
                   {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
                   {page == 'Scanner' && <Scanner />}
                   {page == 'Settings' && <Settings />}
+                  {/* {page == 'Kiosk' && <Kiosk columns={2} />}
+                  {page == 'CheckoutKiosk' && <CheckoutKiosk pay={pay} />} */}
                 </>}
               </>
             }

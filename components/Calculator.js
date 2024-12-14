@@ -1,19 +1,20 @@
 import { React, useEffect, useState } from 'react';
-import { Text, View, Pressable } from 'react-native';
+import { Text, View, Pressable, useWindowDimensions } from 'react-native';
 
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { settingsAtom } from '../atoms';
-
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCreditCard, faXmark, faArrowLeft } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { css, themeColors } from '../styles';
 
 export default Calculator = (props) => {
     const settings = useRecoilValue(settingsAtom);
+    const colors = themeColors[settings.theme];
     const [amount, setAmount] = useState(0);
+    const { height, width } = useWindowDimensions();
 
     const reset = () => {
         setAmount(0);
@@ -39,6 +40,41 @@ export default Calculator = (props) => {
         }
         props.pay(payload, reset);
     }
+
+    const styles = {
+        amount: {
+            alignSelf: 'flex-end',
+            marginRight: 10,
+            // marginBottom: 20,
+            height: '20%',
+            // backgroundColor: 'pink'
+        },
+        largest: {
+            fontSize: 70,
+            color: colors.primary
+        },
+        large: {
+            fontSize: 40,
+            color: colors.primary
+        },
+        medium: {
+            fontSize: 30,
+            color: 'white'
+        },
+        row: {
+            flexDirection: 'row',
+            height: '16%',
+        },
+        tile: {
+            width: '33%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 7,
+            borderColor: 'white',
+            borderRadius: 15,
+            backgroundColor: colors.light
+        }
+    };
     
     return (
         <View style={css.container}>
@@ -78,35 +114,4 @@ export default Calculator = (props) => {
     )
 }
 
-const styles = {
-    amount: {
-        alignSelf: 'flex-end',
-        marginRight: 5,
-        marginBottom: 20
-    },
-    largest: {
-        fontSize: 70,
-        color: colors.primary
-    },
-    large: {
-        fontSize: 40,
-        color: colors.primary
-    },
-    medium: {
-        fontSize: 30,
-        color: 'white'
-    },
-    row: {
-        flexDirection: 'row',
-        height: 80
-    },
-    tile: {
-        width: '33%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 7,
-        borderColor: 'white',
-        borderRadius: 15,
-        backgroundColor: colors.light
-    }
-};
+

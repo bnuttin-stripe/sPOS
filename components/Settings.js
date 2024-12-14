@@ -12,10 +12,11 @@ import { faSave, faRotateLeft, faMobile, faTrash } from '@fortawesome/pro-solid-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { css, themeColors } from '../styles';
 
 export default Settings = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
+    const colors = themeColors[settings.theme];
     const [resettingStorage, setResettingStorage] = useState(false);
 
     const resetSettings = useResetRecoilState(settingsAtom);
@@ -85,6 +86,15 @@ export default Settings = (props) => {
                     </View>
                 </View>
 
+                <Text>Theme</Text>
+                <RNPickerSelect
+                    value={settings.theme}
+                    onValueChange={value => setSettings({ ...settings, theme: value })}
+                    items={[
+                        { label: "Wick & Wool", value: "wick" },
+                        { label: "Boba Tea Company", value: "boba" },
+                    ]}
+                />
 
                 {/* <Pressable style={{ marginTop: 20, marginBottom: 80 }} onPress={resetLocalStorage}>
                     <Text style={{ color: colors.danger }}>

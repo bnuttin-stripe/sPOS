@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from 'react';
-import { Text, View, Pressable, Image, FlatList, ScrollView, Dimensions, useWindowDimensions } from 'react-native';
+import { Text, View, Pressable, Image, FlatList, Dimensions, useWindowDimensions } from 'react-native';
+import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
@@ -9,17 +10,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCreditCard, faPlusCircle, faArrowLeft, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
-import { Header } from 'react-native-elements/dist/header/Header';
-import { Button } from 'react-native-paper';
+import { css, themeColors } from '../styles';
 
 export default Kiosk = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
+    const colors = themeColors[settings.theme];
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const { height, width } = useWindowDimensions();
-    // console.log(height, width);
 
     const [refreshing, setRefreshing] = useState(true);
     const [products, setProducts] = useRecoilState(productAtom);
@@ -32,6 +31,23 @@ export default Kiosk = (props) => {
 
     const getCartTotal = (cart) => {
         return cart.reduce((a, b) => a + b.default_price.unit_amount / 100, 0);
+    }
+
+    const addToCart = (product) => {
+        setCart([...cart, product]);
+    }
+
+    const removeFromCart = (product) => {
+        var arr = [...cart];
+        let idx = cart.findIndex(x => x.id == product.id);
+        arr.splice(idx, 1);
+        setCart(arr);
+    }
+
+    const handleItemPress = (product) => {
+        numInCart(product) == 0
+        ? addToCart(product)
+        : removeFromCart(product);
     }
 
     const getProducts = async () => {
@@ -58,7 +74,7 @@ export default Kiosk = (props) => {
 
     const ProductCard = ({ item }) => {
         return (
-            <Pressable style={styles.item} onPress={() => setCart([...cart, item])}>
+            <Pressable style={styles.item} onPress={() => handleItemPress(item)}>
                 <View>
                     <Image
                         style={styles.productImage}
@@ -67,7 +83,7 @@ export default Kiosk = (props) => {
                 <View style={{ flexDirection: 'row', padding: 5 }}>
                     <View style={{ flexDirection: 'column', flex: 1 }}>
                         <Text numberOfLines={2} ellipsizeMode='tail'>{item.name}</Text>
-                        <Text>{Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)}</Text>
+                        <Text style={{fontSize: 18, fontWeight: 'bold', marginTop: 10}}>{Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)}</Text>
                     </View>
                     <View>
                         {numInCart(item) == 0
@@ -90,45 +106,44 @@ export default Kiosk = (props) => {
         logo: {
             flex: 1,
             resizeMode: 'contain',
-            // backgroundColor: 'red'
         },
         kiosk: {
-            flex: 1,
-            marginLeft: -20,
-            marginRight: -20,
-            // // marginHorizontal: "auto",
-            // flexDirection: "column",
-            // flexWrap: "wrap"
+            flex: 4,
+            marginHorizontal: "auto",
+            // width: '90%',
         },
         productImage: {
-            // height: width/ props.columns,
-            height: width / (props.columns + 1),
-            width: width / (props.columns + 1),
-            marginBottom: 10
-            // flex: 1,
-            // resizeMode: 'contain',
+            height: 120,
+            width: 120,
+            marginBottom: 10,
         },
         item: {
-            flex: 1,
             flexDirection: 'column',
-            justifyContent: 'flex-start',
-            height: width / (props.columns + 1) + 80,
+            justifyContent: 'center',
+            height: 240,
             alignItems: "center",
-            // padding: 10,
-            margin: 10,
-            // borderColor: colors.primary,
-            // borderWidth: 1,
+            padding: 20,
+            margin: 20,
+            borderColor: colors.primary,
+            width: width / props.columns - 50,
+            backgroundColor: colors.light,
+            borderRadius: 10,
         },
         footer: {
             flexDirection: 'column',
-            justifyContent: 'flex-end',
             height: '10%',
             padding: 10,
-            width: '100%',
-            marginBottom: 0,
-            borderWdith: 2,
-            borderColor: colors.primary,
+            width: '40%',
+            justifyContent: 'flex-end',
+            // borderWdith: 2,
+            // borderColor: colors.primary,
+            marginHorizontal: "auto",
         },
+        buttons: {
+            flexDirection: 'row',
+            marginHorizontal: "auto",
+            justifyContent: 'space-between',
+        }
     };
 
     return (
@@ -141,15 +156,17 @@ export default Kiosk = (props) => {
             <View style={styles.kiosk}>
                 {!refreshing && <FlatList
                     data={products}
-                    numColumns={2}
+                    numColumns={props.columns}
                     renderItem={ProductCard}
                     keyExtractor={(product) => product.id}
                 />}
             </View>
             <View style={styles.footer}>
-                <Button mode="contained" onPress={goToCheckout} style={{ width: '100%', backgroundColor: colors.primary }}>
-                    Pay {Utils.displayPrice(getCartTotal(cart), settings.currency)} now
-                </Button>
+                <View style={styles.buttons}>
+                    <Button mode="contained" onPress={goToCheckout} style={{ backgroundColor: colors.primary }}>
+                        Go to Checkout
+                    </Button>
+                </View>
             </View>
         </View>
     )

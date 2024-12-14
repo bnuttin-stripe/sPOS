@@ -13,7 +13,8 @@ export default SettingsHandler = (props) => {
         orderPrefix: 'STP-',
         taxPercentage: '10',
         productFilter: '',
-        magicCentProtection: true
+        magicCentProtection: true,
+        theme: 'wick'
     };
 
     const getAccount = async () => {

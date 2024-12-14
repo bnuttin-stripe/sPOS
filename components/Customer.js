@@ -8,13 +8,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowTurnLeft } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
-import { css, colors } from '../styles';
+import { css, themeColors } from '../styles';
 
 import Transactions from './Transactions';
 
 export default Customer = (props) => {
     const settings = useRecoilValue(settingsAtom);
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
+    const colors = themeColors[settings.theme];
 
     const [isLoading, setIsLoading] = useState(false);
     const [customer, setCustomer] = useState({});
