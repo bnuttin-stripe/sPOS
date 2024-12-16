@@ -76,7 +76,7 @@ export default Header = (props) => {
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <Text style={{ color: colors.white, fontSize: 10, marginTop: 2 }}>Powered by</Text>
+                        <Text style={{ color: 'white', fontSize: 10, marginTop: 2 }}>Powered by</Text>
                         <Image source={require('../assets/stripe.png')} style={{ width: 60, height: 19, marginLeft: -8, marginRight: -16, marginBottom: -13, resizeMode: 'contain' }} />
                     </View>
                 </View>

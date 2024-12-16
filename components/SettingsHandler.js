@@ -14,7 +14,8 @@ export default SettingsHandler = (props) => {
         taxPercentage: '10',
         productFilter: '',
         magicCentProtection: true,
-        theme: 'wick'
+        theme: 'wick',
+        enableSurcharging: false,
     };
 
     const getAccount = async () => {

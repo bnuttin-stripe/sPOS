@@ -86,6 +86,19 @@ export default Settings = (props) => {
                     </View>
                 </View>
 
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
+                    <Text style={css.label}>Enable 2% Surcharging</Text>
+                    <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
+                        <Switch
+                            trackColor={{ false: colors.light, true: colors.secondary }}
+                            thumbColor={settings?.enableSurcharging ? colors.primary : colors.secondary}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={value => setSettings({ ...settings, enableSurcharging: !settings?.enableSurcharging })}
+                            value={settings?.enableSurcharging}
+                        />
+                    </View>
+                </View>
+
                 <Text>Theme</Text>
                 <RNPickerSelect
                     value={settings.theme}
@@ -96,13 +109,9 @@ export default Settings = (props) => {
                     ]}
                 />
 
-                {/* <Pressable style={{ marginTop: 20, marginBottom: 80 }} onPress={resetLocalStorage}>
-                    <Text style={{ color: colors.danger }}>
-                        {resettingStorage
-                            ? "Resetting local storage..."
-                            : "Debug only - reset local storage"}
-                    </Text>
-                </Pressable> */}
+                <Pressable style={{ marginTop: 20, marginBottom: 80 }} onPress={deviceSettings}>
+                    <Text style={{ color: colors.danger }}>Device Settings</Text>
+                </Pressable>
 
             </ScrollView>
 
@@ -110,12 +119,9 @@ export default Settings = (props) => {
                 <FontAwesomeIcon icon={faRotateLeft} color={'white'} size={18} />
             </Pressable> */}
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={deviceSettings}>
+            {/* <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={deviceSettings}>
                 <FontAwesomeIcon icon={faMobile} color={'white'} size={18} />
-            </Pressable>
-
-
-
+            </Pressable> */}
         </View>
     )
 }

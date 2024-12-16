@@ -2,7 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
 import { getSerialNumber, isTablet } from 'react-native-device-info';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
-import { css, colors } from './styles';
+import { css, themeColors } from './styles';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/pro-solid-svg-icons';
@@ -37,6 +37,7 @@ export default function App({ route }) {
   const [readerFound, setReaderFound] = useState(true);
   const [serial, setSerial] = useState();
   const [settings, setSettings] = useRecoilState(settingsAtom);
+  const colors = themeColors[settings.theme];
 
   const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
@@ -200,10 +201,14 @@ export default function App({ route }) {
   }
 
   const collectPM = async (pi, onSuccess) => {
-    // console.log("collectPM: ", pi);
-    const { error, paymentIntent } = await collectPaymentMethod({
+    let payload = {
       paymentIntent: pi
-    });
+    }
+    if (settings.enableSurcharging) {
+      payload.surchargeNotice = "A 2% surcharge will be added to cover credit card fees";
+      payload.updatePaymentIntent = true;
+    }
+    const { error, paymentIntent } = await collectPaymentMethod(payload);
     if (error) {
       console.log("collectPaymentMethod error: ", error);
       return;
@@ -212,9 +217,11 @@ export default function App({ route }) {
   }
 
   const confirmPayment = async (pi, onSuccess) => {
-    const { error, paymentIntent } = await confirmPaymentIntent({
+    let payload = {
       paymentIntent: pi
-    });
+    }
+    if (settings.enableSurcharging) payload.amountSurcharge = 0.02 * pi.amount;
+    const { error, paymentIntent } = await confirmPaymentIntent(payload);
     if (error) {
       console.log("confirmPaymentIntent error: ", error);
       return;
@@ -274,7 +281,7 @@ export default function App({ route }) {
     <SafeAreaView style={css.app}>
       {!initialized &&
         <View style={{ justifyContent: 'center', flex: 1 }}>
-          <ActivityIndicator size="large" color={colors.primary} />
+          <ActivityIndicator size="large" color={'#36455A'} />
           <Text style={{ padding: 40 }}>{infoMsg}</Text>
         </View>
       }
@@ -284,7 +291,7 @@ export default function App({ route }) {
             <SettingsHandler serial={serial} setInfoMsg={setInfoMsg} />
             {!settings.account
               ? <View style={{ justifyContent: 'center', flex: 1 }}>
-                <ActivityIndicator size="large" color={colors.primary} />
+                <ActivityIndicator size="large" color={'#36455A'} />
                 <Text style={{ padding: 40 }}>{infoMsg}</Text>
               </View>
               : <>
@@ -312,7 +319,7 @@ export default function App({ route }) {
           </>
           : <>
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-              <FontAwesomeIcon icon={faTriangleExclamation} color={colors.primary} size={30} />
+              <FontAwesomeIcon icon={faTriangleExclamation} color={'#36455A'} size={30} />
               <Text style={{ padding: 40, lineHeight: 30 }}>No reader detected. The Stripe account may not be enabled for Apps on Device, or the device may not have the required specifications.</Text>
             </View>
           </>}

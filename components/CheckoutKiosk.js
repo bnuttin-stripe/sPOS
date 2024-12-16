@@ -76,10 +76,10 @@ export default CheckoutKiosk = (props) => {
         return (
             <View key={product.id} style={{ flexDirection: 'row' }}>
                 <View style={{ flex: 2 }}>
-                    <Text style={css.spacedText}>{product.name}</Text>
+                    <Text style={[css.spacedText, styles.largeText]}>{product.name}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
-                    <Text style={css.spacedText}>{numInCart(product)} x {Utils.displayPrice(product.default_price.unit_amount / 100, product.default_price.currency)}</Text>
+                    <Text style={[css.spacedText, styles.largeText]}>{numInCart(product)} x {Utils.displayPrice(product.default_price.unit_amount / 100, product.default_price.currency)}</Text>
                 </View>
             </View>
         )
@@ -130,6 +130,9 @@ export default CheckoutKiosk = (props) => {
             flexDirection: 'row',
             marginHorizontal: "auto",
             justifyContent: 'space-between',
+        },
+        largeText: {
+            fontSize: 22
         }
     };
 
@@ -137,7 +140,8 @@ export default CheckoutKiosk = (props) => {
         <View style={css.container}>
             <View style={styles.header}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image source={require('../assets/logoblack.png')} style={styles.logo} />
+                    {settings.theme == 'wick' && <Image source={require('../assets/logoblack.png')} style={styles.logo} />}
+                    {settings.theme == 'boba' && <Image source={require('../assets/logoBoba.png')} style={styles.logo} />}
                 </View>
             </View>
             <ScrollView style={styles.cart}>
@@ -149,37 +153,37 @@ export default CheckoutKiosk = (props) => {
 
                         <View style={{ flexDirection: 'row', borderTopWidth: 1, borderStyle: 'dashed', paddingTop: 8 }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={css.spacedText}>Subtotal</Text>
+                                <Text style={[css.spacedText, {fontSize: 22}]}>Subtotal</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
-                                <Text style={css.spacedText}>{Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}</Text>
+                                <Text style={[css.spacedText, {fontSize: 22}]}>{Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}</Text>
                             </View>
                         </View>
 
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={css.spacedText}>Tax</Text>
+                                <Text style={[css.spacedText, styles.largeText]}>Tax</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
-                                <Text style={css.spacedText}>{Utils.displayPrice(getCartTotal(cart).taxes / 100, settings.currency)}</Text>
+                                <Text style={[css.spacedText, styles.largeText]}>{Utils.displayPrice(getCartTotal(cart).taxes / 100, settings.currency)}</Text>
                             </View>
                         </View>
 
                         {getCartTotal(cart).adjustment > 0 && <View style={{ flexDirection: 'row' }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={css.spacedText}>Round up for charity</Text>
+                                <Text style={[css.spacedText, styles.largeText]}>Round up for charity</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
-                                <Text style={css.spacedText}>{Utils.displayPrice(getCartTotal(cart).adjustment / 100, settings.currency)}</Text>
+                                <Text style={[css.spacedText, styles.largeText]}>{Utils.displayPrice(getCartTotal(cart).adjustment / 100, settings.currency)}</Text>
                             </View>
                         </View>}
 
                         <View style={{ flexDirection: 'row', borderTopWidth: 1, borderStyle: 'dashed', paddingTop: 8 }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={[css.spacedText, css.bold]}>Total</Text>
+                                <Text style={[css.spacedText, css.bold, styles.largeText]}>Total</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
-                                <Text style={[css.spacedText, css.bold]}>{Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}</Text>
+                                <Text style={[css.spacedText, css.bold, styles.largeText]}>{Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}</Text>
                             </View>
                         </View>
                     </>

@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, productAtom, settingsAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus } from '@fortawesome/pro-solid-svg-icons';
+import { faChevronLeft, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus, faCreditCard } from '@fortawesome/pro-solid-svg-icons';
 
 import Customers from './Customers';
 
@@ -205,8 +205,8 @@ export default Checkout = (props) => {
                 </Pressable>}
 
             <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
-                <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
-                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}</Text>
+                <FontAwesomeIcon icon={faCreditCard} color={'white'} size={20} />
+                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Collect {Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}</Text>
             </Pressable>
 
         </View>

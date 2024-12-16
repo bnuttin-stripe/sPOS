@@ -46,8 +46,28 @@ export default Products = (props) => {
         return cart.filter(x => (x.id == product.id)).length;
     }
 
+    const adjustFinalAmount = (amount) => {
+        let output = 0;
+        if (!settings.magicCentProtection) return 0;
+        const decimal = amount.toString().slice(-2);
+        if (['01', '02', '03', '05', '40', '55', '65', '75'].includes(decimal)) {
+            output = 100 - parseInt(decimal);
+        }
+        return output;
+    }
+
     const getCartTotal = (cart) => {
-        return cart.reduce((a, b) => a + b.default_price.unit_amount / 100, 0);
+        const subtotal = cart.reduce((a, b) => a + b.default_price.unit_amount, 0);
+        const taxes = Math.round(subtotal * settings.taxPercentage / 100);
+        const adjustment = adjustFinalAmount(subtotal + taxes);
+        const total = subtotal + taxes + adjustment;
+        // console.log(subtotal, taxes, adjustment, total);
+        return {
+            subtotal: subtotal,
+            taxes: taxes,
+            adjustment: adjustment,
+            total: total
+        }
     }
 
     const getProducts = async () => {
@@ -198,8 +218,8 @@ export default Products = (props) => {
             </Pressable>
 
             <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={goToCheckout}>
-                <FontAwesomeIcon icon={faChevronRight} color={'white'} size={20} />
-                {/* <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart), settings.currency)}</Text> */}
+                <FontAwesomeIcon icon={faCartShopping} color={'white'} size={20} />
+                {cart.length > 0 && <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>{Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}</Text>}
             </Pressable>
 
             {/* <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={resetCart}>
