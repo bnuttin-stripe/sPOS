@@ -65,7 +65,7 @@ export default Kiosk = (props) => {
     };
 
     const goToCheckout = () => {
-        navigation.navigate("App", { page: "CheckoutKiosk" });
+        navigation.navigate("App", { page: "KioskCheckout" });
     }
 
     useEffect(() => {
@@ -135,8 +135,6 @@ export default Kiosk = (props) => {
             padding: 10,
             width: '40%',
             justifyContent: 'flex-end',
-            // borderWdith: 2,
-            // borderColor: colors.primary,
             marginHorizontal: "auto",
         },
         buttons: {
@@ -164,7 +162,10 @@ export default Kiosk = (props) => {
             </View>
             <View style={styles.footer}>
                 <View style={styles.buttons}>
-                    <Button mode="contained" onPress={goToCheckout} style={{ backgroundColor: colors.primary }}>
+                    <Button mode="contained" onPress={resetCart} style={{ backgroundColor: colors.primary, marginLeft: 10, marginRight: 10 }}>
+                        Reset Cart
+                    </Button>
+                    <Button mode="contained" onPress={goToCheckout} style={{ backgroundColor: colors.primary, marginLeft: 10, marginRight: 10 }}>
                         Go to Checkout
                     </Button>
                 </View>
@@ -172,4 +173,3 @@ export default Kiosk = (props) => {
         </View>
     )
 }
-

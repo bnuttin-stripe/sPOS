@@ -21,7 +21,7 @@ import CustomerEntry from './components/CustomerEntry';
 import Settings from './components/Settings';
 import SettingsHandler from './components/SettingsHandler';
 import Kiosk from './components/Kiosk';
-import CheckoutKiosk from './components/CheckoutKiosk';
+import KioskCheckout from './components/KioskCheckout';
 
 import * as Utils from './utilities';
 
@@ -86,7 +86,6 @@ export default function App({ route }) {
 
   const initializeReader = async () => {
     setInfoMsg("Starting reader software");
-    // console.log("initializeReader");
     const { error, reader } = await initialize();
 
     if (error) {
@@ -164,8 +163,8 @@ export default function App({ route }) {
   const connectTTPAReader = async (reader) => {
     const { error } = await connectLocalMobileReader({
       reader: reader,
-      // locationId: process.env.EXPO_TTPA_LOCATION
-      locationId: 'tml_F0V0HAjyiFF9Q8'
+      locationId: process.env.EXPO_PUBLIC_TTPA_LOCATION
+      // locationId: 'tml_F0V0HAjyiFF9Q8'
     });
     setSerial(reader.serialNumber);
     if (error) {
@@ -226,7 +225,7 @@ export default function App({ route }) {
       console.log("confirmPaymentIntent error: ", error);
       return;
     }
-    if (onSuccess) onSuccess();
+    if (onSuccess) onSuccess(paymentIntent);
   };
 
   // SETUP INTENTS
@@ -272,7 +271,6 @@ export default function App({ route }) {
         }
       });
       const data = await response.json();
-      // console.log("confirmSetupIntent data: ", data);
       return data;
     }
   }
@@ -297,7 +295,7 @@ export default function App({ route }) {
               : <>
                 {tablet && <>
                   {(page == 'Kiosk' || page == undefined) && <Kiosk columns={4} />}
-                  {page == 'CheckoutKiosk' && <CheckoutKiosk pay={pay} />}
+                  {page == 'KioskCheckout' && <KioskCheckout pay={pay} />}
                 </>}
                 {!tablet && <>
                   <Header page={page} />
@@ -310,8 +308,6 @@ export default function App({ route }) {
                   {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
                   {page == 'Scanner' && <Scanner />}
                   {page == 'Settings' && <Settings />}
-                  {/* {page == 'Kiosk' && <Kiosk columns={2} />}
-                  {page == 'CheckoutKiosk' && <CheckoutKiosk pay={pay} />} */}
                 </>}
               </>
             }

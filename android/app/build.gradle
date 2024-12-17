@@ -114,8 +114,9 @@ android {
         applicationId 'com.bnuttin.sPOS'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
-        versionName "1.0.13"
+        versionCode 14
+        versionName "1.0.14"
+        // multiDexEnabled true
     }
     signingConfigs {
         debug {
@@ -203,6 +204,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    // implementation('com.android.support:multidex:2.0.1')
 }
 
 if (rnVersion < versionToNumber(0, 75, 0)) {

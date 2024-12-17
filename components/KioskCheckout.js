@@ -2,22 +2,24 @@ import { React, useState, useEffect } from 'react';
 import { Text, View, Pressable, ScrollView, Modal, Image, StyleSheet, useWindowDimensions } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import SunmiPrinter, { AlignValue } from '@heasy/react-native-sunmi-printer';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, productAtom, settingsAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus } from '@fortawesome/pro-solid-svg-icons';
+import { faCircleCheck, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus } from '@fortawesome/pro-solid-svg-icons';
 
 import Customers from './Customers';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
 
-export default CheckoutKiosk = (props) => {
+export default KioskCheckout = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
     const colors = themeColors[settings.theme];
+    const [paymentDone, setPaymentDone] = useState(false);
 
     const { height, width } = useWindowDimensions();
 
@@ -65,11 +67,41 @@ export default CheckoutKiosk = (props) => {
                 cart: cart.map(x => x.name).join('\n')
             }
         }
-        props.pay(payload, resetCart);
+        props.pay(payload, setLastStep);
     }
 
     const goBack = () => {
         navigation.navigate("App", { page: "Kiosk" });
+    }
+
+    const newTransaction = () => {
+        resetCart();
+        goBack();
+    }
+
+    const setLastStep = (pi) => {
+        setPaymentDone(pi.status == 'succeeded');
+    }
+
+    const printReceipt = async () => {
+        SunmiPrinter.printerInit();
+        SunmiPrinter.setFontWeight(false);
+        SunmiPrinter.setFontSize(30);
+        SunmiPrinter.printerText('Thank you for shopping with us!\n\n');
+        SunmiPrinter.setFontSize(24);
+        SunmiPrinter.printerText('Your items: \n');
+        cart.map(item => {
+            SunmiPrinter.printColumnsText([item.name, Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+        })
+        SunmiPrinter.setFontWeight(true);
+        SunmiPrinter.printColumnsText(['Subtotal: ', Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+        SunmiPrinter.printColumnsText(['Tax: ', Utils.displayPrice(getCartTotal(cart).taxes / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+        SunmiPrinter.printColumnsText(['Total: ', Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+        SunmiPrinter.setFontWeight(false);
+
+        SunmiPrinter.printerText('\nFind our more about Stripe Terminal:\n\n');
+        SunmiPrinter.printQRCode('https://stripe.com/industries/retail', 8, 0);
+        SunmiPrinter.lineWrap(5);
     }
 
     const Row = (product) => {
@@ -120,7 +152,7 @@ export default CheckoutKiosk = (props) => {
         },
         footer: {
             flexDirection: 'column',
-            height: '10%',
+            height: '20%',
             padding: 10,
             width: '40%',
             justifyContent: 'flex-end',
@@ -153,10 +185,10 @@ export default CheckoutKiosk = (props) => {
 
                         <View style={{ flexDirection: 'row', borderTopWidth: 1, borderStyle: 'dashed', paddingTop: 8 }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={[css.spacedText, {fontSize: 22}]}>Subtotal</Text>
+                                <Text style={[css.spacedText, { fontSize: 22 }]}>Subtotal</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
-                                <Text style={[css.spacedText, {fontSize: 22}]}>{Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}</Text>
+                                <Text style={[css.spacedText, { fontSize: 22 }]}>{Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}</Text>
                             </View>
                         </View>
 
@@ -190,14 +222,28 @@ export default CheckoutKiosk = (props) => {
                 }
             </ScrollView>
             <View style={styles.footer}>
+                {paymentDone && <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 30}}>
+                    <FontAwesomeIcon icon={faCircleCheck} color={colors.success} size={30} />
+                    <Text style={{fontSize: 26, marginLeft: 20}}>Thank you for your purchase!</Text>
+                </View>}
                 <View style={styles.buttons}>
-                    <Button mode="contained" style={{ backgroundColor: colors.primary, marginRight: 20 }} onPress={goBack}>
-                        Go Back
-                    </Button>
-                    <Button mode="contained" style={{ backgroundColor: colors.primary, marginLeft: 20 }} onPress={pay}>
-                        Pay {Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)} now
-                    </Button>
-
+                    {!paymentDone
+                        ? <>
+                            <Button mode="contained" style={{ backgroundColor: colors.primary, marginLeft: 10, marginRight: 10 }} onPress={goBack}>
+                                Go Back
+                            </Button>
+                            <Button mode="contained" style={{ backgroundColor: colors.primary, marginLeft: 10, marginRight: 10 }} onPress={pay}>
+                                Pay {Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)} now
+                            </Button>
+                        </>
+                        : <>
+                            <Button mode="contained" style={{ backgroundColor: colors.primary, marginLeft: 10, marginRight: 10 }} onPress={printReceipt}>
+                                Print Receipt
+                            </Button>
+                            <Button mode="contained" style={{ backgroundColor: colors.primary, marginLeft: 10, marginRight: 10 }} onPress={newTransaction}>
+                                New Transaction
+                            </Button>
+                        </>}
                 </View>
             </View>
         </View>
