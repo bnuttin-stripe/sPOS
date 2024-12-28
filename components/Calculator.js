@@ -5,7 +5,7 @@ import { useRecoilValue, useRecoilState } from 'recoil';
 import { settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCreditCard, faXmark, faArrowLeft } from '@fortawesome/pro-solid-svg-icons';
+import { faCreditCard, faXmark, faDeleteLeft } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
@@ -101,13 +101,12 @@ export default Calculator = (props) => {
                 <Pressable style={[styles.tile, { width: '67%' }]} onPress={() => addDigit("00")}><Text style={styles.large}>.00</Text></Pressable>
             </View>
             <View style={styles.row}>
-                <Pressable style={[styles.tile, { backgroundColor: colors.primary }]} onPress={reset}>
-                    <FontAwesomeIcon icon={faXmark} color={'white'} size={24} />
+                <Pressable style={[styles.tile, { backgroundColor: colors.secondary }]} onPress={reset}>
+                    <FontAwesomeIcon icon={faDeleteLeft} color={'white'} size={24} />
                 </Pressable>
                 <Pressable onPress={pay} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: colors.primary}]}>
                     <FontAwesomeIcon icon={faCreditCard} color={'white'} size={24} />
                     <Text style={{ color: 'white', fontSize: 22, marginLeft: 10 }}>Pay</Text>
-                    {/* <Image source={require('../assets/contactless.png')} style={{ width: 48, height: 48, marginLeft: 20 }} /> */}
                 </Pressable>
             </View>
         </View>

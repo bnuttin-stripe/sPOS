@@ -1,0 +1,1164 @@
+--------- beginning of main
+12-18 17:51:18.955   630 16740 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:51:29.162   630 16762 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:51:33.603   630 16774 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:51:33.768   630   630 I netd    : trafficSwapActiveStatsMap() <2.12ms>
+12-18 17:51:33.793   630   630 I netd    : tetherGetStats() <7.69ms>
+12-18 17:51:33.822   630   630 I netd    : bandwidthSetGlobalAlert(2097152) <1.17ms>
+12-18 17:51:34.038  1391  2315 D AlarmManagerService: Kernel timezone updated to 360 minutes west of GMT
+12-18 17:51:39.467   630 16790 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:51:40.693  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:51:40.695  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:51:40.698  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:51:44.820   630 16801 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:51:48.833  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:51:48.836  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:51:48.838  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:51:49.657   630 16810 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:51:59.859   630 16831 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:52:00.006  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 17:52:00.007  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 17:52:00.009  1750  1750 D KeyguardClockSwitch: Updating clock: 552
+12-18 17:52:05.075  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:52:05.077  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:52:05.082  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:52:08.262   630 16850 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:52:13.210  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:52:13.211  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:52:13.213  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:52:14.290  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:52:14.294  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:52:14.295  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:52:15.222   630 16865 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:52:15.530  2823 16327 W .stripe.update: Long monitor contention with owner DefaultDispatcher-worker-7 (16325) at com.stripe.jvmcore.crpcclient.CrpcResponse com.stripe.jvmcore.crpcclient.CrpcClient.execute(okhttp3.Request, com.stripe.proto.net.rpc.base.RpcRequest, com.squareup.wire.Message, com.squareup.wire.ProtoAdapter)(SourceFile:-1) waiters=0 in com.stripe.jvmcore.crpcclient.CrpcResponse com.stripe.jvmcore.crpcclient.CrpcClient.execute(okhttp3.Request, com.stripe.proto.net.rpc.base.RpcRequest, com.squareup.wire.Message, com.squareup.wire.ProtoAdapter) for 303ms
+12-18 17:52:20.272   630 16876 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:52:21.323  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:52:21.327  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:52:21.333  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:52:30.477   630 16896 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: Writing exception to parcel
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 17:52:31.888  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 17:52:37.548  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:52:37.548  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:52:37.550  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:52:38.869  2823  2843 I .stripe.update: Background concurrent copying GC freed 177135(6472KB) AllocSpace objects, 18(688KB) LOS objects, 49% free, 7287KB/14MB, paused 112us total 122.155ms
+12-18 17:52:40.750   630 16918 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:52:50.960   630 16939 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:53:00.012  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 17:53:00.013  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 17:53:00.022  1750  1750 D KeyguardClockSwitch: Updating clock: 553
+12-18 17:53:01.170   630 16958 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:53:06.196   729   729 I LocSvc_GnssInterface: ===> setPositionMode_1_1 line 498 
+12-18 17:53:06.197   729   729 E LocSvc_APIClientBase: locAPIUpdateTrackingOptions:396] invalid or stopped session: 83.
+12-18 17:53:06.201   729   729 I LocSvc_GnssInterface: ===> start line 281 
+12-18 17:53:06.201   729   729 I LocSvc_APIClientBase: locAPIStartTracking:352] start new session: 84
+12-18 17:53:08.452   630 16975 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:53:11.005  1391  4081 D WificondControl: Scan result ready event
+12-18 17:53:11.032  1391  1652 D WifiClientModeImpl: onResults: total 29 results
+12-18 17:53:11.033  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 198339166783756 for another 140 seconds
+12-18 17:53:11.033  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:0c:<Free Malware>
+12-18 17:53:11.036  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-START addr=b4:63:6f:94:c9:04 dialog_token=74 freq=2437
+12-18 17:53:11.037  1391  1652 D HS20    : ANQP initiated on b4:63:6f:94:c9:04
+12-18 17:53:11.038  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:04:<Free Malware>
+12-18 17:53:11.039  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-START addr=b4:63:6f:94:c9:08 dialog_token=75 freq=5220
+12-18 17:53:11.042  1391  1652 D HS20    : ANQP initiated on b4:63:6f:94:c9:08
+12-18 17:53:11.043  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:08:<Free Malware>
+12-18 17:53:11.044  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-START addr=9a:18:65:d5:70:25 dialog_token=76 freq=2427
+12-18 17:53:11.045  1391  1652 D HS20    : ANQP initiated on 9a:18:65:d5:70:25
+12-18 17:53:11.046  1391  1652 D PasspointManager: ANQP entry not found for: 9a:18:65:d5:70:25:<NTGRBH_941865D50C52>
+12-18 17:53:11.047  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-START addr=bc:9a:8e:3b:28:38 dialog_token=77 freq=5240
+12-18 17:53:11.047  1138  3546 I LOWI-8.6.0.75: [LOWI-Scan] lowi_close_record:Scan done in 33584467ms, 29 APs in scan results
+12-18 17:53:11.048  1391  1652 D HS20    : ANQP initiated on bc:9a:8e:3b:28:38
+12-18 17:53:11.048  1391  1652 D PasspointManager: ANQP entry not found for: bc:9a:8e:3b:28:38:<APM_SK>
+12-18 17:53:11.048  1391  1652 D WifiNetworkSelector: Current connected network: "Bali" , ID: 1
+12-18 17:53:11.048  1391  1652 D WifiNetworkSelector: Current connected network already sufficient. Skip network selection.
+12-18 17:53:11.374   630 16982 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:53:13.066  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-DONE addr=b4:63:6f:94:c9:04 dialog_token=74 freq=2437 status_code=0 result=TIMEOUT
+12-18 17:53:13.068  1744  1744 I wpa_supplicant: wlan0: ANQP-QUERY-DONE addr=b4:63:6f:94:c9:04 result=FAILURE
+12-18 17:53:14.278  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:53:14.280  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:53:14.283  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:53:15.098  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-DONE addr=b4:63:6f:94:c9:08 dialog_token=75 freq=5220 status_code=0 result=TIMEOUT
+12-18 17:53:15.099  1744  1744 I wpa_supplicant: wlan0: ANQP-QUERY-DONE addr=b4:63:6f:94:c9:08 result=FAILURE
+12-18 17:53:15.387  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-DONE addr=9a:18:65:d5:70:25 dialog_token=76 freq=2427 status_code=0 result=TIMEOUT
+12-18 17:53:15.389  1744  1744 I wpa_supplicant: wlan0: ANQP-QUERY-DONE addr=9a:18:65:d5:70:25 result=FAILURE
+12-18 17:53:15.770  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-DONE addr=bc:9a:8e:3b:28:38 dialog_token=77 freq=5240 status_code=0 result=TIMEOUT
+12-18 17:53:15.771  1744  1744 I wpa_supplicant: wlan0: ANQP-QUERY-DONE addr=bc:9a:8e:3b:28:38 result=FAILURE
+12-18 17:53:18.255  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:53:18.257  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:53:18.258  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:53:22.281   630 17003 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: Writing exception to parcel
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 17:53:31.913  1391  1866 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 17:53:32.501   630 17024 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:53:42.782   630 17046 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:53:46.580   630 17057 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:53:52.963   630 17074 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:53:53.408  1391  3199 W system_server: Long monitor contention with owner ActivityManager (1482) at void com.android.server.am.ActivityManagerService$MainHandler.handleMessage(android.os.Message)(ActivityManagerService.java:1770) waiters=0 in android.content.Intent com.android.server.am.ActivityManagerService.registerReceiver(android.app.IApplicationThread, java.lang.String, android.content.IIntentReceiver, android.content.IntentFilter, java.lang.String, int, int) for 119ms
+12-18 17:54:00.009  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 17:54:00.010  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 17:54:00.013  1750  1750 D KeyguardClockSwitch: Updating clock: 554
+12-18 17:54:03.182   630 17093 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:54:06.212   729   729 I LocSvc_GnssInterface: ===> stop line 291 
+12-18 17:54:08.778   630 17104 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:54:13.360   630 17116 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:54:15.679   630 17122 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:54:23.581   630 17137 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:54:25.782   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.783   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.783   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:25.783   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:25.806   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:25.818   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:25.823   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.823   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.823   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:25.824   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:25.830   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:25.842   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:25.849   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.849   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.849   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:25.849   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:25.858   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:25.909   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:25.921   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.922   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.922   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:25.923   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:25.943   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:25.957   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:25.962   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.962   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:25.962   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:25.962   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:25.970   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.009   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.020   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.021   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.021   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.021   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.040   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.053   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.058   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.059   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.059   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.059   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.063   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.107   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.119   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.120   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.120   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.120   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.140   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.153   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.159   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.159   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.159   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.159   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.163   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.209   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.221   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.221   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.222   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.222   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.242   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.257   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.263   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.263   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.263   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.263   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.268   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.305   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.309   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.309   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.309   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.309   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.314   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.325   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.328   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.328   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.329   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.329   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.331   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.343   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.348   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.349   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.349   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.349   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.352   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.406   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.418   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.419   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.419   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.419   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.429   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.442   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.448   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.448   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 17:54:26.448   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 17:54:26.448   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:26.454   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 17:54:26.506   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 17:54:30.636   630 17151 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:54:31.341  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:54:31.342  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:54:31.346  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: Writing exception to parcel
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 17:54:31.938  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 17:54:33.783   630 17159 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:54:39.463  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:54:39.464  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:54:39.469  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:54:42.537     0     0 W swapper/2: type=1400 audit(0.0:2491): avc: denied { kill } for capability=5 scontext=u:r:kernel:s0 tcontext=u:r:kernel:s0 tclass=capability permissive=0
+12-18 17:54:44.045   630 17180 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:54:47.734  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:54:47.737  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:54:47.738  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:54:54.243   630 17199 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:55:00.009  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 17:55:00.010  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 17:55:00.011  1750  1750 D KeyguardClockSwitch: Updating clock: 555
+12-18 17:55:01.119   630 17214 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:55:03.954  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:55:03.959  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:55:03.960  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:55:04.450   630 17225 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:55:09.014   630 17240 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:55:12.092  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:55:12.096  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:55:12.106  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:55:14.679   630 17252 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:55:18.138   630 17260 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:55:24.897   630 17280 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:55:28.328  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:55:28.329  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:55:28.332  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:55:35.098   630 17301 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:55:36.429  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:55:36.432  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:55:36.433  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:55:36.765  1391  2315 D AlarmManagerService: Kernel timezone updated to 360 minutes west of GMT
+12-18 17:55:44.631  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:55:44.632  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:55:44.636  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:55:45.311   630 17322 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:55:51.520  1391  1866 D WificondControl: Scan result ready event
+12-18 17:55:51.551  1391  1652 D WifiClientModeImpl: onResults: total 30 results
+12-18 17:55:51.553  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-START addr=b4:63:6f:94:c9:0c dialog_token=78 freq=5660
+12-18 17:55:51.556  1391  1652 D HS20    : ANQP initiated on b4:63:6f:94:c9:0c
+12-18 17:55:51.556  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:0c:<Free Malware>
+12-18 17:55:51.557  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 198339166783748 for another 479 seconds
+12-18 17:55:51.557  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:04:<Free Malware>
+12-18 17:55:51.558  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 198339166783752 for another 479 seconds
+12-18 17:55:51.558  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:08:<Free Malware>
+12-18 17:55:51.558  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 207371997227064 for another 479 seconds
+12-18 17:55:51.558  1391  1652 D PasspointManager: ANQP entry not found for: bc:9a:8e:3b:28:38:<APM_SK>
+12-18 17:55:51.558  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 207371997227060 for another 139 seconds
+12-18 17:55:51.559  1391  1652 D PasspointManager: ANQP entry not found for: bc:9a:8e:3b:28:34:<APM_SK>
+12-18 17:55:51.559  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 159225489408148 for another 299 seconds
+12-18 17:55:51.559  1391  1652 D PasspointManager: ANQP entry not found for: 90:d0:92:bc:40:94:<batcave>
+12-18 17:55:51.560  1391  1652 D WifiNetworkSelector: Current connected network: "Bali" , ID: 1
+12-18 17:55:51.560  1391  1652 D WifiNetworkSelector: Current connected network already sufficient. Skip network selection.
+12-18 17:55:51.564  1138  3546 I LOWI-8.6.0.75: [LOWI-Scan] lowi_close_record:Scan done in 33744984ms, 30 APs in scan results
+12-18 17:55:52.776  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:55:52.776  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:55:52.778  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:55:53.578  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-DONE addr=b4:63:6f:94:c9:0c dialog_token=78 freq=5660 status_code=0 result=TIMEOUT
+12-18 17:55:53.579  1744  1744 I wpa_supplicant: wlan0: ANQP-QUERY-DONE addr=b4:63:6f:94:c9:0c result=FAILURE
+12-18 17:56:00.003  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 17:56:00.003  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 17:56:00.005  1750  1750 D KeyguardClockSwitch: Updating clock: 556
+12-18 17:56:00.835  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:56:00.837  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:56:00.843  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:56:05.008  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 17:56:05.009  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 17:56:05.011  1750  1750 D KeyguardClockSwitch: Updating clock: 556
+12-18 17:56:14.300  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:56:14.302  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:56:14.303  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:56:17.062  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:56:17.064  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:56:17.079  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:56:25.199  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:56:25.200  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:56:25.203  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: Writing exception to parcel
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 17:56:31.990  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 17:56:33.325  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:56:33.326  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:56:33.330  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:57:00.009  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 17:57:00.010  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 17:57:00.013  1750  1750 D KeyguardClockSwitch: Updating clock: 557
+12-18 17:57:14.009  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:57:14.011  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:57:14.016  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:57:14.312  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:57:14.313  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:57:14.318  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:57:22.109  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:57:22.111  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:57:22.114  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: Writing exception to parcel
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 17:57:32.021  1391  4083 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 17:57:54.680  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:57:54.682  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:57:54.686  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:58:00.007  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 17:58:00.007  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 17:58:00.008  1750  1750 D KeyguardClockSwitch: Updating clock: 558
+12-18 17:58:02.858  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:58:02.861  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:58:02.861  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:58:11.000  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:58:11.001  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:58:11.005  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:58:28.973   955   955 I CNSS    : cnss_open_log_file: directory /data/vendor/wifi/wlan_logs/ created
+12-18 17:58:31.043  1391  2315 D WificondControl: Scan result ready event
+12-18 17:58:31.073  1391  1652 D WifiClientModeImpl: onResults: total 31 results
+12-18 17:58:31.074  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 198339166783756 for another 480 seconds
+12-18 17:58:31.074  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:0c:<Free Malware>
+12-18 17:58:31.074  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 198339166783748 for another 319 seconds
+12-18 17:58:31.074  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:04:<Free Malware>
+12-18 17:58:31.074  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 198339166783752 for another 319 seconds
+12-18 17:58:31.075  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:08:<Free Malware>
+12-18 17:58:31.075  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 207371997227064 for another 319 seconds
+12-18 17:58:31.075  1391  1652 D PasspointManager: ANQP entry not found for: bc:9a:8e:3b:28:38:<APM_SK>
+12-18 17:58:31.076  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-START addr=bc:9a:8e:3b:28:34 dialog_token=79 freq=2457
+12-18 17:58:31.076  1138  3546 I LOWI-8.6.0.75: [LOWI-Scan] lowi_close_record:Scan done in 33904496ms, 31 APs in scan results
+12-18 17:58:31.078  1391  1652 D HS20    : ANQP initiated on bc:9a:8e:3b:28:34
+12-18 17:58:31.079  1391  1652 D PasspointManager: ANQP entry not found for: bc:9a:8e:3b:28:34:<APM_SK>
+12-18 17:58:31.080  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-START addr=bc:9a:8e:3b:28:3c dialog_token=80 freq=5660
+12-18 17:58:31.081  1391  1652 D HS20    : ANQP initiated on bc:9a:8e:3b:28:3c
+12-18 17:58:31.081  1391  1652 D PasspointManager: ANQP entry not found for: bc:9a:8e:3b:28:3c:<APM_SK>
+12-18 17:58:31.082  1391  1652 D WifiNetworkSelector: Current connected network: "Bali" , ID: 1
+12-18 17:58:31.082  1391  1652 D WifiNetworkSelector: Current connected network already sufficient. Skip network selection.
+12-18 17:58:33.115  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-DONE addr=bc:9a:8e:3b:28:34 dialog_token=79 freq=2457 status_code=0 result=TIMEOUT
+12-18 17:58:33.117  1744  1744 I wpa_supplicant: wlan0: ANQP-QUERY-DONE addr=bc:9a:8e:3b:28:34 result=FAILURE
+12-18 17:58:33.425  1744  1744 I wpa_supplicant: wlan0: GAS-QUERY-DONE addr=bc:9a:8e:3b:28:3c dialog_token=80 freq=5660 status_code=0 result=TIMEOUT
+12-18 17:58:33.426  1744  1744 I wpa_supplicant: wlan0: ANQP-QUERY-DONE addr=bc:9a:8e:3b:28:3c result=FAILURE
+12-18 17:58:46.643   630 17676 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:58:46.901  2823  2843 I .stripe.update: Background young concurrent copying GC freed 182683(6490KB) AllocSpace objects, 13(508KB) LOS objects, 47% free, 7679KB/14MB, paused 251us total 124.951ms
+12-18 17:58:59.751  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:58:59.757  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:58:59.758  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:59:00.006  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 17:59:00.016  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 17:59:00.017  1750  1750 D KeyguardClockSwitch: Updating clock: 559
+12-18 17:59:07.799  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:59:07.801  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:59:07.803  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:59:16.511   630 17736 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 17:59:24.112  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:59:24.113  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:59:24.119  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: Writing exception to parcel
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 17:59:32.045  1391  4083 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 17:59:32.259  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:59:32.261  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:59:32.264  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:59:40.317  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:59:40.319  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:59:40.320  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:59:48.479  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:59:48.482  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:59:48.484  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 17:59:56.616  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 17:59:56.616  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 17:59:56.620  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:00:00.016  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 18:00:00.017  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 18:00:00.018  1750  1750 D KeyguardClockSwitch: Updating clock: 600
+12-18 18:00:01.605   630 17821 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:00:04.781  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:00:04.781  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:00:04.785  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:00:18.590   983 17868 D DropBoxManager: About to call service->add()
+--------- beginning of system
+12-18 18:00:18.591  1391  3199 I DropBoxManagerService: add tag=keymaster isTagEnabled=true flags=0x0
+12-18 18:00:18.612   983 17868 D DropBoxManager: service->add returned No error
+12-18 18:00:19.577  1391  1474 I DropBoxManagerService: add tag=system_server_strictmode isTagEnabled=true flags=0x2
+12-18 18:00:21.045  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:00:21.046  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:00:21.048  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:00:19.626  1391  1474 I chatty  : uid=1000(system) android.io identical 2 lines
+12-18 18:00:19.636  1391  1474 I DropBoxManagerService: add tag=system_server_strictmode isTagEnabled=true flags=0x2
+12-18 18:00:21.238  1391  1481 I ProcessStatsService: Pruning old procstats: /data/system/procstats/state-2024-12-16-00-39-07.bin
+12-18 18:00:29.116  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:00:29.117  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:00:29.119  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: Writing exception to parcel
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:00:32.056  1391  4083 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:00:37.191  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:00:37.193  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:00:37.195  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:00:37.222   630 17906 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:00:37.489  1391  4083 D AlarmManagerService: Kernel timezone updated to 360 minutes west of GMT
+12-18 18:00:42.719  1391  1632 W InputDispatcher: Excessive delay in interceptKeyBeforeQueueing; took 134 ms
+12-18 18:00:42.753  1391  1632 D WindowManager: powerPress: eventTime=34068120 interactive=true count=1 beganFromNonInteractive=false mShortPressOnPowerBehavior=1
+12-18 18:00:42.760  1391  1632 I PowerManagerService: Going to sleep due to power_button (uid 1000)...
+12-18 18:00:42.787  1391  1632 W InputDispatcher: Excessive delay in interceptKeyBeforeQueueing; took 59 ms
+12-18 18:00:42.803  1391  1391 W UsageStatsService: Event reported without a package name, eventType:16
+12-18 18:00:42.805  1391  1516 I PowerManagerService: Sleeping (uid 1000)...
+12-18 18:00:42.819  1391  1516 I AdrenoGLES: QUALCOMM build                   : 5b7c7b4, Ia11ce2d146
+12-18 18:00:42.819  1391  1516 I AdrenoGLES: Build Date                       : 09/14/20
+12-18 18:00:42.819  1391  1516 I AdrenoGLES: OpenGL ES Shader Compiler Version: EV031.27.05.10
+12-18 18:00:42.819  1391  1516 I AdrenoGLES: Local Branch                     : 
+12-18 18:00:42.819  1391  1516 I AdrenoGLES: Remote Branch                    : 
+12-18 18:00:42.819  1391  1516 I AdrenoGLES: Remote Branch                    : 
+12-18 18:00:42.819  1391  1516 I AdrenoGLES: Reconstruct Branch               : 
+12-18 18:00:42.819  1391  1516 I AdrenoGLES: Build Config                     : S P 8.0.12 AArch64
+12-18 18:00:42.828  1750  2263 D KeyguardViewMediator: onStartedGoingToSleep(2)
+12-18 18:00:42.835  1391  1516 I AdrenoGLES: PFP: 0x016ee187, ME: 0x00000000
+12-18 18:00:42.838   730  1627 I SDM     : StrategyImpl::SetIdleTimeoutMs: Idle timeout: active = 70, inactive = 520
+12-18 18:00:42.871  1035  1367 I OMX-VENC: venc_dev: stats: avg. fps 0.05, bitrate 476
+12-18 18:00:42.928  1750  2263 D KeyguardViewMediator: notifyStartedGoingToSleep
+12-18 18:00:42.946  1750  1750 V KeyguardUpdateMonitor: startListeningForFingerprint()
+12-18 18:00:42.947  1750  1750 D KeyguardViewMediator: handleNotifyStartedGoingToSleep
+12-18 18:00:42.978  1391  1516 W system_server: Core platform API violation: Ljava/nio/Buffer;->position:I from Lcom/android/server/display/ColorFade; using JNI
+12-18 18:00:42.979  1391  1516 W system_server: Core platform API violation: Ljava/nio/Buffer;->limit:I from Lcom/android/server/display/ColorFade; using JNI
+12-18 18:00:42.979  1391  1516 W system_server: Core platform API violation: Ljava/nio/Buffer;->_elementSizeShift:I from Lcom/android/server/display/ColorFade; using JNI
+12-18 18:00:42.979  1391  1516 W system_server: Core platform API violation: Ljava/nio/Buffer;->address:J from Lcom/android/server/display/ColorFade; using JNI
+12-18 18:00:43.488  1391  1516 I DisplayPowerController: Blocking screen off
+12-18 18:00:43.490  1391  1516 I DisplayPowerController: Unblocked screen off after 1 ms
+12-18 18:00:43.552  1391  1516 D ActivityTaskManager: Top Process State changed to PROCESS_STATE_TOP_SLEEPING
+12-18 18:00:43.553  1391  1516 D ActivityTrigger: ActivityTrigger activityPauseTrigger 
+12-18 18:00:43.557  1750  2263 D KeyguardViewMediator: notifyScreenTurnedOff
+12-18 18:00:43.558  1750  1750 D KeyguardViewMediator: handleNotifyScreenTurnedOff
+12-18 18:00:43.566   738   738 I sensors-hal: activate:194, android.sensor.accelerometer/13 en=0
+12-18 18:00:43.568   738   738 I sensors-hal: activate:207, android.sensor.accelerometer/13 en=0 completed
+12-18 18:00:43.573   738   738 I sensors-hal: activate:194, android.sensor.proximity/82 en=0
+12-18 18:00:43.576   738   738 I sensors-hal: activate:207, android.sensor.proximity/82 en=0 completed
+12-18 18:00:43.593  1391  1475 W ProcessStats: Tracking association SourceState{36ee6bd com.bnuttin.sPOS/10130 Top #2043} whose proc state 1 is better than process ProcessState{3b404b2 com.stripe.reader/10127 pkg=com.stripe.reader} proc state 2 (0 skipped)
+12-18 18:00:43.595   730   730 I SDM     : StrategyImpl::SetIdleTimeoutMs: Idle timeout: active = 70, inactive = 520
+12-18 18:00:43.602  1391  2812 D LocSvc_HIDL_IzatProvider_jni: Provider Type: 2; Num Updates: 2147483647; Interval: 1800000Displacement: 0.000000; Accuracy: 1
+12-18 18:00:43.602  1391  2812 V LocSvc_HIDL_IzatProvider_jni: [onAddRequest][165] [HC] =>> [HS]
+12-18 18:00:43.602   729   729 I LocSvc_GnssInterface: ===> setPositionMode_1_1 line 498 
+12-18 18:00:43.602   729   729 E LocSvc_APIClientBase: locAPIUpdateTrackingOptions:396] invalid or stopped session: 84.
+12-18 18:00:43.602   729   729 V LocSvc_HIDL_IzatProvider: [onAddRequest][195] [HS] <<<<= [HC]
+12-18 18:00:43.602   729   729 I IzatSvc_IzatManager: LocTech-Label :: IZATMANAGER :: Add Request In
+12-18 18:00:43.602   729   729 I IzatSvc_IzatManager: LocTech-Value :: Provider: 2, Num Updates: 2147483647, TTFF: 0, Interval: 1800000, Displacement: 0.000000, Horizontal Accuracy: 1, Altitude Accuracy: 2, Bearing Accuracy: 2, Emergency mode: 0
+12-18 18:00:43.603  1391  1698 V LocSvc_HIDL_OsNpGlue_jni: [onSetRequest][61] [HC] <<= [HS]
+12-18 18:00:43.604  1391  2812 W NpProxy : 
+12-18 18:00:43.604  1391  2812 W NpProxy : java.lang.NullPointerException: Attempt to invoke virtual method 'void com.qualcomm.location.izatprovider.NpProxy$LocationController.setRequest(com.android.internal.location.ProviderRequest, android.os.WorkSource)' on a null object reference
+12-18 18:00:43.604  1391  2812 W NpProxy : 	at com.qualcomm.location.izatprovider.NpProxy.setRequestTry(NpProxy.java:197)
+12-18 18:00:43.604  1391  2812 W NpProxy : 	at com.qualcomm.location.izatprovider.NpProxy.handleMessage(NpProxy.java:273)
+12-18 18:00:43.604  1391  2812 W NpProxy : 	at android.os.Handler.dispatchMessage(Handler.java:103)
+12-18 18:00:43.604  1391  2812 W NpProxy : 	at android.os.Looper.loop(Looper.java:214)
+12-18 18:00:43.604  1391  2812 W NpProxy : 	at android.os.HandlerThread.run(HandlerThread.java:67)
+12-18 18:00:43.604   729   729 I LocSvc_GnssInterface: ===> start line 281 
+12-18 18:00:43.604   729   729 I LocSvc_APIClientBase: locAPIStartTracking:352] start new session: 85
+12-18 18:00:43.606  1391  1475 D ActivityTrigger: ActivityTrigger activityStopTrigger 
+12-18 18:00:43.608   738   738 I sensors-hal: activate:194, android.sensor.device_orientation/272 en=0
+12-18 18:00:43.610   738   738 I sensors-hal: activate:207, android.sensor.device_orientation/272 en=0 completed
+12-18 18:00:43.611 24036 24120 I ReactNativeJNI: Memory warning (pressure level: TRIM_MEMORY_UI_HIDDEN) received by JS VM, ignoring because it's non-severe
+12-18 18:00:43.617  1391  1516 E libEGL  : call to OpenGL ES API with no current context (logged once per thread)
+12-18 18:00:43.617  1391  1516 V DisplayPowerController: Brightness [0] reason changing to: 'screen_off', previous reason: 'manual'.
+12-18 18:00:43.621   825   825 D SurfaceFlinger: Setting power mode 0 on display 19260890273346689
+12-18 18:00:43.642  1391  1475 I DisplayManagerService: Display device changed state: "‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‎‎‏‏‏‎‎‎‎‏‏‎‎‎‏‏‎‎‎‎‏‎‎‎‏‎‏‎‎‏‎‏‎‏‏‎‎‏‏‏‏‎‎‏‎‏‏‎‏‏‏‎‏‏‎‏‎‎‏‎‎‎‎Built-in Screen‎‏‎‎‏‎", OFF
+12-18 18:00:43.654  1722  2186 I BtGatt.ScanManager: msg.what = 8
+12-18 18:00:43.657  1722  2186 I BtGatt.ScanManager: msg.what = 4
+12-18 18:00:43.679   730   730 I SDM     : DisplayBase::SetDisplayState: Set state = 0, display 28-0, teardown = 0
+12-18 18:00:43.716  1750  1764 I ndroid.systemu: NativeAlloc concurrent copying GC freed 90155(3561KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 5847KB/11MB, paused 16.824ms total 129.105ms
+12-18 18:00:44.089   825   825 D SurfaceFlinger: Finished setting power mode 0 on display 19260890273346689
+12-18 18:00:44.089  1391  1719 D SurfaceControl: Excessive delay in setPowerMode()
+12-18 18:00:44.090   730   730 W SDM     : DisplayBase::SetVSyncState: Can't disable vsync when power state is off for display 28-0,Defer it when display is active
+12-18 18:00:44.094   762   762 E ANDR-PERF-TARGET: Error: Invalid logical cluster id 0
+12-18 18:00:44.094   762   762 E ANDR-PERF-REQUEST: Translate to physical failed
+12-18 18:00:44.220   722   734 I /system/bin/hw/android.system.suspend@1.0-service: automatic system suspend enabled
+12-18 18:00:44.240  1391  1719 D PowerManagerService-JNI: Excessive delay in autosuspend_enable() while turning screen off
+12-18 18:00:44.252  1750  2263 D KeyguardViewMediator: onFinishedGoingToSleep(2)
+12-18 18:00:44.253  1750  2263 D KeyguardViewMediator: notifyFinishedGoingToSleep
+12-18 18:00:44.256  1750  1750 D KeyguardViewMediator: handleNotifyFinishedGoingToSleep
+12-18 18:00:44.257  1750  1750 V KeyguardStatusView: Schedule setEnableMarquee: Disable
+12-18 18:00:44.257  1750  1750 V KeyguardStatusView: Disable transport text marquee
+12-18 18:00:44.258  1750  1750 V KeyguardUpdateMonitor: startListeningForFingerprint()
+12-18 18:00:44.263  1750  1750 D StatusBar: updateQsExpansionEnabled - QS Expand enabled: false
+12-18 18:00:44.276   720  1693 D audio_hw_primary: adev_set_parameters: enter: screen_state=on
+12-18 18:00:44.284   720  1693 D audio_hw_hfp: hfp_set_parameters: enter
+12-18 18:00:44.295   720  1693 W sound_trigger_hw: sound_trigger_hw_call_back: Unknown event 17
+12-18 18:00:44.295   720  1693 D audio_hw_hfp: hfp_set_parameters: enter
+12-18 18:00:44.297   720  1693 D audio_hw_extn: audio_extn_fm_set_parameters: Enter
+12-18 18:00:44.299   720  1693 D audio_hw_hfp: hfp_set_parameters: enter
+12-18 18:00:44.303   729   729 I LocSvc_GnssInterface: ===> stop line 291 
+12-18 18:00:44.310  1391  2812 V LocSvc_HIDL_IzatProvider_jni: [onRemoveRequest][180] [HC] =>> [HS]
+12-18 18:00:44.310   729   729 V LocSvc_HIDL_IzatProvider: [onRemoveRequest][210] [HS] <<<<= [HC]
+12-18 18:00:44.310   729   729 I IzatSvc_IzatManager: LocTech-Label :: IZATMANAGER :: Remove Request In
+12-18 18:00:44.310   729   729 I IzatSvc_IzatManager: LocTech-Value :: Provider: 2, Num Updates: 2147483647, TTFF: 0, Interval: 1800000, Displacement: 0.000000, Horizontal Accuracy: 1, Altitude Accuracy: 2, Bearing Accuracy: 2 InEmergency: 0
+12-18 18:00:44.311  1391  1698 V LocSvc_HIDL_OsNpGlue_jni: [onStopRequest][68] [HC] <<= [HS]
+12-18 18:00:44.311  1391  2812 W NpProxy : 
+12-18 18:00:44.311  1391  2812 W NpProxy : java.lang.NullPointerException: Attempt to invoke virtual method 'void com.qualcomm.location.izatprovider.NpProxy$LocationController.setRequest(com.android.internal.location.ProviderRequest, android.os.WorkSource)' on a null object reference
+12-18 18:00:44.311  1391  2812 W NpProxy : 	at com.qualcomm.location.izatprovider.NpProxy.setRequestTry(NpProxy.java:197)
+12-18 18:00:44.311  1391  2812 W NpProxy : 	at com.qualcomm.location.izatprovider.NpProxy.handleMessage(NpProxy.java:273)
+12-18 18:00:44.311  1391  2812 W NpProxy : 	at android.os.Handler.dispatchMessage(Handler.java:103)
+12-18 18:00:44.311  1391  2812 W NpProxy : 	at android.os.Looper.loop(Looper.java:214)
+12-18 18:00:44.311  1391  2812 W NpProxy : 	at android.os.HandlerThread.run(HandlerThread.java:67)
+12-18 18:00:44.313  1391  1391 W AlarmManager: Unrecognized alarm listener com.android.server.job.controllers.idle.-$$Lambda$DeviceIdlenessTracker$-H1-ZwZAJ-vh10A0PeYXaZLj_R0@f99587b
+12-18 18:00:44.377  1841  2871 D QCNEJ/WlanStaInfoRelay: Received action: android.net.wifi.RSSI_CHANGED
+12-18 18:00:44.419  2664  2664 D NfcService: MSG_APPLY_SCREEN_STATE 8
+12-18 18:00:44.423  2664  2896 D NfcService: applyRouting enter
+12-18 18:00:44.429  2664  2664 D NfcService: applyRouting enter
+12-18 18:00:44.445  2753  2753 D QSLMJ   : SLM received action android.intent.action.SCREEN_ON
+12-18 18:00:44.455  2664  2664 I libnfc_nci: [INFO:NativeNfcManager.cpp(2770)] nfcManager_doSetScreenState: state = 8 prevScreenState= 0, discovry_param = 1
+12-18 18:00:44.485  2698  2698 D PASRDozeReceiver: Received Intent Intent { act=android.intent.action.SCREEN_ON flg=0x50200010 }
+12-18 18:00:44.490  2698  2698 D PASRDozeReceiver: Sent intent Successfully
+12-18 18:00:44.491  2698  2698 D PASRService: PASRService started
+12-18 18:00:44.491  2698  2698 D PASRService: OnStart, Intent: android.intent.action.SCREEN_ON
+12-18 18:00:44.492  2698  2698 D PASRService: State is now: -1
+12-18 18:00:44.527   720  1693 D audio_hw_primary: adev_set_parameters: enter: screen_state=off
+12-18 18:00:44.527   720  1693 D audio_hw_hfp: hfp_set_parameters: enter
+12-18 18:00:44.527   720  1693 W sound_trigger_hw: sound_trigger_hw_call_back: Unknown event 17
+12-18 18:00:44.527   720  1693 D audio_hw_hfp: hfp_set_parameters: enter
+12-18 18:00:44.528   720  1693 D audio_hw_extn: audio_extn_fm_set_parameters: Enter
+12-18 18:00:44.528   720  1693 D audio_hw_hfp: hfp_set_parameters: enter
+12-18 18:00:44.560  2664  2664 D NfcService: MSG_APPLY_SCREEN_STATE 1
+12-18 18:00:44.561  2664  2664 I libnfc_nci: [INFO:NativeNfcManager.cpp(2770)] nfcManager_doSetScreenState: state = 1 prevScreenState= 8, discovry_param = 1
+12-18 18:00:44.564  2664  2896 D NfcService: applyRouting enter
+12-18 18:00:44.572  2753  2753 D QSLMJ   : SLM received action android.intent.action.SCREEN_OFF
+12-18 18:00:44.603   738   738 I sensors-hal: batch:229, android.sensor.motion_detect/302, period=1000000, max_latency=0
+12-18 18:00:44.603   738   738 I sensors-hal: batch:240, android.sensor.motion_detect/302, period=1000000, max_latency=0 request completed
+12-18 18:00:44.604   738   738 I sensors-hal: activate:194, android.sensor.motion_detect/302 en=1
+12-18 18:00:44.605   738   738 I sensors-hal: get_qmi_debug_flag:245, support_qmi_debug : false
+12-18 18:00:44.624   738   738 I sensors-hal: activate:207, android.sensor.motion_detect/302 en=1 completed
+12-18 18:00:44.629  2698  2698 D PASRDozeReceiver: Received Intent Intent { act=android.intent.action.SCREEN_OFF flg=0x50200010 }
+12-18 18:00:44.633  2698  2698 D PASRDozeReceiver: Sent intent Successfully
+12-18 18:00:44.634  2698  2698 D PASRService: PASRService started
+12-18 18:00:44.635  2698  2698 D PASRService: OnStart, Intent: android.intent.action.SCREEN_OFF
+12-18 18:00:44.635  2698  2698 D PASRService: Screen Off
+12-18 18:00:45.293  1750  1965 D ImageWallpaper: finishRendering, preserve=false
+12-18 18:00:45.434  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:00:45.434  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:00:45.437  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:00:49.096  1391  2315 D WificondControl: Scan result ready event
+12-18 18:00:49.136  1391  1652 D WifiClientModeImpl: onResults: total 31 results
+12-18 18:00:49.136  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 198339166783756 for another 342 seconds
+12-18 18:00:49.137  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:0c:<Free Malware>
+12-18 18:00:49.137  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 198339166783748 for another 181 seconds
+12-18 18:00:49.137  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:04:<Free Malware>
+12-18 18:00:49.137  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 198339166783752 for another 181 seconds
+12-18 18:00:49.138  1391  1652 D PasspointManager: ANQP entry not found for: b4:63:6f:94:c9:08:<Free Malware>
+12-18 18:00:49.138  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 207371997227064 for another 181 seconds
+12-18 18:00:49.138  1391  1652 D PasspointManager: ANQP entry not found for: bc:9a:8e:3b:28:38:<APM_SK>
+12-18 18:00:49.138  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 207371997227060 for another 501 seconds
+12-18 18:00:49.140  1138  3546 I LOWI-8.6.0.75: [LOWI-Scan] lowi_close_record:Scan done in 34042560ms, 31 APs in scan results
+12-18 18:00:49.139  1391  1652 D PasspointManager: ANQP entry not found for: bc:9a:8e:3b:28:34:<APM_SK>
+12-18 18:00:49.140  1391  1652 D ANQPRequestManager: Not allowed to send ANQP request to 159225489408148 for another 2 seconds
+12-18 18:00:49.141  1391  1652 D PasspointManager: ANQP entry not found for: 90:d0:92:bc:40:94:<batcave>
+12-18 18:00:49.142  1391  1652 D WifiNetworkSelector: Current connected network: "Bali" , ID: 1
+12-18 18:00:49.143  1391  1652 D WifiNetworkSelector: Current connected network already sufficient. Skip network selection.
+12-18 18:00:53.601  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:00:53.602  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:00:53.606  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:00:59.729   630 17964 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:01:00.097 24036 17932 W om.bnuttin.sPO: Long monitor contention with owner DefaultDispatcher-worker-13 (17930) at java.net.InetAddress[] libcore.io.Linux.android_getaddrinfo(java.lang.String, android.system.StructAddrinfo, int)(Linux.java:-2) waiters=0 in com.stripe.jvmcore.crpcclient.CrpcResponse com.stripe.jvmcore.crpcclient.CrpcClient.execute(okhttp3.Request, com.stripe.proto.net.rpc.base.RpcRequest, com.squareup.wire.Message, com.squareup.wire.ProtoAdapter) for 393ms
+12-18 18:01:01.641  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:01:01.641  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:01:01.645  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:01:13.603  1391  2812 V LocSvc_HIDL_IzatProvider_jni: [onRemoveRequest][180] [HC] =>> [HS]
+12-18 18:01:13.605   729   729 V LocSvc_HIDL_IzatProvider: [onRemoveRequest][210] [HS] <<<<= [HC]
+12-18 18:01:13.606   729   729 I IzatSvc_IzatManager: LocTech-Label :: IZATMANAGER :: Remove Request In
+12-18 18:01:13.606   729   729 I IzatSvc_IzatManager: LocTech-Value :: Provider: 2, Num Updates: 2147483647, TTFF: 0, Interval: 1800000, Displacement: 0.000000, Horizontal Accuracy: 1, Altitude Accuracy: 2, Bearing Accuracy: 2 InEmergency: 0
+12-18 18:01:13.609  1391  1698 V LocSvc_HIDL_OsNpGlue_jni: [onStopRequest][68] [HC] <<= [HS]
+12-18 18:01:13.619  1391  2812 W NpProxy : 
+12-18 18:01:13.619  1391  2812 W NpProxy : java.lang.NullPointerException: Attempt to invoke virtual method 'void com.qualcomm.location.izatprovider.NpProxy$LocationController.setRequest(com.android.internal.location.ProviderRequest, android.os.WorkSource)' on a null object reference
+12-18 18:01:13.619  1391  2812 W NpProxy : 	at com.qualcomm.location.izatprovider.NpProxy.setRequestTry(NpProxy.java:197)
+12-18 18:01:13.619  1391  2812 W NpProxy : 	at com.qualcomm.location.izatprovider.NpProxy.handleMessage(NpProxy.java:273)
+12-18 18:01:13.619  1391  2812 W NpProxy : 	at android.os.Handler.dispatchMessage(Handler.java:103)
+12-18 18:01:13.619  1391  2812 W NpProxy : 	at android.os.Looper.loop(Looper.java:214)
+12-18 18:01:13.619  1391  2812 W NpProxy : 	at android.os.HandlerThread.run(HandlerThread.java:67)
+12-18 18:01:26.133  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:01:26.136  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:01:26.137  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: Writing exception to parcel
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:01:32.072  1391 30629 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:01:58.556  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:01:58.559  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:01:58.562  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:02:14.290  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:02:14.292  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:02:14.293  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:02:14.871  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:02:14.873  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:02:14.879  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:02:22.983  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:02:22.984  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:02:22.987  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: Writing exception to parcel
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:02:32.102  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:02:39.229  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:02:39.231  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:02:39.237  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:02:47.389  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:02:47.390  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:02:47.396  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:02:54.696   723   723 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+12-18 18:02:54.697   723   723 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+12-18 18:02:54.697   723   723 I vendor.qti.bluetooth@1.0-ibs_handler: DeviceWakeUp: Writing IBS_WAKE_IND
+12-18 18:02:54.700  1989  1989 E PhoneInterfaceManager: [PhoneIntfMgr] queryModemActivityInfo: Empty response
+12-18 18:02:54.702   723  2362 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_ACK: 0xFC
+12-18 18:02:54.705   723  2362 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+12-18 18:02:54.705   723  2362 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+12-18 18:02:54.747   723  2362 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+12-18 18:02:54.751   630   630 I netd    : trafficSwapActiveStatsMap() <2.36ms>
+12-18 18:02:54.769   630   630 I netd    : tetherGetStats() <4.39ms>
+12-18 18:02:54.774  1391  1490 W BatteryExternalStatsWorker: modem info is invalid: ModemActivityInfo{ mTimestamp=0 mSleepTimeMs=0 mIdleTimeMs=0 mTxTimeMs[]=[0, 0, 0, 0, 0] mRxTimeMs=0 mEnergyUsed=0}
+12-18 18:02:55.551  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:02:55.552  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:02:55.557  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:02:55.706   723  2371 I vendor.qti.bluetooth@1.0-ibs_handler: DeviceSleep: TX Awake, Sending SLEEP_IND
+12-18 18:02:55.707   723  2371 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+12-18 18:02:55.858   723  2200 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+12-18 18:03:11.755  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:03:11.755  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:03:11.757  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:03:14.312  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:03:14.315  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:03:14.319  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:03:19.905  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:03:19.911  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:03:19.911  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:03:25.943  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 18:03:25.945  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 18:03:25.948  1750  1750 D KeyguardClockSwitch: Updating clock: 603
+12-18 18:03:25.969   630   630 I netd    : trafficSwapActiveStatsMap() <5.90ms>
+12-18 18:03:25.982   630   630 I netd    : tetherGetStats() <4.70ms>
+12-18 18:03:26.083   630   630 I netd    : bandwidthSetGlobalAlert(2097152) <1.52ms>
+12-18 18:03:26.088  1391  1644 W ProcessStats: Tracking association SourceState{36ee6bd com.bnuttin.sPOS/10130 Top #2156} whose proc state 1 is better than process ProcessState{3b404b2 com.stripe.reader/10127 pkg=com.stripe.reader} proc state 2 (57 skipped)
+12-18 18:03:30.585   723  2364 D vendor.qti.bluetooth@1.0-health-info: ReportHealthInfo:statistics:
+12-18 18:03:30.585   723  2364 D vendor.qti.bluetooth@1.0-health-info: ts <00:03:30:585715> rx_vote:0, tx_vote:0, wake_lock holding:0, maximum rx sleep-wake-interval:900sec, maximum tx packet-interval:900secWake_Req sent out:2, Wake_Req received:2Sleep_Ind sent out:2, Sleep_Ind received:2
+12-18 18:03:31.730   723   723 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+12-18 18:03:31.730   723   723 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+12-18 18:03:31.730   723   723 I vendor.qti.bluetooth@1.0-ibs_handler: DeviceWakeUp: Writing IBS_WAKE_IND
+12-18 18:03:31.731   723  2362 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_ACK: 0xFC
+12-18 18:03:31.733   723  2362 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+12-18 18:03:31.734   723  2362 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+12-18 18:03:31.737  1722  2366 I bt_stack: [INFO:btm_ble_bgconn.cc(420)] Already connection initiated (or) No Pending connections(or) Resources of lcb are exhausted
+12-18 18:03:31.781   723  2362 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: Writing exception to parcel
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:03:32.129  1391 30629 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:03:32.739   723  2371 I vendor.qti.bluetooth@1.0-ibs_handler: DeviceSleep: TX Awake, Sending SLEEP_IND
+12-18 18:03:32.740   723  2371 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+12-18 18:03:32.892   723  2200 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+12-18 18:03:44.250  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:03:44.251  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:03:44.256  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:03:46.632   630 18286 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:03:47.052  2823  2843 I .stripe.update: Background concurrent copying GC freed 174003(6658KB) AllocSpace objects, 16(568KB) LOS objects, 49% free, 7185KB/14MB, paused 110us total 112.993ms
+12-18 18:03:47.401   630 18292 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:03:52.438  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:03:52.439  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:03:52.443  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:04:14.290  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:04:14.291  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:04:14.295  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:04:24.955  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:04:24.956  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:04:24.959  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:04:26.528   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.529   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.530   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.530   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.546   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:26.588   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.601   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.602   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.602   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.603   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.625   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:26.638   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.643   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.643   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.643   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.643   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.649   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:26.686   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.700   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.701   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.701   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.701   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.719   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:26.733   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.738   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.738   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.739   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.739   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.742   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:26.785   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.792   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.793   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.793   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.793   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.801   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:26.815   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.823   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.823   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.823   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.823   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.828   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:26.886   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.900   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.900   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.900   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.901   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.909   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:26.921   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.927   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.927   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.927   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.927   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.933   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:26.985   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:26.997   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.998   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:26.998   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:26.999   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.020   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:27.034   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.039   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.040   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.040   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:27.040   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.043   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:27.085   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.098   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.098   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.098   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:27.099   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.107   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:27.119   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.125   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.125   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.125   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:27.125   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.131   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:27.183   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.196   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.197   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.198   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:27.198   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.218   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:27.232   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.239   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.239   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.239   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:27.239   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.246   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:27.283   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.296   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.297   739   739 D ThermalHAL-TARGET: Entering get_temperatures
+12-18 18:04:27.297   739   739 D ThermalHAL-UTIL: Entering get_temperature_for_all
+12-18 18:04:27.297   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:27.307   739   739 I chatty  : uid=1000(system) thermal@1.0-ser identical 9 lines
+12-18 18:04:27.319   739   739 D ThermalHAL-UTIL: Entering read_temperature
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: Writing exception to parcel
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:04:32.158  1391  1866 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:04:33.114  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:04:33.115  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:04:33.119  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:04:41.255  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:04:41.256  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:04:41.259  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:04:42.977     0     0 W swapper/7: type=1400 audit(0.0:2492): avc: denied { kill } for capability=5 scontext=u:r:kernel:s0 tcontext=u:r:kernel:s0 tclass=capability permissive=0
+12-18 18:04:57.473  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:04:57.476  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:04:57.477  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:05:05.630  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:05:05.634  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:05:05.636  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:05:13.776  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:05:13.777  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:05:13.780  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:05:14.292  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:05:14.294  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:05:14.297  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:05:19.535  1391  2315 W ProcessStats: Tracking association SourceState{36ee6bd com.bnuttin.sPOS/10130 Top #2159} whose proc state 1 is better than process ProcessState{3b404b2 com.stripe.reader/10127 pkg=com.stripe.reader} proc state 2 (1 skipped)
+12-18 18:05:29.478  1391  1631 V InputDispatcher: Asynchronous input event injection succeeded.
+12-18 18:05:29.483 24036 24036 W ViewRootImpl[MainActivity]: Cancelling event due to no window focus: MotionEvent { action=ACTION_CANCEL, actionButton=0, id[0]=0, x[0]=0.0, y[0]=301.0, toolType[0]=TOOL_TYPE_MOUSE, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=34355096, downTime=30550412, deviceId=0, source=0x2002, displayId=0 }
+12-18 18:05:29.704  1391  1631 I chatty  : uid=1000(system) InputDispatcher identical 14 lines
+12-18 18:05:29.724  1391  1631 V InputDispatcher: Asynchronous input event injection succeeded.
+12-18 18:05:29.968  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:05:29.972  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:05:29.975  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: Writing exception to parcel
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:05:32.182  1391  4081 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:05:38.142  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:05:38.146  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:05:38.147  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:05:46.293  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:05:46.296  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:05:46.301  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:06:02.528  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:06:02.532  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:06:02.534  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:06:05.425   630 18577 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:06:06.020  1391  2315 D AlarmManagerService: Kernel timezone updated to 360 minutes west of GMT
+12-18 18:06:10.676  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:06:10.677  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:06:10.679  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:06:14.331  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:06:14.333  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:06:14.336  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:06:18.058   630 18610 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:06:26.969  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:06:26.973  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:06:26.977  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: Writing exception to parcel
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:06:32.208  1391 30629 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:06:35.027  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:06:35.031  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:06:35.032  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:06:43.195  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:06:43.196  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:06:43.202  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:06:48.498   630 18668 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:06:48.779  2823 18582 W .stripe.update: Long monitor contention with owner DefaultDispatcher-worker-6 (18447) at com.stripe.jvmcore.crpcclient.CrpcResponse com.stripe.jvmcore.crpcclient.CrpcClient.execute(okhttp3.Request, com.stripe.proto.net.rpc.base.RpcRequest, com.squareup.wire.Message, com.squareup.wire.ProtoAdapter)(SourceFile:-1) waiters=0 in com.stripe.jvmcore.crpcclient.CrpcResponse com.stripe.jvmcore.crpcclient.CrpcClient.execute(okhttp3.Request, com.stripe.proto.net.rpc.base.RpcRequest, com.squareup.wire.Message, com.squareup.wire.ProtoAdapter) for 252ms
+12-18 18:06:51.354  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:06:51.355  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:06:51.365  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:06:59.430  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:06:59.431  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:06:59.433  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:07:00.008  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.TIME_TICK
+12-18 18:07:00.009  1750  1750 D KeyguardUpdateMonitor: handleTimeUpdate
+12-18 18:07:00.011  1750  1750 D KeyguardClockSwitch: Updating clock: 607
+12-18 18:07:07.671  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:07:07.675  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:07:07.678  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:07:14.299  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:07:14.301  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:07:14.303  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:07:23.862  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:07:23.862  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:07:23.875  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:07:32.031  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:07:32.032  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:07:32.036  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: Writing exception to parcel
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:07:32.214  1391  4083 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:07:40.190  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:07:40.192  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:07:40.195  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:07:48.241  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:07:48.241  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:07:48.245  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:08:20.652  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:08:20.653  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:08:20.657  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: Writing exception to parcel
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:08:32.243  1391  4081 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:08:34.431   955   955 I CNSS    : cnss_open_log_file: directory /data/vendor/wifi/wlan_logs/ created
+12-18 18:08:36.944  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:08:36.946  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:08:36.950  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:08:45.230  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:08:45.232  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:08:45.237  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:08:46.829   630 18900 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:08:48.925   630 18909 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:08:53.281  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:08:53.282  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:08:53.288  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:09:01.319  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:09:01.319  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:09:01.322  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:09:09.586  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:09:09.589  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:09:09.591  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:09:14.290  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:09:14.292  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:09:14.296  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:09:17.755  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:09:17.755  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:09:17.758  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:09:19.232   630 18971 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:09:25.812  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:09:25.813  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:09:25.823  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: Writing exception to parcel
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:09:32.271  1391  1866 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:09:33.951  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:09:33.953  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:09:33.957  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:09:42.031  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:09:42.031  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:09:42.035  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:09:50.262  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:09:50.265  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:09:50.269  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:09:58.340  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:09:58.341  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:09:58.344  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:10:14.570  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:10:14.572  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:10:14.575  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:05:29.490 24036 24036 I chatty  : uid=10130(com.bnuttin.sPOS) identical 2 lines
+12-18 18:05:29.491 24036 24036 W ViewRootImpl[MainActivity]: Cancelling event due to no window focus: MotionEvent { action=ACTION_CANCEL, actionButton=0, id[0]=0, x[0]=0.0, y[0]=301.0, toolType[0]=TOOL_TYPE_MOUSE, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=34355096, downTime=30550412, deviceId=0, source=0x2002, displayId=0 }
+12-18 18:10:19.418  1391  1866 W ProcessStats: Tracking association SourceState{36ee6bd com.bnuttin.sPOS/10130 Top #2161} whose proc state 1 is better than process ProcessState{3b404b2 com.stripe.reader/10127 pkg=com.stripe.reader} proc state 2 (0 skipped)
+12-18 18:10:22.689  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:10:22.692  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:10:22.692  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:10:30.849  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:10:30.850  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:10:30.853  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: Writing exception to parcel
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:10:32.303  1391 30629 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:10:38.993  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:10:38.994  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:10:38.998  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:10:55.175  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:10:55.176  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:10:55.180  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:11:03.380  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:11:03.382  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:11:03.384  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:11:03.587   630 19179 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+12-18 18:11:03.989  1391  4083 D AlarmManagerService: Kernel timezone updated to 360 minutes west of GMT
+12-18 18:11:11.531  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:11:11.532  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:11:11.537  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:11:14.290  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:11:14.291  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:11:14.296  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:11:19.574  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:11:19.576  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:11:19.578  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:11:27.757  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:11:27.758  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:11:27.763  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: Writing exception to parcel
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:11:32.320  1391  1866 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:12:00.269  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:12:00.272  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:12:00.273  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:12:14.291  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:12:14.293  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:12:14.296  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:12:16.537  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:12:16.539  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:12:16.541  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: Writing exception to parcel
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:12:32.346  1391  2315 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:12:32.795  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:12:32.797  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:12:32.800  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:12:37.086  1203  4604 I adbd    : USB event: FUNCTIONFS_SUSPEND
+12-18 18:12:40.934  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:12:40.935  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:12:40.938  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:12:49.091  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:12:49.092  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:12:49.097  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:12:57.233  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:12:57.235  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:12:57.239  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:13:05.390  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:13:05.391  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:13:05.396  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:13:29.751  1750  1750 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-18 18:13:29.753  1989  1989 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+12-18 18:13:29.757  1750  1750 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: Writing exception to parcel
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: java.lang.SecurityException: com.stripe.reader was not granted  this permission: android.permission.WRITE_SETTINGS.
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at android.provider.Settings.isCallingPackageAllowedToPerformAppOpsProtectedOperation(Settings.java:15609)
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at android.provider.Settings.checkAndNoteWriteSettingsOperation(Settings.java:15489)
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.mutateSystemSetting(SettingsProvider.java:1701)
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.insertSystemSetting(SettingsProvider.java:1676)
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at com.android.providers.settings.SettingsProvider.call(SettingsProvider.java:442)
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at android.content.ContentProvider.call(ContentProvider.java:2152)
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at android.content.ContentProvider$Transport.call(ContentProvider.java:477)
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at android.content.ContentProviderNative.onTransact(ContentProviderNative.java:277)
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+12-18 18:13:32.372  1391  4081 E DatabaseUtils: 	at android.os.Binder.execTransact(Binder.java:994)
+12-18 18:13:34.191  1203  4604 I adbd    : USB event: FUNCTIONFS_RESUME

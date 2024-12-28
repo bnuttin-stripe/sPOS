@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { settingsAtom, cartAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCalculator, faGrid, faList, faUser, faGear, faBox, faCheck, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCalculator, faGrid, faList, faUser, faGear, faBox, faCartShopping, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
@@ -53,10 +53,12 @@ export default Header = (props) => {
         tab: {
             flexDirection: 'column',
             alignItems: 'center',
+            // width: '20%'
         },
         tabSelected: {
             flexDirection: 'column',
             alignItems: 'center',
+            // width: '20%',
             borderBottomWidth: 2,
             marginBottom: -10,
             borderBottomColor: colors.primary,
@@ -75,10 +77,10 @@ export default Header = (props) => {
                     {settings.theme == 'boba' && <Image source={require('../assets/logoBoba.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                    <Pressable style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => goTo('Settings')}>
                         <Text style={{ color: 'white', fontSize: 10, marginTop: 2 }}>Powered by</Text>
-                        <Image source={require('../assets/stripe.png')} style={{ width: 60, height: 19, marginLeft: -8, marginRight: -16, marginBottom: -13, resizeMode: 'contain' }} />
-                    </View>
+                        <Image source={require('../assets/stripe.png')} style={{ width: 60, height: 19, marginLeft: -12, marginRight: -16, marginBottom: -13, resizeMode: 'contain' }} />
+                    </Pressable>
                 </View>
                 <BatteryIndicator />
             </View>
@@ -91,6 +93,10 @@ export default Header = (props) => {
                     <FontAwesomeIcon icon={faBox} style={styles.icon} size={22} />
                     <Text style={styles.title}>Products</Text>
                 </Pressable>
+                <Pressable style={props.page == 'Checkout' ? styles.tabSelected : styles.tab} onPress={() => goTo('Checkout')}>
+                    <FontAwesomeIcon icon={faCartShopping} style={styles.icon} size={22} />
+                    <Text style={styles.title}>Cart</Text>
+                </Pressable>
                 <Pressable style={props.page == 'Transactions' ? styles.tabSelected : styles.tab} onPress={() => goTo('Transactions')}>
                     <FontAwesomeIcon icon={faList} style={styles.icon} size={22} />
                     <Text style={styles.title}>Transactions</Text>
@@ -99,13 +105,9 @@ export default Header = (props) => {
                     <FontAwesomeIcon icon={faUser} style={styles.icon} size={22} />
                     <Text style={styles.title}>Customers</Text>
                 </Pressable>
-                <Pressable style={props.page == 'Settings' ? styles.tabSelected : styles.tab} onPress={() => goTo('Settings')}>
+                {/* <Pressable style={props.page == 'Settings' ? styles.tabSelected : styles.tab} onPress={() => goTo('Settings')}>
                     <FontAwesomeIcon icon={faGear} style={styles.icon} size={22} />
                     <Text style={styles.title}>Settings</Text>
-                </Pressable>
-                {/* <Pressable style={props.page == 'Kiosk' ? styles.tabSelected : styles.tab} onPress={() => goTo('Kiosk')}>
-                    <FontAwesomeIcon icon={faGrid} style={styles.icon} size={22} />
-                    <Text style={styles.title}>Kiosk</Text>
                 </Pressable> */}
             </View>
         </>

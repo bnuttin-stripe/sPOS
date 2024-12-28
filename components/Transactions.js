@@ -7,10 +7,11 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { transactionAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faCheck, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
+import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faCircleCheck, faCircleExclamation, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
+import CardVerifier from './CardVerifier';
 
 export default Transactions = (props) => {
     const navigation = useNavigation();
@@ -22,8 +23,6 @@ export default Transactions = (props) => {
     const [transactions, setTransactions] = useRecoilState(transactionAtom);
 
     const [selectedTransaction, setSelectedTransaction] = useState(null);
-    const [verificationPM, setVerificationPM] = useState(null);
-    const [verificationSuccessful, setVerificationSuccessful] = useState(false);
     const [isRefunding, setIsRefunding] = useState(false);
     const [isPickingUp, setIsPickingUp] = useState(false);
 
@@ -104,38 +103,11 @@ export default Transactions = (props) => {
     const closeModal = () => {
         if (props.refresh) props.refresh(true);
         setModalVisible(false);
-        setVerificationSuccessful(false);
-        setVerificationPM(null);
     }
 
     useEffect(() => {
         getTransactions();
     }, []);
-
-    const checkCard = async () => {
-        const pm = await props.setup();
-        // console.log("checkCard", pm);
-        setVerificationPM(pm);
-    }
-
-    useEffect(() => {
-        // console.log("verificationPM", verificationPM);
-        if (verificationPM != null) {
-            // console.log("verificationPM", verificationPM)
-            // console.log(verificationPM?.card_present?.payment_account_reference);
-            // console.log(verificationPM?.card_present?.fingerprint);
-            // console.log(selectedTransaction?.latest_charge?.payment_method_details?.card.fingerprint);
-            // // console.log("selectedTransaction", selectedTransaction)
-            setVerificationSuccessful(cardValid());
-        }
-    }, [verificationPM, selectedTransaction]);
-
-    const cardValid = () => {
-        // console.log("cardValid", verificationPM?.card_present?.fingerprint, selectedTransaction?.latest_charge?.payment_method_details?.card.fingerprint)
-        if (verificationPM == null) return false;
-        return verificationPM?.card_present?.fingerprint == selectedTransaction?.latest_charge?.payment_method_details?.card.fingerprint ||
-            verificationPM?.card_present?.payment_account_reference == selectedTransaction?.latest_charge?.payment_method_details?.card.payment_account_reference
-    }
 
     const Row = (pi) => {
         return (
@@ -154,9 +126,6 @@ export default Transactions = (props) => {
                     <DataTable.Cell style={[css.cell, { flex: 2 }]}>
                         <Text style={css.defaultText}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</Text>
                     </DataTable.Cell>
-                    {/* <DataTable.Cell style={[css.cell, { flex: 0.8 }]}>
-                        <Text style={css.defaultText}>{Utils.capitalize(pi.latest_charge.payment_method_details.card_present.brand)} {pi.latest_charge.payment_method_details.card_present.last4}</Text>
-                    </DataTable.Cell> */}
                 </DataTable.Row>
             </Pressable >
         )
@@ -183,9 +152,6 @@ export default Transactions = (props) => {
                     <DataTable.Title style={[css.cell, { flex: 2 }]}>
                         <Text style={css.defaultText}>Date</Text>
                     </DataTable.Title>
-                    {/* <DataTable.Title style={[css.cell, { flex: 0.8 }]}>
-                        <Text style={css.defaultText}>Card</Text>
-                    </DataTable.Title> */}
                 </DataTable.Header>
                 <ScrollView>
                     {transactions.length > 0 && transactions.map && transactions.map((pi) => Row(pi, navigation))}
@@ -199,10 +165,6 @@ export default Transactions = (props) => {
                 }
             </Pressable>
 
-            {/* <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]} onPress={searchTransactions}>
-                <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
-            </Pressable> */}
-
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -212,65 +174,59 @@ export default Transactions = (props) => {
                 }}>
                 <View style={css.centeredView}>
                     <View style={css.modalView}>
-                        <View style={{ flexDirection: 'row', paddingLeft: 40, paddingRight: 40 }}>
-                            <View style={{ flexDirection: 'column'}}>
-                                <Text style={css.spacedText}>Order ID</Text>
-                                <Text style={css.spacedText}>Date</Text>
-                                <Text style={css.spacedText}>Status</Text>
-                                <Text style={css.spacedText}>Amount</Text>
-                                <Text style={css.spacedText}>Channel</Text>
-                                <Text style={css.spacedText}>Card</Text>
-                                {selectedTransaction?.customer?.id && <Text style={css.spacedText}>Customer</Text>}
-                                {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>BOPIS</Text>}
-                                {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>Items</Text>}
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'column', flex: 1.8 }}>
+                                <Text style={css.spacedTextMuted}>Order ID</Text>
+                                <Text style={css.spacedTextMuted}>Date</Text>
+                                <Text style={css.spacedTextMuted}>Status</Text>
+                                <Text style={css.spacedTextMuted}>Amount</Text>
+                                <Text style={css.spacedTextMuted}>Channel</Text>
+                                <Text style={css.spacedTextMuted}>Card</Text>
+                                {selectedTransaction?.customer?.id && <Text style={css.spacedTextMuted}>Customer</Text>}
+                                {selectedTransaction?.metadata?.bopis && <Text style={css.spacedTextMuted}>BOPIS</Text>}
+                                {selectedTransaction?.metadata?.cart && <Text style={css.spacedTextMuted}>Items</Text>}
                             </View>
-                            <View style={{ flexDirection: 'column', width: 20}}></View>
-                            <View style={{ flexDirection: 'column' }}>
+                            {/* <View style={{ flexDirection: 'column', flex: 0.5 }}></View> */}
+                            <View style={{ flexDirection: 'column', flex: 4 }}>
                                 {selectedTransaction && <>
                                     <Text style={css.spacedText}>{selectedTransaction?.metadata?.orderNumber}</Text>
                                     <Text style={css.spacedText}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
                                     <Text style={css.spacedText}>{status(selectedTransaction)}</Text>
                                     <Text style={css.spacedText}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, settings.currency)}</Text>
                                     <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.channel)}</Text>
-                                    <Text style={css.spacedText}>{
-                                        selectedTransaction?.latest_charge?.payment_method_details?.card
-                                            ? Utils.capitalize(selectedTransaction?.latest_charge?.payment_method_details?.card?.brand) + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card?.last4
-                                            : Utils.capitalize(selectedTransaction?.latest_charge?.payment_method_details?.card_present?.brand) + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card_present?.last4
-                                    }</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={css.spacedText}>{
+                                            selectedTransaction?.latest_charge?.payment_method_details?.card
+                                                ? Utils.capitalize(selectedTransaction?.latest_charge?.payment_method_details?.card?.brand) + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card?.last4
+                                                : Utils.capitalize(selectedTransaction?.latest_charge?.payment_method_details?.card_present?.brand) + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card_present?.last4
+                                        }</Text>
+                                        <CardVerifier pi={selectedTransaction} setup={props.setup}/>
+                                    </View>
                                     {selectedTransaction?.customer?.id && <Text style={css.spacedText}>{selectedTransaction?.customer?.name}</Text>}
-                                    {selectedTransaction?.metadata?.bopis && <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.bopis)}</Text>}
+                                    {selectedTransaction?.metadata?.bopis &&
+                                        <View style={{ flexDirection: 'row' }}>
+                                            <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.bopis)}</Text>
+                                            {selectedTransaction?.metadata?.bopis == 'pending' && <Pressable onPress={bopisDone} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 12, flex: 1 }}>
+                                                <Text style={[css.inlineButton, { backgroundColor: colors.primary }]}>Picked Up</Text>
+                                            </Pressable>}
+                                        </View>}
                                     {selectedTransaction?.metadata?.cart && <Text style={css.spacedText}>* {selectedTransaction?.metadata?.cart?.split("\n").join("\n* ")}</Text>}
                                 </>}
                             </View>
                         </View>
 
-                        <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, elevation: 0 }]} onPress={closeModal}>
-                            <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
+                        <Pressable style={[css.floatingIcon, { right: 0, top: 0, elevation: 0 }]} onPress={closeModal}>
+                            <FontAwesomeIcon icon={faXmark} color={colors.primary} size={18} />
                         </Pressable>
+
                         {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
-                            <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.warning, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
+                            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
                                 {isRefunding
                                     ? <ActivityIndicator size="small" color="white" />
                                     : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} style={{ transform: [{ rotateZ: '90deg' }] }} size={18} />
                                 }
+                                <Text style={{ color: 'white', marginLeft: 10 }}>Refund</Text>
                             </Pressable>
-                        }
-                        {selectedTransaction?.metadata?.bopis == 'pending' &&
-                            <>
-                                <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.warning, elevation: 0 }]} onPress={bopisDone}>
-                                    {isPickingUp
-                                        ? <ActivityIndicator size="small" color="white" />
-                                        : <FontAwesomeIcon icon={faBoxCheck} color={'white'} size={18} />
-                                    }
-                                </Pressable>
-                                <Pressable style={[css.floatingIcon, {
-                                    left: 200, bottom: 20,
-                                    backgroundColor: verificationPM ? verificationSuccessful ? colors.success : colors.danger : colors.warning, elevation: 0
-                                }]}
-                                    onPress={checkCard}>
-                                    <FontAwesomeIcon icon={verificationPM ? verificationSuccessful ? faCheck : faBan : faMagnifyingGlass} color={'white'} size={18} />
-                                </Pressable>
-                            </>
                         }
                     </View>
                 </View>

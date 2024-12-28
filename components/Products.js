@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, productAtom, settingsAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark, faUserPlus, faUserMagnifyingGlass, faUserCheck } from '@fortawesome/pro-solid-svg-icons';
+import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark, faPlus, faMinus, faUserMagnifyingGlass, faUserCheck } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
@@ -23,7 +23,7 @@ export default Products = (props) => {
     const [products, setProducts] = useRecoilState(productAtom);
     const [cart, setCart] = useRecoilState(cartAtom);
     const resetCart = useResetRecoilState(cartAtom);
-    
+
     const device = useCameraDevice('back');
 
     const [scannerOpen, setScannerOpen] = useState(false);
@@ -44,6 +44,14 @@ export default Products = (props) => {
 
     const numInCart = (product) => {
         return cart.filter(x => (x.id == product.id)).length;
+    }
+
+    const addToCart = (product) => {
+        setCart([...cart, product]);
+    }
+
+    const removeFromCart = (product) => {
+        setCart(cart.filter(x => x.id != product.id));
     }
 
     const adjustFinalAmount = (amount) => {
@@ -94,9 +102,9 @@ export default Products = (props) => {
 
     const Row = (product) => {
         return (
-            <Pressable key={product.id} onPress={() => setCart([...cart, product])}>
+            <Pressable key={product.id} >
                 <DataTable.Row style={{ paddingTop: 20, paddingBottom: 20 }} >
-                    <DataTable.Cell style={{ flex: 1, paddingTop: 5 , paddingBottom: 5, paddingRight: 5 }}>
+                    <DataTable.Cell style={{ flex: 1, paddingTop: 5, paddingBottom: 5, paddingRight: 5 }}>
                         <Image
                             style={styles.productImage}
                             source={{
@@ -115,11 +123,19 @@ export default Products = (props) => {
                         </Text>
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 1 }]} numeric>
-                        <View style={numInCart(product) > 0 ? [styles.numInCart, { backgroundColor: colors.primary }] : [styles.numInCart, { backgroundColor: colors.secondary }]}>
-                            <Text style={[css.defaultText, { color: 'white' }]}>
-                                {numInCart(product)}
-                            </Text>
-                        </View>
+                        {numInCart(product) == 0
+                            ? <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.secondary }]} onPress={() => setCart([...cart, product])}>
+                                <FontAwesomeIcon icon={faPlus} color={'white'} size={12} />
+                            </Pressable>
+                            : <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.primary }]} onPress={() => setCart(cart.filter(x => x.id != product.id))}>
+                                <FontAwesomeIcon icon={faMinus} color={'white'} size={12} />
+                            </Pressable>
+                        }
+                        {/* <View style={numInCart(product) > 0 ? [styles.numInCart, { backgroundColor: "white" }] : [styles.numInCart, { backgroundColor: 'white' }]}>
+                            <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.primary }]} onPress={() => setCart([...cart, product])}>
+                                <FontAwesomeIcon icon={faPlus} color={'white'} size={12} />
+                            </Pressable>
+                        </View> */}
                     </DataTable.Cell>
                 </DataTable.Row>
             </Pressable >

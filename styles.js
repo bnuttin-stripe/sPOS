@@ -1,3 +1,5 @@
+import { text } from "@fortawesome/fontawesome-svg-core";
+
 export const themeColors = {
     wick:{
         primary: '#36455A',
@@ -64,6 +66,11 @@ export const css = {
         marginBottom: 12,
         fontSize: defaults.fontSize + 1,
     },
+    spacedTextMuted: {
+        marginBottom: 12,
+        fontSize: defaults.fontSize + 1,
+        fontWeight: '300'
+    },
     bold: {
         fontWeight: 'bold'
     },
@@ -85,7 +92,7 @@ export const css = {
         alignItems: 'center',
     },
     modalView: {
-        width: '80%',
+        width: '90%',
         backgroundColor: 'white',
         borderRadius: 10,
         padding: 20,
@@ -115,5 +122,28 @@ export const css = {
         shadownColor: 'black',
         elevation: 8,
     },
+    smallRoundIcon:{
+        color: 'white',
+        minWidth: 34,
+        padding: 5,
+        height: 34,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 17,
+        shadownColor: 'black',
+        elevation: 8,
+    },
+    inlineButton: {
+        color: 'white', 
+        width: 70, 
+        borderRadius: 20, 
+        paddingLeft: 10, 
+        paddingRight: 10, 
+        paddingTop: 6, 
+        paddingBottom: 6, 
+        fontSize: 10,
+        textAlign: 'center',
+        marginTop: -3
+    }
 };
 

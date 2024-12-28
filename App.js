@@ -108,6 +108,7 @@ export default function App({ route }) {
   const { discoverReaders, discoveredReaders, connectHandoffReader, connectLocalMobileReader } =
     useStripeTerminal({
       onUpdateDiscoveredReaders: (readers) => {
+        console.log("onUpdateDiscoveredReaders", readers)
         setReaderFound(readers.length > 0);
         readers.length > 0
           ? serial?.substring(0, 3) == 'STR'

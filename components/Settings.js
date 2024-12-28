@@ -48,7 +48,7 @@ export default Settings = (props) => {
                     onChangeText={value => setSettings({ ...settings, storeName: value })}
                 /> */}
 
-                <Text style={css.label}>Order ID Prefix</Text>
+                <Text style={css.label}>Order ID prefix</Text>
                 <TextInput
                     style={css.input}
                     inputMode="text"
@@ -57,7 +57,7 @@ export default Settings = (props) => {
                     onChangeText={value => setSettings({ ...settings, orderPrefix: value })}
                 />
 
-                <Text style={css.label}>Tax Percentage</Text>
+                <Text style={css.label}>Tax percentage</Text>
                 <TextInput
                     style={css.input}
                     inputMode="decimal"
@@ -65,7 +65,7 @@ export default Settings = (props) => {
                     onChangeText={value => setSettings({ ...settings, taxPercentage: value })}
                 />
 
-                <Text style={css.label}>Product Filter</Text>
+                <Text style={css.label}>Product filter</Text>
                 <TextInput
                     style={css.input}
                     inputMode="text"
@@ -74,7 +74,7 @@ export default Settings = (props) => {
                 />
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
-                    <Text style={css.label}>Magic Cent Protection</Text>
+                    <Text style={css.label}>Magic cent protection</Text>
                     <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
                         <Switch
                             trackColor={{ false: colors.light, true: colors.secondary }}
@@ -87,7 +87,7 @@ export default Settings = (props) => {
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
-                    <Text style={css.label}>Enable 2% Surcharging</Text>
+                    <Text style={css.label}>Enable 2% surcharging</Text>
                     <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
                         <Switch
                             trackColor={{ false: colors.light, true: colors.secondary }}
@@ -110,7 +110,7 @@ export default Settings = (props) => {
                 />
 
                 <Pressable style={{ marginTop: 20, marginBottom: 80 }} onPress={deviceSettings}>
-                    <Text style={{ color: colors.danger }}>Device Settings</Text>
+                    <Text style={{ color: colors.danger }}>Device settings</Text>
                 </Pressable>
 
             </ScrollView>
