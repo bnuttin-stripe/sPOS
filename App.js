@@ -1,14 +1,14 @@
 import { React, useEffect, useState } from 'react';
-import { Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
-import { getSerialNumber, isTablet } from 'react-native-device-info';
+import { AppState, Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
+import { getSerialNumber, isTablet, getModel } from 'react-native-device-info';
 import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { css, themeColors } from './styles';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/pro-solid-svg-icons';
 
-import { useRecoilState, useResetRecoilState } from 'recoil';
-import { settingsAtom } from './atoms';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { settingsAtom, logAtom } from './atoms';
 
 import Header from './components/Header';
 import Calculator from './components/Calculator';
@@ -19,6 +19,7 @@ import Customers from './components/Customers';
 import Customer from './components/Customer';
 import CustomerEntry from './components/CustomerEntry';
 import Settings from './components/Settings';
+import Log from './components/LogViewer';
 import SettingsHandler from './components/SettingsHandler';
 import Kiosk from './components/Kiosk';
 import KioskCheckout from './components/KioskCheckout';
@@ -26,25 +27,49 @@ import KioskCheckout from './components/KioskCheckout';
 import * as Utils from './utilities';
 
 export default function App({ route }) {
-  const [formFactorDetermined, setFormFactorDetermined] = useState(false);
-  const [tablet, setTablet] = useState(false);
-
-  let page = route.params?.page;
+  const page = route.params?.page;
+  const backendUrl = process.env.EXPO_PUBLIC_API_URL;
+  const settings = useRecoilValue(settingsAtom);
+  const [serial, setSerial] = useState();
 
   const { initialize } = useStripeTerminal();
   const [initialized, setInitialized] = useState(false);
   const [infoMsg, setInfoMsg] = useState('Initializing Stripe Terminal');
-  const [readerFound, setReaderFound] = useState(true);
-  const [serial, setSerial] = useState();
-  const [settings, setSettings] = useRecoilState(settingsAtom);
-  const colors = themeColors[settings.theme];
 
-  const backendUrl = process.env.EXPO_PUBLIC_API_URL;
+  const [reader, setReader] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState('');
+  const [logs, setLogs] = useRecoilState(logAtom);
 
   useEffect(() => {
-    setTablet(isTablet());
-    setFormFactorDetermined(true);
+    (async () => {
+      const sn = await getSerialNumber();
+      setSerial(sn);
+    })();
   }, []);
+
+  const [appState, setAppState] = useState(AppState.currentState);
+  // Handle app state updates - necessary to reconnect to the reader when app brought back to foreground
+  useEffect(() => {
+    return;
+    const handleAppStateChange = (nextAppState) => {
+      setAppState(nextAppState);
+    };
+
+    AppState.addEventListener('change', handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChange);
+    };
+  }, []);
+
+  const Log = (title, data) => {
+    console.log(title, data);
+    setLogs([...logs, {
+      time: Date.now(),
+      title: title,
+      body: JSON.stringify(data, null, 2)
+    }]);
+  }
 
   const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent, getPaymentMethod } = useStripeTerminal();
 
@@ -80,6 +105,7 @@ export default function App({ route }) {
       }
     }
     else {
+      // For iOS permissions are handled in the info.plist
       await initializeReader();
     }
   }
@@ -90,6 +116,7 @@ export default function App({ route }) {
 
     if (error) {
       setInfoMsg('StripeTerminal init failed - ' + error.message);
+      Log('initializeReader', error)
       return;
     }
 
@@ -105,37 +132,53 @@ export default function App({ route }) {
     checkPermissionsAndInitialize();
   }, []);
 
-  const { discoverReaders, discoveredReaders, connectHandoffReader, connectLocalMobileReader } =
+  // Event-based function calls
+  const { discoverReaders, connectHandoffReader, connectLocalMobileReader } =
     useStripeTerminal({
       onUpdateDiscoveredReaders: (readers) => {
-        console.log("onUpdateDiscoveredReaders", readers)
-        setReaderFound(readers.length > 0);
-        readers.length > 0
-          ? serial?.substring(0, 3) == 'STR'
-            ? connectReader(readers[0])
-            : connectTTPAReader(readers[0])
-          : setInfoMsg("No reader found");
+        Log('onUpdateDiscoveredReaders', readers)
+        if (readers.length > 0) {
+          setReader(readers[0]);
+          readers[0].serialNumber?.substring(0, 3) == 'STR'
+            ? connectAODReader(readers[0])
+            : connectTTPReader(readers[0])
+        }
+        else {
+          setInfoMsg("No reader found");
+        }
       },
       onFinishDiscoveringReaders: (error) => {
-        // console.log("onFinishDiscoveringReaders", error);
+        Log("onFinishDiscoveringReaders", error);
       },
       onDidChangeOfflineStatus: (status) => {
-        // console.log("onDidChangeOfflineStatus");
+        Log('onDidChangeOfflineStatus', status)
       },
       onDidSucceedReaderReconnect: () => {
-        // console.log("onDidSucceedReaderReconnect");
+        Log("onDidSucceedReaderReconnect", "");
       },
       onDidChangePaymentStatus: (status) => {
-        // console.log("onDidChangePaymentStatus");
+        Log('onDidChangePaymentStatus', status)
+        setPaymentStatus(status);
+      },
+      onDidDisconnect: (reason) => {
+        Log('onDidDisconnect', reason);
+      },
+      onDidReportUnexpectedReaderDisconnect: (error) => {
+        Log('onDidReportUnexpectedReaderDisconnect', error);
+      },
+      onDidChangeConnectionStatus: (status) => {
+        Log('onDidChangeConnectionStatus', status);
       },
     });
 
+  // Step 1 - discover readers
   const discoverHandoffReader = async () => {
     const { error } = await discoverReaders({
       discoveryMethod: 'handoff'
     });
     if (error) {
       setInfoMsg('Failed to discover handoff reader. ' + error.message);
+      Log("discoverHandoffReader", error);
     }
   };
 
@@ -146,41 +189,56 @@ export default function App({ route }) {
     });
     if (error) {
       setInfoMsg('Failed to discover readers. ' + error.message);
+      Log("discoverLocalMobileReader", error);
     }
   };
 
-  const connectReader = async (reader) => {
+  // Setp 2 - connect to reader
+  const connectAODReader = async (reader) => {
     const { error } = await connectHandoffReader({
       reader: reader
     });
-    setSerial(reader.serialNumber);
     if (error) {
       setInfoMsg('Failed to discover readers. ' + error.message);
+      Log("connectHandoffReader", error);
       return;
     }
     return;
   };
 
-  const connectTTPAReader = async (reader) => {
+  const connectTTPReader = async (reader) => {
     const { error } = await connectLocalMobileReader({
       reader: reader,
       locationId: process.env.EXPO_PUBLIC_TTPA_LOCATION
-      // locationId: 'tml_F0V0HAjyiFF9Q8'
     });
-    setSerial(reader.serialNumber);
     if (error) {
       setInfoMsg('Failed to discover readers. ' + error.message);
+      Log("connectLocalMobileReader", error);
       return;
     }
     return;
   };
 
+  const reconnectReader = async () => {
+    if (reader && reader.serialNumber && reader.status == 'offline') {
+      Log("reconnectReader", reader);
+      reader.serialNumber.substring(0, 3) == 'STR'
+        ? connectAODReader(reader)
+        : connectTTPReader(reader)
+    }
+  }
+
+  // For iOS
   useEffect(() => {
-    (async () => {
-      const sn = await getSerialNumber();
-      setSerial(sn);
-    })();
-  }, []);
+    return;
+    if (appState == 'active') {
+      reconnectReader();
+    }
+  }, [appState]);
+
+  // useEffect(() => {
+  //   console.log(reader)
+  // }, [reader])
 
   useEffect(() => {
     if (initialized && serial !== undefined) {
@@ -194,7 +252,7 @@ export default function App({ route }) {
   const pay = async (payload, onSuccess) => {
     const { error, paymentIntent } = await createPaymentIntent(payload);
     if (error) {
-      console.log("createPaymentIntent error: ", error);
+      Log("createPaymentIntent", error);
       return;
     }
     collectPM(paymentIntent, onSuccess);
@@ -210,7 +268,7 @@ export default function App({ route }) {
     }
     const { error, paymentIntent } = await collectPaymentMethod(payload);
     if (error) {
-      console.log("collectPaymentMethod error: ", error);
+      Log("collectPaymentMethod", error);
       return;
     }
     confirmPayment(paymentIntent, onSuccess);
@@ -223,7 +281,7 @@ export default function App({ route }) {
     if (settings.enableSurcharging) payload.amountSurcharge = 0.02 * pi.amount;
     const { error, paymentIntent } = await confirmPaymentIntent(payload);
     if (error) {
-      console.log("confirmPaymentIntent error: ", error);
+      Log("confirmPaymentIntent", error);
       return;
     }
     if (onSuccess) onSuccess(paymentIntent);
@@ -234,7 +292,7 @@ export default function App({ route }) {
     const { error, setupIntent } = await createSetupIntent({
     });
     if (error) {
-      console.log("createSetupIntent error: ", error);
+      Log("createSetupIntent", error);
       return;
     }
     return collectSIPM(setupIntent);
@@ -247,20 +305,18 @@ export default function App({ route }) {
       customerConsentCollected: true
     });
     if (error) {
-      console.log("collectSetupIntentPaymentMethod error: ", error);
+      Log("collectSetupIntentPaymentMethod", error);
       return;
     }
     return confirmSetup(setupIntent);
   }
 
   const confirmSetup = async (si) => {
-    // console.log("confirmSetup: ", si);
     const { setupIntent, error } = await confirmSetupIntent({
       setupIntent: si,
     });
-    // console.log("confirmSetupIntent: ", setupIntent);
     if (error) {
-      console.log("confirmSetupIntent error: ", error);
+      Log("confirmSetupIntent", error);
       return;
     }
     else {
@@ -285,7 +341,7 @@ export default function App({ route }) {
         </View>
       }
       {initialized && <>
-        {readerFound && formFactorDetermined
+        {reader
           ? <>
             <SettingsHandler serial={serial} setInfoMsg={setInfoMsg} />
             {!settings.account
@@ -294,12 +350,12 @@ export default function App({ route }) {
                 <Text style={{ padding: 40 }}>{infoMsg}</Text>
               </View>
               : <>
-                {tablet && <>
+                {isTablet() && <>
                   {(page == 'Kiosk' || page == undefined) && <Kiosk columns={4} />}
                   {page == 'KioskCheckout' && <KioskCheckout pay={pay} />}
                 </>}
-                {!tablet && <>
-                  <Header page={page} />
+                {!isTablet() && <>
+                  <Header page={page} reader={reader} paymentStatus={paymentStatus} />
                   {(page == 'Calculator' || page == undefined) && <Calculator pay={pay} />}
                   {page == 'Products' && <Products pay={pay} />}
                   {page == 'Checkout' && <Checkout pay={pay} />}
@@ -308,16 +364,21 @@ export default function App({ route }) {
                   {page == 'Customer' && <Customer id={route.params.id} />}
                   {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
                   {page == 'Scanner' && <Scanner />}
-                  {page == 'Settings' && <Settings />}
+                  {page == 'Settings' && <Settings reconnectReader={reconnectReader} />}
+                  {page == 'Log' && <LogViewer />}
                 </>}
               </>
             }
 
           </>
           : <>
-            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+            {/* <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
               <FontAwesomeIcon icon={faTriangleExclamation} color={'#36455A'} size={30} />
               <Text style={{ padding: 40, lineHeight: 30 }}>No reader detected. The Stripe account may not be enabled for Apps on Device, or the device may not have the required specifications.</Text>
+            </View> */}
+            <View style={{ justifyContent: 'center', flex: 1 }}>
+              <ActivityIndicator size="large" color={'#36455A'} />
+              <Text style={{ padding: 40 }}>{infoMsg}</Text>
             </View>
           </>}
       </>

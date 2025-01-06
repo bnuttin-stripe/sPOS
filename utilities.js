@@ -1,10 +1,11 @@
-export const displayPrice = (amount, currency) => {
-    // console.log("Currency: ", currency);
+export const displayPrice = (amount, currency, round) => {
     if (amount === null || isNaN(amount) || currency == undefined) return ' - ';
-    return amount.toLocaleString('en-US', {
-        style: 'currency',
+    return Intl.NumberFormat(undefined, { 
+        style: 'currency', 
         currency: currency,
-    });
+        maximumFractionDigits: round ? 0 : 2,
+        minimumFractionDigits: round ? 0 : 2,
+      }).format(amount)
 }
 
 export const displayDate = (timestamp) => {

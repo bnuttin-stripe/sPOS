@@ -53,3 +53,8 @@ export const currentCustomerAtom = atom({
     key: 'currentCustomerAtom',
     default: {}
 });
+
+export const logAtom = atom({
+    key: 'logAtom',
+    default: [],
+});

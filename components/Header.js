@@ -11,7 +11,7 @@ import { faCalculator, faGrid, faList, faUser, faGear, faBox, faCartShopping, fa
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
 
-import BatteryIndicator from './BatteryIndicator';
+import StatusBar from './StatusBar';
 
 export default Header = (props) => {
     const navigation = useNavigation();
@@ -82,7 +82,9 @@ export default Header = (props) => {
                         <Image source={require('../assets/stripe.png')} style={{ width: 60, height: 19, marginLeft: -12, marginRight: -16, marginBottom: -13, resizeMode: 'contain' }} />
                     </Pressable>
                 </View>
-                <BatteryIndicator />
+                <StatusBar paymentStatus={props.paymentStatus}/>
+                {/* <Text style={{color: 'white'}}>Reader Status: {props.reader?.status}</Text>
+                <Text style={{color: 'white'}}>Payment Status: {props.paymentStatus}</Text> */}
             </View>
             <View style={styles.header}>
                 <Pressable style={(props.page == 'Calculator' || props.page == undefined) ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>

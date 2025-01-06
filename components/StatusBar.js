@@ -1,16 +1,24 @@
 import { React } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { usePowerState } from 'react-native-device-info';
+
+import { useRecoilValue } from 'recoil';
+import { settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBatteryExclamation, faBattery1, faBattery2, faBattery3, faBattery4, faBattery5, faBatteryBolt } from '@fortawesome/pro-regular-svg-icons';
 
-export default BatteryIndicator = () => {
+import { css, themeColors } from '../styles';
+
+export default StatusBar = (props) => {
     const powerState = usePowerState();
+    const settings = useRecoilValue(settingsAtom);
+    const colors = themeColors[settings.theme];
     
     return (
         <>
             <View style={styles.indicator}>
+                <Text style={{fontSize: 30, color: props.paymentStatus == 'ready' ? colors.success : colors.danger, marginTop: -4, marginRight: 4}}>•</Text>
                 {powerState.batteryState != 'charging'
                     ? <>
                         {powerState.batteryLevel <= 0.05 && <FontAwesomeIcon icon={faBatteryExclamation} style={styles.level} size={22} />}
@@ -33,7 +41,7 @@ const styles = {
         flexDirection: 'row',
         position: 'absolute',
         right: 10,
-        top: 10,
+        alignItems: 'center'
     },
     level: {
         color: 'white',

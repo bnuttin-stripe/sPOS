@@ -7,9 +7,10 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, productAtom, settingsAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus, faCreditCard } from '@fortawesome/pro-solid-svg-icons';
+import { faChevronLeft, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus, faCreditCard, faUserMagnifyingGlass, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
 
 import Customers from './Customers';
+import Button from './Button';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
@@ -77,7 +78,6 @@ export default Checkout = (props) => {
                 cart: cart.map(x => x.name).join('\n')
             }
         }
-        // console.log("currentCustomer", currentCustomer);
         if (currentCustomer.id) payload.customer = currentCustomer.id;
         props.pay(payload, resetCartAndCustomer);
     }
@@ -99,10 +99,8 @@ export default Checkout = (props) => {
         )
     }
 
-    // console.log(cart)
-
     return (
-        <View style={[css.container]}>
+        <View style={css.container}>
             <ScrollView>
                 <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: 'bold' }}>Cart</Text>
                 {cart.length == 0
@@ -150,17 +148,24 @@ export default Checkout = (props) => {
 
                 <Text style={{ fontSize: 20, marginTop: 20, marginBottom: 10, fontWeight: 'bold' }}>Customer</Text>
                 {currentCustomer.id
-                    ? <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={css.spacedText}>{currentCustomer.name}</Text>
+                    ? <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View>
+                            <Text style={css.defaultText}>{currentCustomer.name}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
-                            <Text style={css.spacedText}>{currentCustomer.email}</Text>
+                            <Pressable onPress={resetCurrentCustomer}>
+                                <FontAwesomeIcon icon={faXmark} color={colors.primary} size={20} />
+                            </Pressable>
                         </View>
                     </View>
                     : <View style={{ flexDirection: 'row' }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={css.spacedText}>Guest</Text>
+                            <Text style={css.defaultText}>Guest</Text>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
+                            <Pressable onPress={() => setModalVisible(true)}>
+                                <FontAwesomeIcon icon={faMagnifyingGlass} color={colors.primary} size={20} />
+                            </Pressable>
                         </View>
                     </View>}
             </ScrollView>
@@ -173,7 +178,17 @@ export default Checkout = (props) => {
                     setModalVisible(false);
                 }}>
                 <View style={css.centeredView}>
-                    <View style={[css.modalView, { height: '40%', padding: 10 }]}>
+                    <View style={[css.modalView, css.shadow, { height: '40%', padding: 10 }]}>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Search Customers</Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
+                                <Pressable onPress={closeModal}>
+                                    <FontAwesomeIcon icon={faXmark} color={colors.primary} size={18} />
+                                </Pressable>
+                            </View>
+                        </View>
                         <Customers
                             mode="pick"
                             showIcons={false}
@@ -181,49 +196,33 @@ export default Checkout = (props) => {
                             search={true}
                             onPick={closeModal}
                         />
-                        <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, elevation: 0 }]} onPress={closeModal}>
-                            <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
-                        </Pressable>
-                        <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]}
+                        <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]}
                             onPress={() => navigation.navigate("App", { page: "CustomerEntry", origin: "Checkout" })}>
                             <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
+                            <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>New</Text>
                         </Pressable>
                     </View>
                 </View>
             </Modal>
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={goBack}>
-                <FontAwesomeIcon icon={faChevronLeft} color={'white'} size={20} />
-            </Pressable>
-
-            {currentCustomer.id
-                ? <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={resetCurrentCustomer}>
-                    <FontAwesomeIcon icon={faUserCheck} color={'white'} size={20} />
-                </Pressable>
-                : <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={() => setModalVisible(true)}>
-                    <FontAwesomeIcon icon={faUserPlus} color={'white'} size={20} />
-                </Pressable>}
-
-            <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={pay}>
-                <FontAwesomeIcon icon={faCreditCard} color={'white'} size={20} />
-                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Collect {Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}</Text>
-            </Pressable>
-
+            <View style={css.floatingMenu}>
+                <View style={css.buttons}>
+                    <Button
+                        action={goBack}
+                        color={colors.secondary}
+                        icon={faChevronLeft}
+                        // text="Close"
+                        large={false}
+                    />
+                    <Button
+                        action={pay}
+                        color={colors.primary}
+                        icon={faCreditCard}
+                        text={"Collect " + Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}
+                        large={false}
+                    />
+                </View>
+            </View>
         </View>
     )
-}
-
-const styles = {
-    numInCart: {
-        width: 30,
-        height: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: 'white',
-        borderRadius: 15,
-    },
-    productImage: {
-        width: 50,
-        height: 50,
-    }
 }

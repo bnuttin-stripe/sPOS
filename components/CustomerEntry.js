@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useRef } from 'react';
-import { Text, TextInput, View, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Linking, ActivityIndicator } from 'react-native';
+import { Platform, Text, TextInput, View, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Linking, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
@@ -58,7 +58,6 @@ export default CustomerEntry = (props) => {
     const emailRef = useRef(null);
     const phoneRef = useRef(null);
     const addressLine1Ref = useRef(null);
-    const addressLine2Ref = useRef(null);
     const cityRef = useRef(null);
     const stateRef = useRef(null);
     const postalCodeRef = useRef(null);
@@ -96,6 +95,7 @@ export default CustomerEntry = (props) => {
 
     return (
         <View style={css.container}>
+            <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}>New Customer</Text>
             <ScrollView>
                 <Text style={css.label}>First Name</Text>
                 <TextInput
@@ -198,6 +198,8 @@ export default CustomerEntry = (props) => {
                     ref={postalCodeRef}
                 />
 
+                <View style={{marginBottom: 500}}></View>
+
             </ScrollView>
 
             {scannerOpen && <>
@@ -218,21 +220,23 @@ export default CustomerEntry = (props) => {
 
             {settings.currency == 'usd' && <>
                 {scannerOpen
-                    ? <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary }]} onPress={() => setScannerOpen(false)}>
+                    ? <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={() => setScannerOpen(false)}>
                         <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
                     </Pressable>
-                    : <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: colors.primary }]} onPress={() => setScannerOpen(true)}>
+                    : <Pressable style={[css.floatingIcon, css.shadow, { left: 120, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={() => setScannerOpen(true)}>
                         <FontAwesomeIcon icon={faIdCard} color={'white'} size={18} />
+                        <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Scan DL</Text>
                     </Pressable>
                 }
             </>
             }
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, color: 'white' }]} onPress={createCustomer}>
+            <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.primary, color: 'white', flexDirection: 'row' }]} onPress={createCustomer}>
                 {savingCustomer
                     ? <ActivityIndicator size="small" color="white" />
                     : <FontAwesomeIcon icon={faSave} color={'white'} size={18} />
                 }
+                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Save</Text>
             </Pressable>
         </View>
     )

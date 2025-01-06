@@ -18,18 +18,11 @@ export default CardVerifier = (props) => {
 
     const [verificationPM, setVerificationPM] = useState(null);
     const [verificationSuccessful, setVerificationSuccessful] = useState(null);
-    const [showVerificationResults, setShowVerificationResults] = useState(false);
 
     const checkCard = async () => {
         const pm = await props.setup();
         setVerificationPM(pm);
     }
-
-    // useEffect(() => {
-    //     console.log("verificationPM",verificationPM);
-    //     console.log("verificationSuccessful", verificationSuccessful);
-    //     console.log("props.pi", props.pi);
-    // }, [])
 
     useEffect(() => {
         if (verificationPM != null) {
@@ -40,12 +33,8 @@ export default CardVerifier = (props) => {
         }
     }, [verificationPM, props.pi]);
 
-    useEffect(() => {
-        setShowVerificationResults(verificationSuccessful !== null);
-    }, [verificationSuccessful]);
-
     const cardValid = () => {
-        console.log("verificationPM", verificationPM);
+        // console.log("verificationPM", verificationPM);
         if (verificationPM == null) return false;
         return verificationPM?.card_present?.fingerprint == props.pi?.latest_charge?.payment_method_details?.card?.fingerprint ||
             verificationPM?.card_present?.fingerprint == props.pi?.latest_charge?.payment_method_details?.card_present?.fingerprint ||
@@ -54,14 +43,14 @@ export default CardVerifier = (props) => {
     }
 
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 12, flex: 1 }}>
-            {showVerificationResults
-                ? verificationSuccessful
-                    ? <><FontAwesomeIcon icon={faCircleCheck} color={colors.success} size={14} />
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 12, marginRight: -10, flex: 1 }}>
+            {verificationSuccessful !== null 
+                    ? verificationSuccessful
+                        ? <><FontAwesomeIcon icon={faCircleCheck} color={colors.success} size={14} />
                         <Text style={{ color: colors.success, fontSize: 14, marginLeft: 5 }}>Match</Text></>
-                    : <><FontAwesomeIcon icon={faCircleExclamation} color={colors.danger} size={14} />
+                        : <><FontAwesomeIcon icon={faCircleExclamation} color={colors.danger} size={14} />
                         <Text style={{ color: colors.danger, fontSize: 14, marginLeft: 5 }}>No Match</Text></>
-                : <Pressable onPress={checkCard}>
+                    : <Pressable onPress={checkCard}>
                     <Text style={[css.inlineButton, { backgroundColor: colors.primary }]}>Check</Text>
                 </Pressable>
             }

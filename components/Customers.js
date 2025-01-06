@@ -78,19 +78,19 @@ export default Customers = (props) => {
         return (
             <Pressable key={customer.id} onPress={() => customerAction(customer)}>
                 <DataTable.Row>
-                    <DataTable.Cell style={css.cell}>
-                        <Text style={css.defaultText}>
+                    <DataTable.Cell style={[css.cell, {flex: 1}]}>
+                        <Text style={css.defaultText} numberOfLines={1} ellipsizeMode='tail'>
                             {customer.name}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={css.cell}>
-                        <Text style={css.defaultText}>
+                    <DataTable.Cell style={[css.cell, {flex: 1.8}]}>
+                        <Text style={css.defaultText} numberOfLines={1} ellipsizeMode='middle'>
                             {customer.email}
                         </Text>
                     </DataTable.Cell>
-                    {props.showLTV && <DataTable.Cell numeric style={css.cell}>
+                    {props.showLTV && <DataTable.Cell numeric style={[css.cell, {flex: .4}]}>
                         <Text style={css.defaultText}>
-                            {Utils.displayPrice(customer.ltv / 100, settings.currency)}
+                            {Utils.displayPrice(customer.ltv / 100, settings.currency, true)}
                         </Text>
                     </DataTable.Cell>}
                 </DataTable.Row>
@@ -112,23 +112,23 @@ export default Customers = (props) => {
                         onSubmitEditing={event => getCustomers(event.nativeEvent.text)}
                     />
                     {props.showIcons && <Pressable onPress={closeSearch}>
-                        <FontAwesomeIcon icon={faXmarkCircle} size={24} style={{ color: colors.primary, marginLeft: 10 }} />
+                        <FontAwesomeIcon icon={faXmark} size={24} style={{ color: colors.primary, marginLeft: 10 }} />
                     </Pressable>}
                 </View>}
             <DataTable>
                 {(props.search && searchedCustomers.length > 0 || !props.search) &&
                     <DataTable.Header style={css.tableHeader}>
-                        <DataTable.Title style={css.cell}>
+                        <DataTable.Title style={[css.cell, {flex: 1}]}>
                             <Text style={css.defaultText}>
                                 Name
                             </Text>
                         </DataTable.Title>
-                        <DataTable.Title style={css.cell}>
+                        <DataTable.Title style={[css.cell, {flex: 1.8}]}>
                             <Text style={css.defaultText}>
                                 Email
                             </Text>
                         </DataTable.Title>
-                        {props.showLTV && <DataTable.Title numeric style={css.cell}>
+                        {props.showLTV && <DataTable.Title numeric style={[css.cell, {flex: 0.4}]}>
                             <Text style={css.defaultText}>
                                 LTV
                             </Text>
@@ -145,16 +145,16 @@ export default Customers = (props) => {
 
             {props.showIcons &&
                 <>
-                    <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getCustomers}>
+                    <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getCustomers}>
                         {refreshing
                             ? <ActivityIndicator size="small" color="white" />
                             : <FontAwesomeIcon icon={faArrowsRotate} color={'white'} size={18} />
                         }
                     </Pressable>
-                    <Pressable style={[css.floatingIcon, { left: 80, bottom: 20, backgroundColor: searchActive ? colors.primary : colors.secondary }]} onPress={searchActive ? closeSearch : openSearch}>
+                    <Pressable style={[css.floatingIcon, css.shadow, { left: 80, bottom: 20, backgroundColor: searchActive ? colors.primary : colors.secondary }]} onPress={searchActive ? closeSearch : openSearch}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} color={'white'} size={18} />
                     </Pressable>
-                    <Pressable style={[css.floatingIcon, { left: 140, bottom: 20, backgroundColor: colors.primary }]}
+                    <Pressable style={[css.floatingIcon, css.shadow, { left: 140, bottom: 20, backgroundColor: colors.primary }]}
                         onPress={() => navigation.navigate("App", { page: "CustomerEntry", origin: "Customers"})}>
                         <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
                     </Pressable>

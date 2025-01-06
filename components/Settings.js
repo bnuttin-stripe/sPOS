@@ -2,12 +2,13 @@ import { React, useEffect, useState } from 'react';
 import { Text, TextInput, View, Pressable, ScrollView, Linking, Switch } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { NetworkInfo } from 'react-native-network-info';
+import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSave, faRotateLeft, faMobile, faTrash } from '@fortawesome/pro-solid-svg-icons';
+import { faSave, faRotateLeft, faMobile, faAlignJustify, faLink} from '@fortawesome/pro-solid-svg-icons';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -18,6 +19,7 @@ export default Settings = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
     const colors = themeColors[settings.theme];
     const [resettingStorage, setResettingStorage] = useState(false);
+    const navigation = useNavigation();
 
     const resetSettings = useResetRecoilState(settingsAtom);
 
@@ -109,19 +111,22 @@ export default Settings = (props) => {
                     ]}
                 />
 
-                <Pressable style={{ marginTop: 20, marginBottom: 80 }} onPress={deviceSettings}>
-                    <Text style={{ color: colors.danger }}>Device settings</Text>
-                </Pressable>
-
             </ScrollView>
 
-            {/* <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary }]} onPress={resetSettings}>
-                <FontAwesomeIcon icon={faRotateLeft} color={'white'} size={18} />
-            </Pressable> */}
-
-            {/* <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={deviceSettings}>
+            <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={() => navigation.navigate("App", { page: "Log" })}>
+                <FontAwesomeIcon icon={faAlignJustify} color={'white'} size={18} />
+                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Logs</Text>
+            </Pressable>
+            
+            <Pressable style={[css.floatingIcon, css.shadow, { left: 130, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={props.reconnectReader}>
+                <FontAwesomeIcon icon={faLink} color={'white'} size={18} />
+                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Reconnect</Text>
+            </Pressable>
+            
+            {settings.isAOD && <Pressable style={[css.floatingIcon, css.shadow, { left: 130, bottom: 20, backgroundColor: colors.secondary, flexDirection: 'row' }]} onPress={deviceSettings}>
                 <FontAwesomeIcon icon={faMobile} color={'white'} size={18} />
-            </Pressable> */}
+                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Device Settings</Text>
+            </Pressable>}
         </View>
     )
 }

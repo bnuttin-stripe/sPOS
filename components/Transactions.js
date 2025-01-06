@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { transactionAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faCircleCheck, faCircleExclamation, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
+import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faBox, faCircleCheck, faCircleExclamation, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
@@ -116,7 +116,7 @@ export default Transactions = (props) => {
                     <DataTable.Cell style={[css.cell, { flex: 2 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={css.defaultText}>{pi.metadata?.orderNumber}</Text>
-                            {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBoxCheck} color={colors.warning} style={{ marginLeft: 10 }} size={20} />}
+                            {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBox} color={colors.primary} style={{ marginLeft: 10 }} size={20} />}
                             {pi.metadata?.bopis == 'done' && <FontAwesomeIcon icon={faBoxCheck} color={colors.success} style={{ marginLeft: 10 }} size={20} />}
                         </View>
                     </DataTable.Cell>
@@ -158,7 +158,7 @@ export default Transactions = (props) => {
                 </ScrollView>
             </DataTable>
 
-            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getTransactions}>
+            <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getTransactions}>
                 {refreshing
                     ? <ActivityIndicator size="small" color="white" />
                     : <FontAwesomeIcon icon={faArrowsRotate} color={'white'} size={18} />
@@ -173,7 +173,7 @@ export default Transactions = (props) => {
                     setModalVisible(!modalVisible);
                 }}>
                 <View style={css.centeredView}>
-                    <View style={css.modalView}>
+                    <View style={[css.modalView, css.shadow]}>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flexDirection: 'column', flex: 1.8 }}>
                                 <Text style={css.spacedTextMuted}>Order ID</Text>
@@ -206,7 +206,7 @@ export default Transactions = (props) => {
                                     {selectedTransaction?.metadata?.bopis &&
                                         <View style={{ flexDirection: 'row' }}>
                                             <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.bopis)}</Text>
-                                            {selectedTransaction?.metadata?.bopis == 'pending' && <Pressable onPress={bopisDone} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 12, flex: 1 }}>
+                                            {selectedTransaction?.metadata?.bopis == 'pending' && <Pressable onPress={bopisDone} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 12, marginRight: -10, flex: 1 }}>
                                                 <Text style={[css.inlineButton, { backgroundColor: colors.primary }]}>Picked Up</Text>
                                             </Pressable>}
                                         </View>}
@@ -215,12 +215,12 @@ export default Transactions = (props) => {
                             </View>
                         </View>
 
-                        <Pressable style={[css.floatingIcon, { right: 0, top: 0, elevation: 0 }]} onPress={closeModal}>
+                        <Pressable style={[css.floatingIcon, css.shadow, { right: 0, top: 0, elevation: 0, shadowRadius: 0 }]} onPress={closeModal}>
                             <FontAwesomeIcon icon={faXmark} color={colors.primary} size={18} />
                         </Pressable>
 
                         {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
-                            <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
+                            <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
                                 {isRefunding
                                     ? <ActivityIndicator size="small" color="white" />
                                     : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} style={{ transform: [{ rotateZ: '90deg' }] }} size={18} />

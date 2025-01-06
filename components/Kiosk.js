@@ -1,13 +1,14 @@
 import { React, useEffect, useState } from 'react';
 import { Text, View, Pressable, Image, FlatList, Dimensions, useWindowDimensions } from 'react-native';
-import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
 import { settingsAtom, productAtom, cartAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCreditCard, faPlusCircle, faArrowLeft, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCreditCard, faPlusCircle, faArrowLeft, faCheckCircle, faTrash } from '@fortawesome/pro-solid-svg-icons';
+
+import Button from './Button';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
@@ -29,10 +30,6 @@ export default Kiosk = (props) => {
         return cart.filter(x => (x.id == product.id)).length;
     }
 
-    const getCartTotal = (cart) => {
-        return cart.reduce((a, b) => a + b.default_price.unit_amount / 100, 0);
-    }
-
     const addToCart = (product) => {
         setCart([...cart, product]);
     }
@@ -46,8 +43,8 @@ export default Kiosk = (props) => {
 
     const handleItemPress = (product) => {
         numInCart(product) == 0
-        ? addToCart(product)
-        : removeFromCart(product);
+            ? addToCart(product)
+            : removeFromCart(product);
     }
 
     const getProducts = async () => {
@@ -82,8 +79,8 @@ export default Kiosk = (props) => {
                 </View>
                 <View style={{ flexDirection: 'row', padding: 5 }}>
                     <View style={{ flexDirection: 'column', flex: 1 }}>
-                        <Text numberOfLines={2} ellipsizeMode='tail'>{item.name}</Text>
-                        <Text style={{fontSize: 18, fontWeight: 'bold', marginTop: 10}}>{Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)}</Text>
+                        <Text numberOfLines={2} ellipsizeMode='tail' style={{fontSize: 18}}>{item.name}</Text>
+                        <Text style={{ fontSize: 22, fontWeight: 'bold', marginTop: 10 }}>{Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)}</Text>
                     </View>
                     <View>
                         {numInCart(item) == 0
@@ -110,7 +107,6 @@ export default Kiosk = (props) => {
         kiosk: {
             flex: 4,
             marginHorizontal: "auto",
-            // width: '90%',
         },
         productImage: {
             height: 120,
@@ -132,15 +128,8 @@ export default Kiosk = (props) => {
         footer: {
             flexDirection: 'column',
             height: '10%',
-            padding: 10,
-            width: '40%',
             justifyContent: 'flex-end',
             marginHorizontal: "auto",
-        },
-        buttons: {
-            flexDirection: 'row',
-            marginHorizontal: "auto",
-            justifyContent: 'space-between',
         }
     };
 
@@ -161,13 +150,21 @@ export default Kiosk = (props) => {
                 />}
             </View>
             <View style={styles.footer}>
-                <View style={styles.buttons}>
-                    <Button mode="contained" onPress={resetCart} style={{ backgroundColor: colors.primary, marginLeft: 10, marginRight: 10 }}>
-                        Reset Cart
-                    </Button>
-                    <Button mode="contained" onPress={goToCheckout} style={{ backgroundColor: colors.primary, marginLeft: 10, marginRight: 10 }}>
-                        Go to Checkout
-                    </Button>
+                <View style={css.buttons}>
+                    <Button
+                        action={resetCart}
+                        color={colors.primary}
+                        icon={faTrash}
+                        text="Reset Cart"
+                        large={true}
+                    />
+                    <Button
+                        action={goToCheckout}
+                        color={colors.primary}
+                        icon={faCreditCard}
+                        text="Go to Checkout"
+                        large={true}
+                    />
                 </View>
             </View>
         </View>

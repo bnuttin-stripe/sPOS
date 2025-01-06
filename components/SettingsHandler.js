@@ -1,4 +1,5 @@
 import { React, useEffect } from 'react';
+import { getSerialNumber, isTablet, getModel } from 'react-native-device-info';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { settingsAtom } from '../atoms';
@@ -16,10 +17,15 @@ export default SettingsHandler = (props) => {
         magicCentProtection: true,
         theme: 'wick',
         enableSurcharging: false,
+        isAOD: false,
+        model: 'unknown'
     };
 
     const getAccount = async () => {
+        const isAOD = props.serial.substring(0,3) == 'STR';
+        const model = getModel();
         props.setInfoMsg("Getting account details");
+
         if (props.serial == undefined) return;
         try {
             const response = await fetch(backendUrl + "/account/" + props.serial, {
@@ -29,7 +35,7 @@ export default SettingsHandler = (props) => {
                 },
             });
             const data = await response.json();
-            setSettings({ ...defaultSettings, account: data.id, country: data.country, currency: data.default_currency });
+            setSettings({ ...defaultSettings, account: data.id, country: data.country, currency: data.default_currency, isAOD: isAOD, model: model });
         } catch (error) {
             console.error('Error getting account details:', error);
             props.setInfoMsg("Error getting account details");

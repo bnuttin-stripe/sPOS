@@ -1,7 +1,7 @@
 import { text } from "@fortawesome/fontawesome-svg-core";
 
 export const themeColors = {
-    wick:{
+    wick: {
         primary: '#36455A',
         // primary: 'red',
         secondary: '#999C9B',
@@ -12,7 +12,7 @@ export const themeColors = {
         info: '#33b5e5',
         light: '#F2F5F9',
     },
-    boba:{
+    boba: {
         primary: '#FFBB00',
         secondary: '#36455A',
         tertiary: '#999C9B',
@@ -91,6 +91,13 @@ export const css = {
         justifyContent: 'center',
         alignItems: 'center',
     },
+    shadow: {
+        elevation: 8,
+        shadowColor: 'black',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.6,
+        shadowRadius: 4,
+    },
     modalView: {
         width: '90%',
         backgroundColor: 'white',
@@ -99,7 +106,6 @@ export const css = {
         alignItems: 'center',
         paddingBottom: 100,
         marginTop: 120,
-        elevation: 20,
         borderWidth: 1,
         borderColor: "lightgray",
     },
@@ -110,6 +116,16 @@ export const css = {
         fontWeight: 'bold',
         color: '#36455A'
     },
+    buttons: {
+        flexDirection: 'row',
+        gap: 16
+    },
+    floatingMenu: {
+        position: 'absolute',
+        bottom: 20,
+        left: 20,
+        gap: 20
+    },
     floatingIcon: {
         position: 'absolute',
         color: 'white',
@@ -119,10 +135,8 @@ export const css = {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 25,
-        shadownColor: 'black',
-        elevation: 8,
     },
-    smallRoundIcon:{
+    smallRoundIcon: {
         color: 'white',
         minWidth: 34,
         padding: 5,
@@ -130,20 +144,19 @@ export const css = {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 17,
-        shadownColor: 'black',
-        elevation: 8,
     },
     inlineButton: {
-        color: 'white', 
-        width: 70, 
-        borderRadius: 20, 
-        paddingLeft: 10, 
-        paddingRight: 10, 
-        paddingTop: 6, 
-        paddingBottom: 6, 
+        color: 'white',
+        width: 70,
+        borderRadius: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 6,
+        paddingBottom: 6,
         fontSize: 10,
         textAlign: 'center',
-        marginTop: -3
+        marginTop: -3,
+
     }
 };
 
