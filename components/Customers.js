@@ -9,6 +9,8 @@ import { settingsAtom, customersAtom, searchedCustomersAtom, currentCustomerAtom
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus, faArrowsRotate, faMagnifyingGlass, faXmark, faXmarkCircle } from '@fortawesome/pro-solid-svg-icons';
 
+import Button from './Button';
+
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
 
@@ -78,17 +80,17 @@ export default Customers = (props) => {
         return (
             <Pressable key={customer.id} onPress={() => customerAction(customer)}>
                 <DataTable.Row>
-                    <DataTable.Cell style={[css.cell, {flex: 1}]}>
+                    <DataTable.Cell style={[css.cell, { flex: 1 }]}>
                         <Text style={css.defaultText} numberOfLines={1} ellipsizeMode='tail'>
                             {customer.name}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, {flex: 1.8}]}>
+                    <DataTable.Cell style={[css.cell, { flex: 1.8 }]}>
                         <Text style={css.defaultText} numberOfLines={1} ellipsizeMode='middle'>
                             {customer.email}
                         </Text>
                     </DataTable.Cell>
-                    {props.showLTV && <DataTable.Cell numeric style={[css.cell, {flex: .4}]}>
+                    {props.showLTV && <DataTable.Cell numeric style={[css.cell, { flex: .4 }]}>
                         <Text style={css.defaultText}>
                             {Utils.displayPrice(customer.ltv / 100, settings.currency, true)}
                         </Text>
@@ -118,17 +120,17 @@ export default Customers = (props) => {
             <DataTable>
                 {(props.search && searchedCustomers.length > 0 || !props.search) &&
                     <DataTable.Header style={css.tableHeader}>
-                        <DataTable.Title style={[css.cell, {flex: 1}]}>
+                        <DataTable.Title style={[css.cell, { flex: 1 }]}>
                             <Text style={css.defaultText}>
                                 Name
                             </Text>
                         </DataTable.Title>
-                        <DataTable.Title style={[css.cell, {flex: 1.8}]}>
+                        <DataTable.Title style={[css.cell, { flex: 1.8 }]}>
                             <Text style={css.defaultText}>
                                 Email
                             </Text>
                         </DataTable.Title>
-                        {props.showLTV && <DataTable.Title numeric style={[css.cell, {flex: 0.4}]}>
+                        {props.showLTV && <DataTable.Title numeric style={[css.cell, { flex: 0.4 }]}>
                             <Text style={css.defaultText}>
                                 LTV
                             </Text>
@@ -143,22 +145,34 @@ export default Customers = (props) => {
                 </ScrollView>
             </DataTable>
 
-            {props.showIcons &&
-                <>
-                    <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getCustomers}>
-                        {refreshing
-                            ? <ActivityIndicator size="small" color="white" />
-                            : <FontAwesomeIcon icon={faArrowsRotate} color={'white'} size={18} />
-                        }
-                    </Pressable>
-                    <Pressable style={[css.floatingIcon, css.shadow, { left: 80, bottom: 20, backgroundColor: searchActive ? colors.primary : colors.secondary }]} onPress={searchActive ? closeSearch : openSearch}>
-                        <FontAwesomeIcon icon={faMagnifyingGlass} color={'white'} size={18} />
-                    </Pressable>
-                    <Pressable style={[css.floatingIcon, css.shadow, { left: 140, bottom: 20, backgroundColor: colors.primary }]}
-                        onPress={() => navigation.navigate("App", { page: "CustomerEntry", origin: "Customers"})}>
-                        <FontAwesomeIcon icon={faPlus} color={'white'} size={18} />
-                    </Pressable>
-                </>}
+            {props.showIcons && <View style={css.floatingMenu}>
+                <View style={css.buttons}>
+                    <Button
+                        action={getCustomers}
+                        color={colors.secondary}
+                        icon={faArrowsRotate}
+                        // text="Refresh"
+                        large={false}
+                        refreshing={refreshing}
+                    />
+                    <Button
+                        action={searchActive ? closeSearch : openSearch}
+                        color={searchActive ? colors.primary : colors.secondary}
+                        icon={faMagnifyingGlass}
+                        text="Search"
+                        large={false}
+                    // refreshing={refreshing}
+                    />
+                    <Button
+                        action={() => navigation.navigate("App", { page: "CustomerEntry", origin: "Customers" })}
+                        color={colors.primary}
+                        icon={faPlus}
+                        text="New"
+                        large={false}
+                    // refreshing={refreshing}
+                    />
+                </View>
+            </View>}
         </View>
     )
 }

@@ -4,7 +4,7 @@ import { DataTable, TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { cartAtom, productAtom, settingsAtom, currentCustomerAtom } from '../atoms';
+import { cartAtom, settingsAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus, faCreditCard, faUserMagnifyingGlass, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
@@ -41,7 +41,6 @@ export default Checkout = (props) => {
         const taxes = Math.round(subtotal * settings.taxPercentage / 100);
         const adjustment = adjustFinalAmount(subtotal + taxes);
         const total = subtotal + taxes + adjustment;
-        // console.log(subtotal, taxes, adjustment, total);
         return {
             subtotal: subtotal,
             taxes: taxes,

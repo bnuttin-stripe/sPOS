@@ -95,7 +95,7 @@ export default CustomerEntry = (props) => {
 
     return (
         <View style={css.container}>
-            <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}>New Customer</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 10 }}>New Customer</Text>
             <ScrollView>
                 <Text style={css.label}>First Name</Text>
                 <TextInput
@@ -198,9 +198,42 @@ export default CustomerEntry = (props) => {
                     ref={postalCodeRef}
                 />
 
-                <View style={{marginBottom: 500}}></View>
+                <View style={{ marginBottom: 500 }}></View>
 
             </ScrollView>
+
+
+            <View style={css.floatingMenu}>
+                <View style={css.buttons}>
+                    {scannerOpen && <View style={{ zIndex: 110, flexDirection: 'row', gap: 20 }}>
+                        <Button
+                            action={() => setScannerOpen(false)}
+                            color={colors.secondary}
+                            icon={faXmark}
+                            // text="Refresh"
+                            large={false}
+                        // refreshing={refreshing}
+                        />
+                    </View>}
+                    {settings.currency == 'usd' && !scannerOpen &&
+                        <Button
+                            action={() => setScannerOpen(true)}
+                            color={colors.primary}
+                            icon={faIdCard}
+                            text="Scan DL"
+                            large={false}
+                        />
+                    }
+                    <Button
+                        action={createCustomer}
+                        color={colors.primary}
+                        icon={faSave}
+                        text="Save"
+                        large={false}
+                        refreshing={savingCustomer}
+                    />
+                </View>
+            </View>
 
             {scannerOpen && <>
                 <View style={[css.cameraPreview, { margin: -20 }]}>
@@ -213,31 +246,7 @@ export default CustomerEntry = (props) => {
                         codeScanner={codeScanner}
                     />
                 </View>
-                <Pressable style={[css.floatingIcon, { left: 20, bottom: 20, backgroundColor: colors.warning, zIndex: 110 }]} onPress={() => setScannerOpen(false)}>
-                    <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
-                </Pressable>
             </>}
-
-            {settings.currency == 'usd' && <>
-                {scannerOpen
-                    ? <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={() => setScannerOpen(false)}>
-                        <FontAwesomeIcon icon={faXmark} color={'white'} size={18} />
-                    </Pressable>
-                    : <Pressable style={[css.floatingIcon, css.shadow, { left: 120, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row' }]} onPress={() => setScannerOpen(true)}>
-                        <FontAwesomeIcon icon={faIdCard} color={'white'} size={18} />
-                        <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Scan DL</Text>
-                    </Pressable>
-                }
-            </>
-            }
-
-            <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.primary, color: 'white', flexDirection: 'row' }]} onPress={createCustomer}>
-                {savingCustomer
-                    ? <ActivityIndicator size="small" color="white" />
-                    : <FontAwesomeIcon icon={faSave} color={'white'} size={18} />
-                }
-                <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Save</Text>
-            </Pressable>
         </View>
     )
 }

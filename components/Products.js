@@ -5,7 +5,7 @@ import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { cartAtom, productAtom, settingsAtom, currentCustomerAtom } from '../atoms';
+import { cartAtom, productAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark, faPlus, faMinus, faUserMagnifyingGlass, faUserCheck } from '@fortawesome/pro-solid-svg-icons';
@@ -125,113 +125,114 @@ export default Products = (props) => {
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: 1 }]} numeric>
                         {numInCart(product) == 0
-                            ? <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.secondary }]} onPress={() => setCart([...cart, product])}>
+                            // ? <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.secondary }]} onPress={() => setCart([...cart, product])}>
+                            ? <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.secondary }]} onPress={() => addToCart(product)}>
                                 <FontAwesomeIcon icon={faPlus} color={'white'} size={12} />
                             </Pressable>
-                            : <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.primary }]} onPress={() => setCart(cart.filter(x => x.id != product.id))}>
-                                <FontAwesomeIcon icon={faMinus} color={'white'} size={12} />
-                            </Pressable>
+                    : <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.primary }]} onPress={() => setCart(cart.filter(x => x.id != product.id))}>
+                        <FontAwesomeIcon icon={faMinus} color={'white'} size={12} />
+                    </Pressable>
                         }
-                    </DataTable.Cell>
-                </DataTable.Row>
+                </DataTable.Cell>
+            </DataTable.Row>
             </Pressable >
         )
-    }
+}
 
-    return (
-        <View style={[css.container, { padding: 0 }]}>
-            <DataTable style={{ flex: 1 }}>
-                <DataTable.Header style={css.tableHeader}>
-                    <DataTable.Title style={{ flex: 4 }}>
-                        <Text style={css.defaultText}>
-                            Product
-                        </Text>
-                    </DataTable.Title>
-                    <DataTable.Title style={{ flex: 1 }}>
-                        <Text style={css.defaultText}>
-                            Price
-                        </Text>
-                    </DataTable.Title>
-                    <DataTable.Title style={{ flex: 1 }} numeric>
-                        <Text style={css.defaultText}>
-                            In Cart
-                        </Text>
-                    </DataTable.Title>
-                </DataTable.Header>
-                <ScrollView
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={getProducts}
-                            progressViewOffset={150}
-                            colors={['white']}
-                            progressBackgroundColor={colors.primary}
-                        />
-                    }
-                >
-                    {products.length > 0 && products.map && products.map((product) => Row(product))}
-                    {products.length == 0 && !refreshing && <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
-                    <DataTable.Row></DataTable.Row>
-                    <DataTable.Row></DataTable.Row>
-                </ScrollView>
-            </DataTable>
+return (
+    <View style={[css.container, { padding: 0 }]}>
+        <DataTable style={{ flex: 1 }}>
+            <DataTable.Header style={css.tableHeader}>
+                <DataTable.Title style={{ flex: 4 }}>
+                    <Text style={css.defaultText}>
+                        Product
+                    </Text>
+                </DataTable.Title>
+                <DataTable.Title style={{ flex: 1 }}>
+                    <Text style={css.defaultText}>
+                        Price
+                    </Text>
+                </DataTable.Title>
+                <DataTable.Title style={{ flex: 1 }} numeric>
+                    <Text style={css.defaultText}>
+                        In Cart
+                    </Text>
+                </DataTable.Title>
+            </DataTable.Header>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={getProducts}
+                        progressViewOffset={150}
+                        colors={['white']}
+                        progressBackgroundColor={colors.primary}
+                    />
+                }
+            >
+                {products.length > 0 && products.map && products.map((product) => Row(product))}
+                {products.length == 0 && !refreshing && <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
+                <DataTable.Row></DataTable.Row>
+                <DataTable.Row></DataTable.Row>
+            </ScrollView>
+        </DataTable>
 
-            <View style={css.floatingMenu}>
-                <View style={css.buttons}>
-                    {scannerOpen ?
-                        <View style={{ zIndex: 110, flexDirection: 'row', gap: 20 }}>
-                            <Button
-                                action={() => setScannerOpen(false)}
-                                color={colors.secondary}
-                                icon={faXmark}
-                                // text="Close"
-                                large={false}
-                            />
-                            <Button
-                                action={() => setFoundCode(false)}
-                                color={colors.primary}
-                                icon={faChevronRight}
-                                // text="Next"
-                                large={false}
-                            />
-                        </View>
-                        : <Button
-                            action={() => setScannerOpen(true)}
+        <View style={css.floatingMenu}>
+            <View style={css.buttons}>
+                {scannerOpen ?
+                    <View style={{ zIndex: 110, flexDirection: 'row', gap: 20 }}>
+                        <Button
+                            action={() => setScannerOpen(false)}
                             color={colors.secondary}
-                            icon={faBarcodeRead}
-                            // text="Scan"
+                            icon={faXmark}
+                            // text="Close"
                             large={false}
                         />
-                    }
-                    <Button
-                        action={resetCart}
+                        <Button
+                            action={() => setFoundCode(false)}
+                            color={colors.primary}
+                            icon={faChevronRight}
+                            // text="Next"
+                            large={false}
+                        />
+                    </View>
+                    : <Button
+                        action={() => setScannerOpen(true)}
                         color={colors.secondary}
-                        icon={faCartXmark}
-                        // text="Reset"
+                        icon={faBarcodeRead}
+                        // text="Scan"
                         large={false}
                     />
-                    <Button
-                        action={goToCheckout}
-                        color={colors.primary}
-                        icon={faCartShopping}
-                        text={Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}
-                        large={false}
-                    />
-                </View>
+                }
+                <Button
+                    action={resetCart}
+                    color={colors.secondary}
+                    icon={faCartXmark}
+                    // text="Reset"
+                    large={false}
+                />
+                <Button
+                    action={goToCheckout}
+                    color={colors.primary}
+                    icon={faCartShopping}
+                    text={Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}
+                    large={false}
+                />
             </View>
-
-            {scannerOpen && <>
-                <View style={css.cameraPreview}>
-                    <Camera
-                        style={StyleSheet.absoluteFill}
-                        device={device}
-                        isActive={!foundCode}
-                        photo={true}
-                        resizeMode="cover"
-                        codeScanner={codeScanner}
-                    />
-                </View>
-            </>}
         </View>
-    )
+
+        {scannerOpen && <>
+            <View style={css.cameraPreview}>
+                <Camera
+                    style={StyleSheet.absoluteFill}
+                    device={device}
+                    isActive={!foundCode}
+                    photo={true}
+                    resizeMode="cover"
+                    codeScanner={codeScanner}
+                />
+            </View>
+        </>}
+    </View>
+)
 }

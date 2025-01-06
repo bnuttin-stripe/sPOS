@@ -9,6 +9,8 @@ import { transactionAtom, settingsAtom } from '../atoms';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faBox, faCircleCheck, faCircleExclamation, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
 
+import Button from './Button';
+
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
 import CardVerifier from './CardVerifier';
@@ -158,12 +160,18 @@ export default Transactions = (props) => {
                 </ScrollView>
             </DataTable>
 
-            <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.secondary }]} onPress={getTransactions}>
-                {refreshing
-                    ? <ActivityIndicator size="small" color="white" />
-                    : <FontAwesomeIcon icon={faArrowsRotate} color={'white'} size={18} />
-                }
-            </Pressable>
+            <View style={css.floatingMenu}>
+                <View style={css.buttons}>
+                    <Button
+                        action={getTransactions}
+                        color={colors.secondary}
+                        icon={faArrowsRotate}
+                        // text="Next"
+                        large={false}
+                        refreshing={refreshing}
+                    />
+                </View>
+            </View>
 
             <Modal
                 animationType="fade"
@@ -200,7 +208,7 @@ export default Transactions = (props) => {
                                                 ? Utils.capitalize(selectedTransaction?.latest_charge?.payment_method_details?.card?.brand) + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card?.last4
                                                 : Utils.capitalize(selectedTransaction?.latest_charge?.payment_method_details?.card_present?.brand) + " - " + selectedTransaction?.latest_charge?.payment_method_details?.card_present?.last4
                                         }</Text>
-                                        <CardVerifier pi={selectedTransaction} setup={props.setup}/>
+                                        <CardVerifier pi={selectedTransaction} setup={props.setup} />
                                     </View>
                                     {selectedTransaction?.customer?.id && <Text style={css.spacedText}>{selectedTransaction?.customer?.name}</Text>}
                                     {selectedTransaction?.metadata?.bopis &&
@@ -219,15 +227,22 @@ export default Transactions = (props) => {
                             <FontAwesomeIcon icon={faXmark} color={colors.primary} size={18} />
                         </Pressable>
 
-                        {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
-                            <Pressable style={[css.floatingIcon, css.shadow, { left: 20, bottom: 20, backgroundColor: colors.primary, flexDirection: 'row', elevation: 0 }]} onPress={refundTransaction}>
-                                {isRefunding
-                                    ? <ActivityIndicator size="small" color="white" />
-                                    : <FontAwesomeIcon icon={faArrowRightArrowLeft} color={'white'} style={{ transform: [{ rotateZ: '90deg' }] }} size={18} />
-                                }
-                                <Text style={{ color: 'white', marginLeft: 10 }}>Refund</Text>
-                            </Pressable>
-                        }
+                        <View style={css.floatingMenu}>
+                            <View style={css.buttons}>
+                            {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
+                                <Button
+                                    action={refundTransaction}
+                                    color={colors.primary}
+                                    icon={faArrowRightArrowLeft}
+                                    text="Refund"
+                                    large={false}
+                                    refreshing={isRefunding}
+                                    transform="rotate-90"
+                                />
+                            }
+                            </View>
+                        </View>
+
                     </View>
                 </View>
             </Modal>
