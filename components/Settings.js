@@ -85,6 +85,7 @@ export default Settings = (props) => {
                     items={[
                         { label: "Wick & Wool", value: "wick" },
                         { label: "Boba Tea Company", value: "boba" },
+                        { label: "David's Bridal", value: "davids" },
                     ]}
                 />
 

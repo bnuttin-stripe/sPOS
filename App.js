@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { AppState, Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
 import { getSerialNumber, isTablet, getModel } from 'react-native-device-info';
-import { useStripeTerminal } from '@stripe/stripe-terminal-react-native';
+import { TapZoneIndicator, useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { css, themeColors } from './styles';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -50,7 +50,7 @@ export default function App({ route }) {
   const [appState, setAppState] = useState(AppState.currentState);
   // Handle app state updates - necessary to reconnect to the reader when app brought back to foreground
   useEffect(() => {
-    return; 
+    // return; 
     const handleAppStateChange = (nextAppState) => {
       setAppState(nextAppState);
     };
@@ -246,6 +246,11 @@ export default function App({ route }) {
 
   /// PAYMENT INTENTS
   const pay = async (payload, onSuccess) => {
+    // const { uxError } = await setTapToPayUxConfiguration({
+    //   tapZone: {
+    //     tapZoneIndicator: TapZoneIndicator.Top,
+    //     tapZonePosition: TapZonePosition.Left,
+    // });
     const { error, paymentIntent } = await createPaymentIntent(payload);
     if (error) {
       Log("createPaymentIntent", error);

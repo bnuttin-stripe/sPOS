@@ -2,8 +2,8 @@ import { text } from "@fortawesome/fontawesome-svg-core";
 
 export const themeColors = {
     wick: {
+        banner: '#36455A',
         primary: '#36455A',
-        // primary: 'red',
         secondary: '#999C9B',
         tertiary: '#FFBB00',
         success: '#00C851',
@@ -13,15 +13,27 @@ export const themeColors = {
         light: '#F2F5F9',
     },
     boba: {
-        primary: '#FFBB00',
-        secondary: '#36455A',
-        tertiary: '#999C9B',
+        banner: '#2A65E6',
+        primary: '#302F37',
+        secondary: '#B6CFF1',
+        tertiary: '#E7E8EA',
         success: '#00C851',
         danger: '#ff4444',
         warning: '#ffbb33',
         info: '#33b5e5',
         light: '#F2F5F9',
-    }
+    },
+    davids: {
+        banner: 'black',
+        primary: 'black',
+        secondary: '#999C9B',
+        tertiary: '#FFBB00',
+        success: '#00C851',
+        danger: '#ff4444',
+        warning: '#ffbb33',
+        info: '#33b5e5',
+        light: '#F2F5F9',
+    },
 }
 
 export const defaults = {

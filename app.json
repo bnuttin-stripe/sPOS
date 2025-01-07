@@ -45,6 +45,11 @@
           "bluetoothAlwaysUsagePermission": "This app uses Bluetooth to connect to supported card readers."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b0b8a0d9-99db-4598-bf40-7d9084855668"
+      }
+    }
   }
 }

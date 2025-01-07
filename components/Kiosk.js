@@ -137,8 +137,8 @@ export default Kiosk = (props) => {
         <View style={css.container}>
             <View style={styles.header}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    {settings.theme == 'wick' && <Image source={require('../assets/logoblack.png')} style={styles.logo} />}
-                    {settings.theme == 'boba' && <Image source={require('../assets/logoBoba.png')} style={styles.logo} />}
+                    {settings.theme == 'wick' && <Image source={require('../assets/logos/wick_dark.png')} style={styles.logo} />}
+                    {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_dark.png')} style={styles.logo} />}
                 </View>
             </View>
             <View style={styles.kiosk}>

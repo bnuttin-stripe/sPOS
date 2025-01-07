@@ -25,7 +25,7 @@ export default Header = (props) => {
     const styles = {
         topBanner: {
             flexDirection: 'column',
-            backgroundColor: colors.primary,
+            backgroundColor: colors.banner,
             height: '15%',
             padding: 10,
             width: '100%',
@@ -73,8 +73,9 @@ export default Header = (props) => {
         <>
             <View style={styles.topBanner}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    {settings.theme == 'wick' && <Image source={require('../assets/logo.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
-                    {settings.theme == 'boba' && <Image source={require('../assets/logoBoba.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
+                    {settings.theme == 'wick' && <Image source={require('../assets/logos/wick_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
+                    {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
+                    {settings.theme == 'davids' && <Image source={require('../assets/logos/davids_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                     <Pressable style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => goTo('Settings')}>
