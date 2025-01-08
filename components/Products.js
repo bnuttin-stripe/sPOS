@@ -105,44 +105,43 @@ export default Products = (props) => {
         return (
             <Pressable key={product.id} >
                 <DataTable.Row style={{ paddingTop: 20, paddingBottom: 20 }} >
-                    <DataTable.Cell style={{ flex: 1, paddingTop: 5, paddingBottom: 5, paddingRight: 5 }}>
+                    <DataTable.Cell style={{ flex: 1.2, paddingTop: 5, paddingBottom: 5, paddingRight: 5 }}>
                         <Image
-                            style={{ width: 50, height: 50, }}
+                            style={{ width: 80, height: 80, }}
                             source={{
                                 uri: product?.images[0]
                             }}
                         />
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 3 }]}>
+                    <DataTable.Cell style={[css.cell, { flex: 2 }]}>
                         <Text style={css.defaultText}>
                             {product.name}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 1 }]} numeric>
+                    <DataTable.Cell style={[css.cell, { flex: .7 }]} numeric>
                         <Text style={css.defaultText}>
                             {Utils.displayPrice(product.default_price.unit_amount / 100, product.default_price.currency)}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 1 }]} numeric>
+                    <DataTable.Cell style={[css.cell, { flex: .5 }]} numeric>
                         {numInCart(product) == 0
-                            // ? <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.secondary }]} onPress={() => setCart([...cart, product])}>
                             ? <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.secondary }]} onPress={() => addToCart(product)}>
                                 <FontAwesomeIcon icon={faPlus} color={'white'} size={12} />
                             </Pressable>
-                    : <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.primary }]} onPress={() => setCart(cart.filter(x => x.id != product.id))}>
-                        <FontAwesomeIcon icon={faMinus} color={'white'} size={12} />
-                    </Pressable>
+                            : <Pressable style={[css.smallRoundIcon, { backgroundColor: colors.primary }]} onPress={() => setCart(cart.filter(x => x.id != product.id))}>
+                                <FontAwesomeIcon icon={faMinus} color={'white'} size={12} />
+                            </Pressable>
                         }
-                </DataTable.Cell>
-            </DataTable.Row>
+                    </DataTable.Cell>
+                </DataTable.Row>
             </Pressable >
         )
-}
+    }
 
-return (
-    <View style={[css.container, { padding: 0 }]}>
-        <DataTable style={{ flex: 1 }}>
-            <DataTable.Header style={css.tableHeader}>
+    return (
+        <View style={[css.container, { padding: 0 }]}>
+            <DataTable style={{ flex: 1 }}>
+                {/* <DataTable.Header style={css.tableHeader}>
                 <DataTable.Title style={{ flex: 4 }}>
                     <Text style={css.defaultText}>
                         Product
@@ -158,81 +157,80 @@ return (
                         In Cart
                     </Text>
                 </DataTable.Title>
-            </DataTable.Header>
-            <ScrollView
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={getProducts}
-                        progressViewOffset={150}
-                        colors={['white']}
-                        progressBackgroundColor={colors.primary}
-                    />
-                }
-            >
-                {products.length > 0 && products.map && products.map((product) => Row(product))}
-                {products.length == 0 && !refreshing && <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
-                <DataTable.Row></DataTable.Row>
-                <DataTable.Row></DataTable.Row>
-            </ScrollView>
-        </DataTable>
+            </DataTable.Header> */}
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={getProducts}
+                            progressViewOffset={150}
+                            colors={['white']}
+                            progressBackgroundColor={colors.primary}
+                        />
+                    }
+                >
+                    {products.length > 0 && products.map && products.map((product) => Row(product))}
+                    {products.length == 0 && !refreshing && <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
+                    <View style={{ height:70 }}></View>
+                </ScrollView>
+            </DataTable>
 
-        <View style={css.floatingMenu}>
-            <View style={css.buttons}>
-                {scannerOpen ?
-                    <View style={{ zIndex: 110, flexDirection: 'row', gap: 20 }}>
-                        <Button
-                            action={() => setScannerOpen(false)}
+            <View style={css.floatingMenu}>
+                <View style={css.buttons}>
+                    {scannerOpen ?
+                        <View style={{ zIndex: 110, flexDirection: 'row', gap: 20 }}>
+                            <Button
+                                action={() => setScannerOpen(false)}
+                                color={colors.secondary}
+                                icon={faXmark}
+                                // text="Close"
+                                large={false}
+                            />
+                            <Button
+                                action={() => setFoundCode(false)}
+                                color={colors.primary}
+                                icon={faChevronRight}
+                                // text="Next"
+                                large={false}
+                            />
+                        </View>
+                        : <Button
+                            action={() => setScannerOpen(true)}
                             color={colors.secondary}
-                            icon={faXmark}
-                            // text="Close"
+                            icon={faBarcodeRead}
+                            // text="Scan"
                             large={false}
                         />
-                        <Button
-                            action={() => setFoundCode(false)}
-                            color={colors.primary}
-                            icon={faChevronRight}
-                            // text="Next"
-                            large={false}
-                        />
-                    </View>
-                    : <Button
-                        action={() => setScannerOpen(true)}
+                    }
+                    <Button
+                        action={resetCart}
                         color={colors.secondary}
-                        icon={faBarcodeRead}
-                        // text="Scan"
+                        icon={faCartXmark}
+                        // text="Reset"
                         large={false}
                     />
-                }
-                <Button
-                    action={resetCart}
-                    color={colors.secondary}
-                    icon={faCartXmark}
-                    // text="Reset"
-                    large={false}
-                />
-                <Button
-                    action={goToCheckout}
-                    color={colors.primary}
-                    icon={faCartShopping}
-                    text={Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}
-                    large={false}
-                />
+                    <Button
+                        action={goToCheckout}
+                        color={colors.primary}
+                        icon={faCartShopping}
+                        text={Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}
+                        large={false}
+                    />
+                </View>
             </View>
-        </View>
 
-        {scannerOpen && <>
-            <View style={css.cameraPreview}>
-                <Camera
-                    style={StyleSheet.absoluteFill}
-                    device={device}
-                    isActive={!foundCode}
-                    photo={true}
-                    resizeMode="cover"
-                    codeScanner={codeScanner}
-                />
-            </View>
-        </>}
-    </View>
-)
+            {scannerOpen && <>
+                <View style={css.cameraPreview}>
+                    <Camera
+                        style={StyleSheet.absoluteFill}
+                        device={device}
+                        isActive={!foundCode}
+                        photo={true}
+                        resizeMode="cover"
+                        codeScanner={codeScanner}
+                    />
+                </View>
+            </>}
+        </View>
+    )
 }

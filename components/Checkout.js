@@ -213,10 +213,13 @@ export default Checkout = (props) => {
                         // text="Close"
                         large={false}
                     />
+                    
+
                     <Button
                         action={pay}
                         color={colors.primary}
-                        icon={faCreditCard}
+                        // icon={faCreditCard}
+                        image={<Image source={require('../assets/contactless.png')} style={{ width: 18, height: 18 }} />}
                         text={"Collect " + Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}
                         large={false}
                     />

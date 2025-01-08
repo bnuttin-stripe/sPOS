@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { Text, View, Pressable, useWindowDimensions } from 'react-native';
+import { Text, View, Pressable, useWindowDimensions, Image } from 'react-native';
 
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { settingsAtom } from '../atoms';
@@ -51,11 +51,11 @@ export default Calculator = (props) => {
         },
         largest: {
             fontSize: 70,
-            color: colors.primary
+            color: colors.text
         },
         large: {
             fontSize: 40,
-            color: colors.primary
+            color: colors.text
         },
         medium: {
             fontSize: 30,
@@ -75,7 +75,7 @@ export default Calculator = (props) => {
             backgroundColor: colors.light
         }
     };
-    
+
     return (
         <View style={css.container}>
             <View style={styles.amount}>
@@ -104,8 +104,9 @@ export default Calculator = (props) => {
                 <Pressable style={[styles.tile, { backgroundColor: colors.secondary }]} onPress={reset}>
                     <FontAwesomeIcon icon={faDeleteLeft} color={'white'} size={24} />
                 </Pressable>
-                <Pressable onPress={pay} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: colors.primary}]}>
-                    <FontAwesomeIcon icon={faCreditCard} color={'white'} size={24} />
+                <Pressable onPress={pay} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: colors.primary }]}>
+                    {/* <FontAwesomeIcon icon={faCreditCard} color={'white'} size={24} /> */}
+                    <Image source={require('../assets/contactless.png')} style={{ width: 24, height: 24 }} />
                     <Text style={{ color: 'white', fontSize: 22, marginLeft: 10 }}>Pay</Text>
                 </Pressable>
             </View>

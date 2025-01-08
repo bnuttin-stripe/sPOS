@@ -26,6 +26,7 @@
     "eas-cli": "^14.2.0",
     "expo": "~51.0.28",
     "expo-status-bar": "~1.12.1",
+    "expo-symbols": "^0.2.0",
     "install": "0.13.0",
     "npm": "10.9.0",
     "papaparse": "^5.4.1",

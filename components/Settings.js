@@ -49,6 +49,7 @@ export default Settings = (props) => {
                     style={css.input}
                     inputMode="text"
                     value={settings?.productFilter}
+                    autoCapitalize='none'
                     onChangeText={value => setSettings({ ...settings, productFilter: value })}
                 />
 
@@ -86,6 +87,7 @@ export default Settings = (props) => {
                         { label: "Wick & Wool", value: "wick" },
                         { label: "Boba Tea Company", value: "boba" },
                         { label: "David's Bridal", value: "davids" },
+                        { label: "Roastery", value: "roastery" },
                     ]}
                 />
 

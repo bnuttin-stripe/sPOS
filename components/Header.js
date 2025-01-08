@@ -46,24 +46,30 @@ export default Header = (props) => {
             borderBottomColor: colors.primary,
             height: '10%'
         },
-        icon: {
-            marginBottom: 10,
-            color: colors.primary,
-        },
         tab: {
             flexDirection: 'column',
             alignItems: 'center',
-            // width: '20%'
         },
         tabSelected: {
             flexDirection: 'column',
             alignItems: 'center',
-            // width: '20%',
             borderBottomWidth: 2,
             marginBottom: -10,
             borderBottomColor: colors.primary,
         },
+        icon: {
+            marginBottom: 10,
+            color: colors.textMuted,
+        },
+        iconActive: {
+            marginBottom: 10,
+            color: colors.primary,
+        },
         title: {
+            color: colors.textMuted,
+            fontSize: 13,
+        },
+        titleActive: {
             color: colors.primary,
             fontSize: 13,
         },
@@ -74,8 +80,9 @@ export default Header = (props) => {
             <View style={styles.topBanner}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     {settings.theme == 'wick' && <Image source={require('../assets/logos/wick_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
-                    {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
+                    {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_dark.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
                     {settings.theme == 'davids' && <Image source={require('../assets/logos/davids_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
+                    {settings.theme == 'roastery' && <Image source={require('../assets/logos/roastery_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                     <Pressable style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => goTo('Settings')}>
@@ -89,24 +96,24 @@ export default Header = (props) => {
             </View>
             <View style={styles.header}>
                 <Pressable style={(props.page == 'Calculator' || props.page == undefined) ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>
-                    <FontAwesomeIcon icon={faCalculator} style={styles.icon} size={22} />
-                    <Text style={styles.title}>Calculator</Text>
+                    <FontAwesomeIcon icon={faCalculator} style={ (props.page == 'Calculator' || props.page == undefined) ? styles.iconActive : styles.icon} size={22} />
+                    <Text style={ (props.page == 'Calculator' || props.page == undefined) ? styles.titleActive : styles.title}>Calculator</Text>
                 </Pressable>
                 <Pressable style={props.page == 'Products' ? styles.tabSelected : styles.tab} onPress={() => goTo('Products')}>
-                    <FontAwesomeIcon icon={faBox} style={styles.icon} size={22} />
-                    <Text style={styles.title}>Products</Text>
+                    <FontAwesomeIcon icon={faBox} style={ props.page == 'Products' ? styles.iconActive : styles.icon } size={22} />
+                    <Text style={ props.page == 'Products' ? styles.titleActive : styles.title}>Products</Text>
                 </Pressable>
                 <Pressable style={props.page == 'Checkout' ? styles.tabSelected : styles.tab} onPress={() => goTo('Checkout')}>
-                    <FontAwesomeIcon icon={faCartShopping} style={styles.icon} size={22} />
-                    <Text style={styles.title}>Cart</Text>
+                    <FontAwesomeIcon icon={faCartShopping} style={ props.page == 'Checkout' ? styles.iconActive : styles.icon } size={22} />
+                    <Text style={ props.page == 'Checkout' ? styles.titleActive : styles.title}>Cart</Text>
                 </Pressable>
                 <Pressable style={props.page == 'Transactions' ? styles.tabSelected : styles.tab} onPress={() => goTo('Transactions')}>
-                    <FontAwesomeIcon icon={faList} style={styles.icon} size={22} />
-                    <Text style={styles.title}>Transactions</Text>
+                    <FontAwesomeIcon icon={faList} style={ props.page == 'Transactions' ? styles.iconActive : styles.icon } size={22} />
+                    <Text style={ props.page == 'Transactions' ? styles.titleActive : styles.title}>Transactions</Text>
                 </Pressable>
                 <Pressable style={props.page == 'Customers' ? styles.tabSelected : styles.tab} onPress={() => goTo('Customers')}>
-                    <FontAwesomeIcon icon={faUser} style={styles.icon} size={22} />
-                    <Text style={styles.title}>Customers</Text>
+                    <FontAwesomeIcon icon={faUser} style={ props.page == 'Customers' ? styles.iconActive : styles.icon } size={22} />
+                    <Text style={ props.page == 'Customers' ? styles.titleActive : styles.title}>Customers</Text>
                 </Pressable>
                 {/* <Pressable style={props.page == 'Settings' ? styles.tabSelected : styles.tab} onPress={() => goTo('Settings')}>
                     <FontAwesomeIcon icon={faGear} style={styles.icon} size={22} />

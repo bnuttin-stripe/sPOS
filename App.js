@@ -50,7 +50,7 @@ export default function App({ route }) {
   const [appState, setAppState] = useState(AppState.currentState);
   // Handle app state updates - necessary to reconnect to the reader when app brought back to foreground
   useEffect(() => {
-    // return; 
+    return;
     const handleAppStateChange = (nextAppState) => {
       setAppState(nextAppState);
     };
@@ -71,7 +71,7 @@ export default function App({ route }) {
     }]);
   }
 
-  const { createPaymentIntent, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent, getPaymentMethod } = useStripeTerminal();
+  const { createPaymentIntent, setLocalMobileUxConfiguration, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent, getPaymentMethod } = useStripeTerminal();
 
   const checkPermissionsAndInitialize = async () => {
     setInfoMsg("Checking location permissions");
@@ -246,11 +246,16 @@ export default function App({ route }) {
 
   /// PAYMENT INTENTS
   const pay = async (payload, onSuccess) => {
-    // const { uxError } = await setTapToPayUxConfiguration({
-    //   tapZone: {
-    //     tapZoneIndicator: TapZoneIndicator.Top,
-    //     tapZonePosition: TapZonePosition.Left,
-    // });
+    if (settings?.model == '22in-I-Series-4') {
+      const { uxError } = await setLocalMobileUxConfiguration({
+        tapZone: {
+          tapZoneIndicator: TapZoneIndicator.FRONT,
+          tapZonePosition: {
+            yBias: 1
+          }
+        }
+      });
+    }
     const { error, paymentIntent } = await createPaymentIntent(payload);
     if (error) {
       Log("createPaymentIntent", error);
@@ -362,7 +367,7 @@ export default function App({ route }) {
                   {page == 'Checkout' && <Checkout pay={pay} />}
                   {page == 'Transactions' && <Transactions setup={setup} />}
                   {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} />}
-                  {page == 'Customer' && <Customer id={route.params.id} setup={setup}/>}
+                  {page == 'Customer' && <Customer id={route.params.id} setup={setup} />}
                   {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
                   {page == 'Scanner' && <Scanner />}
                   {page == 'Settings' && <Settings reconnectReader={reconnectReader} />}
