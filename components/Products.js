@@ -105,7 +105,7 @@ export default Products = (props) => {
         return (
             <Pressable key={product.id} >
                 <DataTable.Row style={{ paddingTop: 20, paddingBottom: 20 }} >
-                    <DataTable.Cell style={{ flex: 1.2, paddingTop: 5, paddingBottom: 5, paddingRight: 5 }}>
+                    <DataTable.Cell style={{ flex: 1.2, paddingTop: 5, paddingBottom: 5, paddingRight: 0 }}>
                         <Image
                             style={{ width: 80, height: 80, }}
                             source={{
@@ -118,7 +118,7 @@ export default Products = (props) => {
                             {product.name}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: .7 }]} numeric>
+                    <DataTable.Cell style={[css.cell, { flex: .8 }]} numeric>
                         <Text style={css.defaultText}>
                             {Utils.displayPrice(product.default_price.unit_amount / 100, product.default_price.currency)}
                         </Text>

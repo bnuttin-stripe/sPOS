@@ -1,13 +1,12 @@
 import { React, useState, useEffect } from 'react';
-import { Text, View, Pressable, ScrollView, Modal, Image, StyleSheet } from 'react-native';
-import { DataTable, TextInput } from 'react-native-paper';
+import { Text, View, Pressable, ScrollView, Modal, Image, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, settingsAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft, faCartShopping, faXmark, faUserPlus, faUserCheck, faPlus, faCreditCard, faUserMagnifyingGlass, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
+import { faChevronLeft, faEnvelope, faXmark, faReceipt, faUserPlus, faUserCheck, faPlus, faCreditCard, faUserMagnifyingGlass, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
 
 import Customers from './Customers';
 import Button from './Button';
@@ -27,6 +26,7 @@ export default Checkout = (props) => {
     const resetCurrentCustomer = useResetRecoilState(currentCustomerAtom);
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [receiptModalVisible, setReceiptModalVisible] = useState(false);
 
     const closeModal = () => {
         setModalVisible(false);
@@ -59,11 +59,6 @@ export default Checkout = (props) => {
         return output;
     }
 
-    const resetCartAndCustomer = () => {
-        resetCart();
-        resetCurrentCustomer();
-    }
-
     const pay = () => {
         if (cart.length == 0) return;
         const payload = {
@@ -78,11 +73,46 @@ export default Checkout = (props) => {
             }
         }
         if (currentCustomer.id) payload.customer = currentCustomer.id;
-        props.pay(payload, resetCartAndCustomer);
+        props.pay(payload, showReceiptModal);
     }
 
     const goBack = () => {
         navigation.navigate("App", { page: "Products" });
+    }
+
+    const showReceiptModal = () => {
+        setReceiptModalVisible(true);
+    }
+
+    const newSale = () => {
+        resetCart();
+        resetCurrentCustomer();
+        goBack();
+    }
+
+    const printReceipt = async () => {
+        SunmiPrinter.printerInit();
+        SunmiPrinter.printBitmap(receiptBMP, 200);
+        SunmiPrinter.lineWrap(2);
+        SunmiPrinter.setFontWeight(false);
+        SunmiPrinter.setFontSize(30);
+        SunmiPrinter.printerText('Thank you for shopping with us!\n\n');
+        SunmiPrinter.setFontSize(24);
+        SunmiPrinter.printerText('[ Demo only - your card was NOT charged ]\n\n');
+        SunmiPrinter.setFontSize(24);
+        SunmiPrinter.printerText('Your items: \n');
+        cart.map(item => {
+            SunmiPrinter.printColumnsText([item.name, Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+        })
+        SunmiPrinter.setFontWeight(true);
+        SunmiPrinter.printColumnsText(['Subtotal: ', Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+        SunmiPrinter.printColumnsText(['Tax: ', Utils.displayPrice(getCartTotal(cart).taxes / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+        SunmiPrinter.printColumnsText(['Total: ', Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+        SunmiPrinter.setFontWeight(false);
+
+        SunmiPrinter.printerText('\nFind our more about Stripe Terminal:\n\n');
+        SunmiPrinter.printQRCode('https://stripe.com/industries/retail', 8, 0);
+        SunmiPrinter.lineWrap(5);
     }
 
     const Row = (product) => {
@@ -204,6 +234,63 @@ export default Checkout = (props) => {
                 </View>
             </Modal>
 
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={receiptModalVisible}
+                onRequestClose={() => {
+                    setReceiptModalVisible(false);
+                }}>
+                <View style={css.centeredView}>
+                    <View style={[css.modalView, css.shadow, { height: 250, padding: 20 }]}>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                            <View>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Transaction complete</Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
+                                <Pressable onPress={() => { setReceiptModalVisible(false); newSale() }}>
+                                    <FontAwesomeIcon icon={faXmark} color={colors.primary} size={18} />
+                                </Pressable>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: 'column', flex: 1, width: '100%', marginBottom: 10 }}>
+                            <Text style={[css.label, { marginBottom: 10}]}>Email Receipt</Text>
+                            <TextInput
+                                style={css.input}
+                                inputMode="email"
+                                value={currentCustomer?.email || ""}
+                            // onChangeText={()}
+                            />
+                        </View>
+                        <View style={css.floatingMenu}>
+                            <View style={css.buttons}>
+                                <Button
+                                    action={() => { }}
+                                    color={colors.secondary}
+                                    icon={faEnvelope}
+                                    // text="Send Receipt"
+                                    large={false}
+                                />
+                                <Button
+                                    action={printReceipt}
+                                    color={colors.secondary}
+                                    icon={faReceipt}
+                                    // text="Send Receipt"
+                                    large={false}
+                                />
+                                <Button
+                                    action={newSale}
+                                    color={colors.primary}
+                                    icon={faPlus}
+                                    text="Next Sale"
+                                    large={false}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
             <View style={css.floatingMenu}>
                 <View style={css.buttons}>
                     <Button
@@ -213,7 +300,7 @@ export default Checkout = (props) => {
                         // text="Close"
                         large={false}
                     />
-                    
+
 
                     <Button
                         action={pay}

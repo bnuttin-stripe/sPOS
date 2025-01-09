@@ -79,7 +79,6 @@ export const css = {
         alignItems: 'center',
         justifyContent: 'flex-start',
         flexDirection: 'column',
-        backgroundColor: 'white',
     },
     container: {
         flex: 1,
