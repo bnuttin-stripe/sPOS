@@ -1,14 +1,15 @@
 import { React, useEffect, useState } from 'react';
-import { Text, View, Pressable, Image, FlatList, Dimensions, useWindowDimensions } from 'react-native';
+import { Text, View, Pressable, Image, FlatList, Modal, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
 import { settingsAtom, productAtom, cartAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCreditCard, faPlusCircle, faArrowLeft, faCheckCircle, faTrash } from '@fortawesome/pro-solid-svg-icons';
+import { faCreditCard, faPlusCircle, faXmark, faCheckCircle, faTrash } from '@fortawesome/pro-solid-svg-icons';
 
 import Button from './Button';
+import Settings from './Settings';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
@@ -20,6 +21,7 @@ export default Kiosk = (props) => {
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const { height, width } = useWindowDimensions();
+    const [modalVisible, setModalVisible] = useState(false);
 
     const [refreshing, setRefreshing] = useState(true);
     const [products, setProducts] = useRecoilState(productAtom);
@@ -67,7 +69,7 @@ export default Kiosk = (props) => {
 
     useEffect(() => {
         getProducts();
-    }, []);
+    }, [settings.productFilter]);
 
     const ProductCard = ({ item }) => {
         return (
@@ -79,7 +81,7 @@ export default Kiosk = (props) => {
                 </View>
                 <View style={{ flexDirection: 'row', padding: 5 }}>
                     <View style={{ flexDirection: 'column', flex: 1 }}>
-                        <Text numberOfLines={2} ellipsizeMode='tail' style={{fontSize: 18}}>{item.name}</Text>
+                        <Text numberOfLines={2} ellipsizeMode='tail' style={{ fontSize: 18 }}>{item.name}</Text>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', marginTop: 10 }}>{Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)}</Text>
                     </View>
                     <View>
@@ -96,7 +98,7 @@ export default Kiosk = (props) => {
     const styles = {
         header: {
             flexDirection: 'column',
-            height: '10%',
+            height: '15%',
             padding: 10,
             width: '100%',
         },
@@ -135,12 +137,14 @@ export default Kiosk = (props) => {
 
     return (
         <View style={css.container}>
-            <View style={styles.header}>
+            <Pressable delayLongPress={2000} onLongPress={() => setModalVisible(true)} style={styles.header}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     {settings.theme == 'wick' && <Image source={require('../assets/logos/wick_dark.png')} style={styles.logo} />}
                     {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_dark.png')} style={styles.logo} />}
+                    {settings.theme == 'roastery' && <Image source={require('../assets/logos/roastery_dark.png')} style={styles.logo} />}
+                    {settings.theme == 'press' && <Image source={require('../assets/logos/press_dark.png')} style={styles.logo} />}
                 </View>
-            </View>
+            </Pressable>
             <View style={styles.kiosk}>
                 {!refreshing && <FlatList
                     data={products}
@@ -150,7 +154,7 @@ export default Kiosk = (props) => {
                 />}
             </View>
             <View style={styles.footer}>
-                <View style={css.buttons}>
+                <View style={[css.buttons, { gap: 50 }]}>
                     <Button
                         action={resetCart}
                         color={colors.primary}
@@ -167,6 +171,22 @@ export default Kiosk = (props) => {
                     />
                 </View>
             </View>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}>
+                <View style={css.centeredView}>
+                    <View style={[css.modalView, css.shadow, { marginTop: 10, height: 480, width: 500, paddingBottom: 0 }]}>
+                        <Settings hideMenu={true} />
+                        <Pressable style={{ position: 'absolute', right: 10, top: 10 }} onPress={() => setModalVisible(false)}>
+                            <FontAwesomeIcon icon={faXmark} color={colors.primary} size={18} />
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }

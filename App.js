@@ -19,7 +19,7 @@ import Customers from './components/Customers';
 import Customer from './components/Customer';
 import CustomerEntry from './components/CustomerEntry';
 import Settings from './components/Settings';
-import Log from './components/LogViewer';
+import LogViewer from './components/LogViewer';
 import SettingsHandler from './components/SettingsHandler';
 import Kiosk from './components/Kiosk';
 import KioskCheckout from './components/KioskCheckout';
@@ -50,7 +50,7 @@ export default function App({ route }) {
   const [appState, setAppState] = useState(AppState.currentState);
   // Handle app state updates - necessary to reconnect to the reader when app brought back to foreground
   useEffect(() => {
-    return;
+    // return;
     const handleAppStateChange = (nextAppState) => {
       setAppState(nextAppState);
     };
@@ -251,6 +251,7 @@ export default function App({ route }) {
         tapZone: {
           tapZoneIndicator: TapZoneIndicator.FRONT,
           tapZonePosition: {
+            xBias: 0.5,
             yBias: 1
           }
         }

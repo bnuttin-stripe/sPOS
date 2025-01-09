@@ -13,9 +13,9 @@ export default SettingsHandler = (props) => {
         storeName: 'Stripe Press',
         orderPrefix: 'STP-',
         taxPercentage: '10',
-        productFilter: '',
+        productFilter: 'press',
         magicCentProtection: true,
-        theme: 'wick',
+        theme: 'press',
         enableSurcharging: false,
         isAOD: false,
         model: 'unknown'

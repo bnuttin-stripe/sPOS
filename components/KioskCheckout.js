@@ -171,12 +171,16 @@ export default KioskCheckout = (props) => {
 
     return (
         <View style={css.container}>
-            <View style={styles.header}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    {settings.theme == 'wick' && <Image source={require('../assets/logos/wick_dark.png')} style={styles.logo} />}
-                    {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_dark.png')} style={styles.logo} />}
+            {/* <Pressable onLongPress={() => console.log("TEST")}> */}
+                <View style={styles.header}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        {settings.theme == 'wick' && <Image source={require('../assets/logos/wick_dark.png')} style={styles.logo} />}
+                        {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_dark.png')} style={styles.logo} />}
+                        {settings.theme == 'roastery' && <Image source={require('../assets/logos/roastery_dark.png')} style={styles.logo} />}
+                        {settings.theme == 'press' && <Image source={require('../assets/logos/press_dark.png')} style={styles.logo} />}
+                    </View>
                 </View>
-            </View>
+            {/* </Pressable> */}
             <ScrollView style={styles.cart}>
                 <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: 'bold' }}>Cart</Text>
                 {cart.length == 0
