@@ -1,8 +1,8 @@
 import { React, useEffect, useState } from 'react';
-import { Text, View, Pressable, useWindowDimensions, Image } from 'react-native';
+import { Platform, Text, View, Pressable, useWindowDimensions, Image } from 'react-native';
 
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { settingsAtom } from '../atoms';
+import { settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCreditCard, faXmark, faDeleteLeft } from '@fortawesome/pro-solid-svg-icons';
@@ -12,20 +12,22 @@ import { css, themeColors } from '../styles';
 
 export default Calculator = (props) => {
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
+
     const [amount, setAmount] = useState(0);
     const { height, width } = useWindowDimensions();
 
     const reset = () => {
         setAmount(0);
-    }
+    };
 
     const addDigit = (digit) => {
         let newAmount = amount + digit;
         if (!isNaN(newAmount)) {
             setAmount(newAmount == 0 ? +digit : +newAmount);
         }
-    }
+    };
 
     const pay = () => {
         const payload = {
@@ -37,9 +39,9 @@ export default Calculator = (props) => {
                 channel: 'calculator',
                 orderNumber: Utils.generateOrderNumber(settings.orderPrefix)
             }
-        }
+        };
         props.pay(payload, reset);
-    }
+    };
 
     const styles = {
         amount: {
@@ -107,11 +109,14 @@ export default Calculator = (props) => {
                 <Pressable onPress={pay} style={[styles.tile, styles.large, { width: '67%', flexDirection: 'row', backgroundColor: colors.primary }]}>
                     {/* <FontAwesomeIcon icon={faCreditCard} color={'white'} size={24} /> */}
                     <Image source={require('../assets/contactless.png')} style={{ width: 24, height: 24 }} />
-                    <Text style={{ color: 'white', fontSize: 22, marginLeft: 10 }}>Pay</Text>
+                    <Text style={{ color: 'white', fontSize: Platform.OS == 'ios' ? 16 : 18, fontWeight: Platform.OS == 'ios' ? 600 : 400, marginLeft: 10 }}>
+                        {Platform.OS == 'ios'
+                            ? "Tap to Pay on iPhone"
+                            : "Pay"}</Text>
                 </Pressable>
             </View>
         </View>
-    )
+    );
 }
 
 

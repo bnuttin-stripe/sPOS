@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from 'react';
-import { Text, View, Pressable, ScrollView, Modal, Image, TextInput } from 'react-native';
+import { Platform, Text, View, Pressable, ScrollView, Modal, Image, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { cartAtom, settingsAtom, currentCustomerAtom } from '../atoms';
+import { cartAtom, settingsAtom, themesAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faEnvelope, faXmark, faReceipt, faUserPlus, faUserCheck, faPlus, faCreditCard, faUserMagnifyingGlass, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
@@ -16,8 +16,11 @@ import { css, themeColors } from '../styles';
 
 export default Checkout = (props) => {
     const navigation = useNavigation();
+    // const settings = useRecoilValue(settingsAtom);
+    // const colors = themeColors[settings.theme];
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
 
     const cart = useRecoilValue(cartAtom);
     const uniqueCart = [...new Map(cart.map(item => [item['id'], item])).values()]
@@ -91,28 +94,32 @@ export default Checkout = (props) => {
     }
 
     const printReceipt = async () => {
-        SunmiPrinter.printerInit();
-        SunmiPrinter.printBitmap(receiptBMP, 200);
-        SunmiPrinter.lineWrap(2);
-        SunmiPrinter.setFontWeight(false);
-        SunmiPrinter.setFontSize(30);
-        SunmiPrinter.printerText('Thank you for shopping with us!\n\n');
-        SunmiPrinter.setFontSize(24);
-        SunmiPrinter.printerText('[ Demo only - your card was NOT charged ]\n\n');
-        SunmiPrinter.setFontSize(24);
-        SunmiPrinter.printerText('Your items: \n');
-        cart.map(item => {
-            SunmiPrinter.printColumnsText([item.name, Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
-        })
-        SunmiPrinter.setFontWeight(true);
-        SunmiPrinter.printColumnsText(['Subtotal: ', Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
-        SunmiPrinter.printColumnsText(['Tax: ', Utils.displayPrice(getCartTotal(cart).taxes / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
-        SunmiPrinter.printColumnsText(['Total: ', Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
-        SunmiPrinter.setFontWeight(false);
+        try{
+            SunmiPrinter.printerInit();
+            SunmiPrinter.printBitmap(receiptBMP, 200);
+            SunmiPrinter.lineWrap(2);
+            SunmiPrinter.setFontWeight(false);
+            SunmiPrinter.setFontSize(30);
+            SunmiPrinter.printerText('Thank you for shopping with us!\n\n');
+            SunmiPrinter.setFontSize(24);
+            SunmiPrinter.printerText('[ Demo only - your card was NOT charged ]\n\n');
+            SunmiPrinter.setFontSize(24);
+            SunmiPrinter.printerText('Your items: \n');
+            cart.map(item => {
+                SunmiPrinter.printColumnsText([item.name, Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+            })
+            SunmiPrinter.setFontWeight(true);
+            SunmiPrinter.printColumnsText(['Subtotal: ', Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+            SunmiPrinter.printColumnsText(['Tax: ', Utils.displayPrice(getCartTotal(cart).taxes / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+            SunmiPrinter.printColumnsText(['Total: ', Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
+            SunmiPrinter.setFontWeight(false);
 
-        SunmiPrinter.printerText('\nFind our more about Stripe Terminal:\n\n');
-        SunmiPrinter.printQRCode('https://stripe.com/industries/retail', 8, 0);
-        SunmiPrinter.lineWrap(5);
+            SunmiPrinter.printerText('\nFind our more about Stripe Terminal:\n\n');
+            SunmiPrinter.printQRCode('https://stripe.com/industries/retail', 8, 0);
+            SunmiPrinter.lineWrap(5);
+        } catch (error) {
+            Log("Printer error", error);
+        }
     }
 
     const Row = (product) => {
@@ -133,7 +140,7 @@ export default Checkout = (props) => {
             <ScrollView>
                 <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: 'bold' }}>Cart</Text>
                 {cart.length == 0
-                    ? <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>Cart is empty.</Text>
+                    ? <Text style={{ color: colors.text, textAlign: 'center', margin: 40 }}>Cart is empty.</Text>
                     : <>
                         {uniqueCart.map && uniqueCart.map((product) => Row(product))}
 
@@ -271,13 +278,13 @@ export default Checkout = (props) => {
                                     // text="Send Receipt"
                                     large={false}
                                 />
-                                <Button
+                                { false && settings?.model == 'V2sPLUSNC_GL' &&  <Button
                                     action={printReceipt}
                                     color={colors.secondary}
                                     icon={faReceipt}
                                     // text="Send Receipt"
                                     large={false}
-                                />
+                                /> }
                                 <Button
                                     action={newSale}
                                     color={colors.primary}
@@ -307,7 +314,11 @@ export default Checkout = (props) => {
                         color={colors.primary}
                         // icon={faCreditCard}
                         image={<Image source={require('../assets/contactless.png')} style={{ width: 18, height: 18 }} />}
-                        text={"Collect " + Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency)}
+                        text={Platform.OS == 'ios' 
+                            ? "Tap to Pay on iPhone"
+                            : "Collect " + Utils.displayPrice(getCartTotal(cart).total / 100, settings.currency) 
+                        }
+                        textStyle={{ fontSize: Platform.OS == 'ios' ? 16 : 18, fontWeight: Platform.OS == 'ios' ? 600 : 400 }}
                         large={false}
                     />
                 </View>

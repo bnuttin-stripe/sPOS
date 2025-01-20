@@ -242,14 +242,15 @@ export default function App({ route }) {
         ? discoverHandoffReader()
         : discoverLocalMobileReader();
     }
+    Log("model", getModel());
   }, [initialized, serial]);
 
   /// PAYMENT INTENTS
   const pay = async (payload, onSuccess) => {
-    if (settings?.model == '22in-I-Series-4') {
+    if (settings?.model == '22in-I-Series-4' || settings?.model == 'K2_A13') {
       const { uxError } = await setLocalMobileUxConfiguration({
         tapZone: {
-          tapZoneIndicator: TapZoneIndicator.FRONT,
+          tapZoneIndicator: TapZoneIndicator.BELOW,
           tapZonePosition: {
             xBias: 0.5,
             yBias: 1

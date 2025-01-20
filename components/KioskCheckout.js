@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import SunmiPrinter, { AlignValue } from '@heasy/react-native-sunmi-printer';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { cartAtom, productAtom, settingsAtom, currentCustomerAtom } from '../atoms';
+import { cartAtom, themesAtom, settingsAtom, currentCustomerAtom } from '../atoms';
 import { receiptBMP } from '../assets/receiptLogo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -18,18 +18,20 @@ import { css, themeColors } from '../styles';
 export default KioskCheckout = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
+
     const [paymentDone, setPaymentDone] = useState(false);
 
     const { height, width } = useWindowDimensions();
 
     const cart = useRecoilValue(cartAtom);
-    const uniqueCart = [...new Map(cart.map(item => [item['id'], item])).values()]
+    const uniqueCart = [...new Map(cart.map(item => [item['id'], item])).values()];
     const resetCart = useResetRecoilState(cartAtom);
 
     const numInCart = (product) => {
         return cart.filter(x => (x.id == product.id)).length;
-    }
+    };
 
     const getCartTotal = (cart) => {
         const subtotal = cart.reduce((a, b) => a + b.default_price.unit_amount, 0);
@@ -41,8 +43,8 @@ export default KioskCheckout = (props) => {
             taxes: taxes,
             adjustment: adjustment,
             total: total
-        }
-    }
+        };
+    };
 
     const adjustFinalAmount = (amount) => {
         let output = 0;
@@ -52,7 +54,7 @@ export default KioskCheckout = (props) => {
             output = 100 - parseInt(decimal);
         }
         return output;
-    }
+    };
 
     const pay = () => {
         if (cart.length == 0) return;
@@ -66,37 +68,35 @@ export default KioskCheckout = (props) => {
                 orderNumber: Utils.generateOrderNumber(settings.orderPrefix),
                 cart: cart.map(x => x.name).join('\n')
             }
-        }
+        };
         props.pay(payload, setLastStep);
-    }
+    };
 
     const goBack = () => {
         navigation.navigate("App", { page: "Kiosk" });
-    }
+    };
 
     const newTransaction = () => {
         resetCart();
         goBack();
-    }
+    };
 
     const setLastStep = (pi) => {
         setPaymentDone(pi.status == 'succeeded');
-    }
+    };
 
     const printReceipt = async () => {
         SunmiPrinter.printerInit();
         SunmiPrinter.printBitmap(receiptBMP, 200);
         SunmiPrinter.lineWrap(2);
         SunmiPrinter.setFontWeight(false);
-        SunmiPrinter.setFontSize(30);
-        SunmiPrinter.printerText('Thank you for shopping with us!\n\n');
         SunmiPrinter.setFontSize(24);
         SunmiPrinter.printerText('[ Demo only - your card was NOT charged ]\n\n');
         SunmiPrinter.setFontSize(24);
         SunmiPrinter.printerText('Your items: \n');
         cart.map(item => {
             SunmiPrinter.printColumnsText([item.name, Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
-        })
+        });
         SunmiPrinter.setFontWeight(true);
         SunmiPrinter.printColumnsText(['Subtotal: ', Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
         SunmiPrinter.printColumnsText(['Tax: ', Utils.displayPrice(getCartTotal(cart).taxes / 100, settings.currency)], [30, 15], [AlignValue.LEFT, AlignValue.RIGHT]);
@@ -106,7 +106,7 @@ export default KioskCheckout = (props) => {
         SunmiPrinter.printerText('\nFind our more about Stripe Terminal:\n\n');
         SunmiPrinter.printQRCode('https://stripe.com/industries/retail', 8, 0);
         SunmiPrinter.lineWrap(5);
-    }
+    };
 
     const Row = (product) => {
         return (
@@ -118,8 +118,8 @@ export default KioskCheckout = (props) => {
                     <Text style={[css.spacedText, styles.largeText]}>{numInCart(product)} x {Utils.displayPrice(product.default_price.unit_amount / 100, product.default_price.currency)}</Text>
                 </View>
             </View>
-        )
-    }
+        );
+    };
 
     const styles = {
         header: {
@@ -172,14 +172,16 @@ export default KioskCheckout = (props) => {
     return (
         <View style={css.container}>
             {/* <Pressable onLongPress={() => console.log("TEST")}> */}
-                <View style={styles.header}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        {settings.theme == 'wick' && <Image source={require('../assets/logos/wick_dark.png')} style={styles.logo} />}
-                        {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_dark.png')} style={styles.logo} />}
-                        {settings.theme == 'roastery' && <Image source={require('../assets/logos/roastery_dark.png')} style={styles.logo} />}
-                        {settings.theme == 'press' && <Image source={require('../assets/logos/press_dark.png')} style={styles.logo} />}
-                    </View>
+            <View style={styles.header}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Image
+                        style={[styles.logo, { width: 180, marginTop: 10 }]}
+                        source={{
+                            uri: themes[settings.theme]?.logoDark || 'https://stripe360.stripedemos.com/logos/press_dark.png'
+                        }}
+                    />
                 </View>
+            </View>
             {/* </Pressable> */}
             <ScrollView style={styles.cart}>
                 <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: 'bold' }}>Cart</Text>
@@ -252,7 +254,7 @@ export default KioskCheckout = (props) => {
                         </>
                         : <>
                             {/* Printer option only for the Sunmi V# mix */}
-                            {settings.model == 'V3_MIX_EDLA_GL' &&
+                            {(settings.model == 'V3_MIX_EDLA_GL' || settings.model == 'K2_A13') &&
                                 <Button
                                     action={printReceipt}
                                     color={colors.primary}
@@ -272,8 +274,8 @@ export default KioskCheckout = (props) => {
                 </View>
             </View>
         </View>
-    )
-}
+    );
+};
 
 const styles = {
     numInCart: {
@@ -288,4 +290,4 @@ const styles = {
         width: 50,
         height: 50,
     }
-}
+};

@@ -13,12 +13,11 @@ import { css, themeColors } from '../styles';
 export default StatusBar = (props) => {
     const powerState = usePowerState();
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
 
     return (
         <>
             <View style={styles.indicator}>
-                <Text style={{ fontSize: 30, color: props.paymentStatus == 'ready' ? colors.success : colors.danger, marginTop: -4, marginRight: 4 }}>•</Text>
+                <Text style={{ fontSize: 30, color: props.paymentStatus == 'ready' ? '#00C851' : '#ff4444', marginTop: -4, marginRight: 4 }}>•</Text>
                 {settings.isAOD
                     ? powerState.batteryState != 'charging'
                         ? <>

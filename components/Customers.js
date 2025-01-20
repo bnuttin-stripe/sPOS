@@ -4,7 +4,7 @@ import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { settingsAtom, customersAtom, searchedCustomersAtom, currentCustomerAtom } from '../atoms';
+import { settingsAtom, themesAtom, customersAtom, searchedCustomersAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus, faArrowsRotate, faMagnifyingGlass, faXmark, faXmarkCircle } from '@fortawesome/pro-solid-svg-icons';
@@ -17,7 +17,9 @@ import { css, themeColors } from '../styles';
 export default Customers = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
+    
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [refreshing, setRefreshing] = useState(false);

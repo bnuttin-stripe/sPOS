@@ -4,7 +4,7 @@ import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { transactionAtom, settingsAtom } from '../atoms';
+import { themesAtom, settingsAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faCircleCheck, faCircleExclamation, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
@@ -13,8 +13,11 @@ import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
 
 export default CardVerifier = (props) => {
+    // const settings = useRecoilValue(settingsAtom);
+    // const colors = themeColors[settings.theme];
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
 
     const [verificationPM, setVerificationPM] = useState(null);
     const [verificationSuccessful, setVerificationSuccessful] = useState(null);

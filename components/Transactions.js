@@ -4,7 +4,7 @@ import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { transactionAtom, settingsAtom } from '../atoms';
+import { transactionAtom, settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faBox, faCircleCheck, faCircleExclamation, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
@@ -18,7 +18,9 @@ import CardVerifier from './CardVerifier';
 export default Transactions = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
+    
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [refreshing, setRefreshing] = useState(true);

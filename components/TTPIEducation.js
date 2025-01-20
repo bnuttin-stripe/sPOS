@@ -2,15 +2,16 @@ import { React, useState } from 'react';
 import { View, Text, Pressable, Image, ActivityIndicator, Platform } from 'react-native';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { cartAtom, settingsAtom, currentCustomerAtom } from '../atoms';
+import { cartAtom, settingsAtom, themesAtom, currentCustomerAtom } from '../atoms';
 
 import { css, themeColors } from '../styles';
 import { color } from 'react-native-elements/dist/helpers';
 
 export default TTPIEducation = (props) => {
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
-
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
+    
     const [step, setStep] = useState(1);
 
     const styles = {

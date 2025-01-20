@@ -106,3 +106,8 @@ export const logAtom = atom({
     key: 'logAtom',
     default: [],
 });
+
+export const themesAtom = atom({
+    key: 'themesAtom',
+    default: [],
+});

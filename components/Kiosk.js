@@ -3,7 +3,7 @@ import { Text, View, Pressable, Image, FlatList, Modal, useWindowDimensions } fr
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
-import { settingsAtom, productAtom, cartAtom } from '../atoms';
+import { settingsAtom, themesAtom, productAtom, cartAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCreditCard, faPlusCircle, faXmark, faCheckCircle, faTrash } from '@fortawesome/pro-solid-svg-icons';
@@ -17,7 +17,9 @@ import { css, themeColors } from '../styles';
 export default Kiosk = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
+
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const { height, width } = useWindowDimensions();
@@ -30,24 +32,24 @@ export default Kiosk = (props) => {
 
     const numInCart = (product) => {
         return cart.filter(x => (x.id == product.id)).length;
-    }
+    };
 
     const addToCart = (product) => {
         setCart([...cart, product]);
-    }
+    };
 
     const removeFromCart = (product) => {
         var arr = [...cart];
         let idx = cart.findIndex(x => x.id == product.id);
         arr.splice(idx, 1);
         setCart(arr);
-    }
+    };
 
     const handleItemPress = (product) => {
         numInCart(product) == 0
             ? addToCart(product)
             : removeFromCart(product);
-    }
+    };
 
     const getProducts = async () => {
         setRefreshing(true);
@@ -65,7 +67,7 @@ export default Kiosk = (props) => {
 
     const goToCheckout = () => {
         navigation.navigate("App", { page: "KioskCheckout" });
-    }
+    };
 
     useEffect(() => {
         getProducts();
@@ -81,8 +83,8 @@ export default Kiosk = (props) => {
                 </View>
                 <View style={{ flexDirection: 'row', padding: 5 }}>
                     <View style={{ flexDirection: 'column', flex: 1 }}>
-                        <Text numberOfLines={2} ellipsizeMode='tail' style={{ fontSize: 18 }}>{item.name}</Text>
-                        <Text style={{ fontSize: 22, fontWeight: 'bold', marginTop: 10 }}>{Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)}</Text>
+                        <Text numberOfLines={2} ellipsizeMode='tail' style={{ fontSize: settings?.model == 'K2_A13' ? 22 : 14 }}>{item.name}</Text>
+                        <Text style={{ fontSize: settings?.model == 'K2_A13' ? 22 : 18, fontWeight: 'bold', marginTop: 10 }}>{Utils.displayPrice(item.default_price.unit_amount / 100, settings.currency)}</Text>
                     </View>
                     <View>
                         {numInCart(item) == 0
@@ -92,8 +94,8 @@ export default Kiosk = (props) => {
                     </View>
                 </View>
             </Pressable>
-        )
-    }
+        );
+    };
 
     const styles = {
         header: {
@@ -139,10 +141,12 @@ export default Kiosk = (props) => {
         <View style={css.container}>
             <Pressable delayLongPress={2000} onLongPress={() => setModalVisible(true)} style={styles.header}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    {settings.theme == 'wick' && <Image source={require('../assets/logos/wick_dark.png')} style={styles.logo} />}
-                    {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_dark.png')} style={styles.logo} />}
-                    {settings.theme == 'roastery' && <Image source={require('../assets/logos/roastery_dark.png')} style={styles.logo} />}
-                    {settings.theme == 'press' && <Image source={require('../assets/logos/press_dark.png')} style={styles.logo} />}
+                    <Image
+                        style={[styles.logo, { width: 180, marginTop: 10 }]}
+                        source={{
+                            uri: themes[settings.theme]?.logoDark || 'https://stripe360.stripedemos.com/logos/press_dark.png'
+                        }}
+                    />
                 </View>
             </Pressable>
             <View style={styles.kiosk}>
@@ -188,5 +192,5 @@ export default Kiosk = (props) => {
                 </View>
             </Modal>
         </View>
-    )
-}
+    );
+};

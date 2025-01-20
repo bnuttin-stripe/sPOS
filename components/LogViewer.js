@@ -5,7 +5,7 @@ import { NetworkInfo } from 'react-native-network-info';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { settingsAtom, logAtom } from '../atoms';
+import { settingsAtom, themesAtom, logAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSave, faChevronLeft, faMobile, faTrash } from '@fortawesome/pro-solid-svg-icons';
@@ -17,18 +17,19 @@ import { css, themeColors } from '../styles';
 
 export default LogViewer = (props) => {
     const log = useRecoilValue(logAtom);
-    const settings = useRecoilValue(settingsAtom);
     const resetLog = useResetRecoilState(logAtom);
-    const colors = themeColors[settings.theme];
+    const settings = useRecoilValue(settingsAtom);
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
     const navigation = useNavigation();
 
     return (
         <View style={css.container}>
             <ScrollView>
                 {log.toReversed().map(row => (
-                    <View key={row.time} style={{marginBottom: 10}}>
+                    <View key={row.time} style={{ marginBottom: 10 }}>
                         <View>
-                            <Text style={{fontWeight: 'bold'}}>{Utils.displayDateTime(row.time / 1000)} - {row.title}</Text>
+                            <Text style={{ fontWeight: 'bold' }}>{Utils.displayDateTime(row.time / 1000)} - {row.title}</Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontFamily: Platform.OS == 'ios' ? 'Courier New' : 'monospace', fontSize: 14 }}>{row.body}</Text>
@@ -46,5 +47,5 @@ export default LogViewer = (props) => {
                 <Text style={{ color: 'white', fontSize: 16, marginLeft: 5 }}>Empty Log</Text>
             </Pressable>
         </View>
-    )
-}
+    );
+};

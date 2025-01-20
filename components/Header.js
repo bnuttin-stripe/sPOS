@@ -1,9 +1,9 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import { Text, Image, View, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilValue } from 'recoil';
-import { settingsAtom, cartAtom, currentCustomerAtom } from '../atoms';
+import { settingsAtom, cartAtom, currentCustomerAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalculator, faGrid, faList, faUser, faGear, faBox, faCartShopping, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
@@ -16,11 +16,12 @@ import StatusBar from './StatusBar';
 export default Header = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
 
     const goTo = (page) => {
-        navigation.navigate('App', { page: page })
-    }
+        navigation.navigate('App', { page: page });
+    };
 
     const styles = {
         topBanner: {
@@ -79,21 +80,20 @@ export default Header = (props) => {
         <>
             <View style={styles.topBanner}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    {settings.theme == 'wick' && <Image source={require('../assets/logos/wick_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
-                    {settings.theme == 'boba' && <Image source={require('../assets/logos/boba_dark.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
-                    {settings.theme == 'davids' && <Image source={require('../assets/logos/davids_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
-                    {settings.theme == 'roastery' && <Image source={require('../assets/logos/roastery_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
-                    {settings.theme == 'press' && <Image source={require('../assets/logos/press_light.png')} style={[styles.logo, { width: 180, marginTop: 10 }]} />}
+                    <Image
+                        style={[styles.logo, { width: 180, marginTop: 10 }]}
+                        source={{
+                            uri: themes[settings.theme]?.logoLight || 'https://stripe360.stripedemos.com/logos/press_light.png'
+                        }}
+                    />
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                     <Pressable style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => goTo('Settings')}>
-                        <Text style={{ color: 'white', fontSize: 10, marginTop: 2 }}>Powered by</Text>
-                        <Image source={require('../assets/stripe.png')} style={{ width: 60, height: 19, marginLeft: -12, marginRight: -16, marginBottom: -13, resizeMode: 'contain' }} />
+                        <Text style={{ color: colors.bannerText, fontSize: 10, marginTop: 2 }}>Powered by</Text>
+                        <Image source={require('../assets/stripe.png')} tintColor={colors.bannerText} style={{ width: 60, height: 19, marginLeft: -12, marginRight: -16, marginBottom: -13, resizeMode: 'contain' }} />
                     </Pressable>
                 </View>
                 <StatusBar paymentStatus={props.paymentStatus} />
-                {/* <Text style={{color: 'white'}}>Reader Status: {props.reader?.status}</Text>
-                <Text style={{color: 'white'}}>Payment Status: {props.paymentStatus}</Text> */}
             </View>
             <View style={styles.header}>
                 <Pressable style={(props.page == 'Calculator' || props.page == undefined) ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>
@@ -122,7 +122,7 @@ export default Header = (props) => {
                 </Pressable> */}
             </View>
         </>
-    )
+    );
 }
 
 

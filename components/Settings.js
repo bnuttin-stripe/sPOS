@@ -4,8 +4,8 @@ import RNPickerSelect from 'react-native-picker-select';
 import { NetworkInfo } from 'react-native-network-info';
 import { useNavigation } from '@react-navigation/native';
 
-import { useRecoilState, useResetRecoilState } from 'recoil';
-import { settingsAtom } from '../atoms';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleQuestion, faXmark, faMobile, faAlignJustify, faLink } from '@fortawesome/pro-solid-svg-icons';
@@ -18,14 +18,15 @@ import { css, themeColors } from '../styles';
 
 export default Settings = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
     const navigation = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
 
     const deviceSettings = () => {
         Linking.openURL('stripe://settings/');
-    }
+    };
 
     return (
         <View style={css.container}>
@@ -92,14 +93,9 @@ export default Settings = (props) => {
                 <Text>Theme</Text>
                 <RNPickerSelect
                     value={settings.theme}
-                    onValueChange={value => setSettings({ ...settings, theme: value, productFilter: value })}
-                    items={[
-                        { label: "Wick & Wool", value: "wick" },
-                        { label: "Boba Tea Company", value: "boba" },
-                        { label: "David's Bridal", value: "davids" },
-                        { label: "Roastery", value: "roastery" },
-                        { label: "Stripe Press", value: "press" },
-                    ]}
+                    onValueChange={value => setSettings({ ...settings, theme: value, productFilter: themes[value].productFilter })}
+                    items={Object.keys(themes).map(key => ({ label: themes[key]['display'], value: key }))
+                }
                 />
             </ScrollView>
 
@@ -145,5 +141,5 @@ export default Settings = (props) => {
             </View>}
 
         </View>
-    )
-}
+    );
+};

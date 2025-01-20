@@ -5,7 +5,7 @@ import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { cartAtom, productAtom, settingsAtom } from '../atoms';
+import { cartAtom, productAtom, settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark, faPlus, faMinus, faUserMagnifyingGlass, faUserCheck } from '@fortawesome/pro-solid-svg-icons';
@@ -18,7 +18,8 @@ import { css, themeColors } from '../styles';
 export default Products = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [refreshing, setRefreshing] = useState(true);
@@ -170,7 +171,7 @@ export default Products = (props) => {
                     }
                 >
                     {products.length > 0 && products.map && products.map((product) => Row(product))}
-                    {products.length == 0 && !refreshing && <Text style={{ color: colors.primary, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
+                    {products.length == 0 && !refreshing && <Text style={{ color: colors.text, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
                     <View style={{ height:70 }}></View>
                 </ScrollView>
             </DataTable>

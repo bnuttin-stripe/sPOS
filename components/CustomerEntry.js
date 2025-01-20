@@ -16,7 +16,9 @@ import { css, themeColors } from '../styles';
 export default CustomerEntry = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
-    const colors = themeColors[settings.theme];
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
+    
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [customer, setCustomer] = useState({});

@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { Text, TextInput, View, Pressable, ScrollView, ActivityIndicator, Vibration } from 'react-native';
 
 import { useRecoilValue } from 'recoil';
-import { settingsAtom } from '../atoms';
+import { settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowTurnLeft } from '@fortawesome/pro-solid-svg-icons';
@@ -14,8 +14,10 @@ import Transactions from './Transactions';
 
 export default Customer = (props) => {
     const settings = useRecoilValue(settingsAtom);
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors;
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
-    const colors = themeColors[settings.theme];
+    // const colors = themeColors[settings.theme];
 
     const [isLoading, setIsLoading] = useState(false);
     const [customer, setCustomer] = useState({});

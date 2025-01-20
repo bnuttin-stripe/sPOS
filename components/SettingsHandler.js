@@ -2,11 +2,12 @@ import { React, useEffect } from 'react';
 import { getSerialNumber, isTablet, getModel } from 'react-native-device-info';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { settingsAtom } from '../atoms';
+import { settingsAtom, themesAtom } from '../atoms';
 
 // This component calls the backend with the reader's serial number to get details about the account - including its default currency
 export default SettingsHandler = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
+    const [themes, setThemes] = useRecoilState(themesAtom);
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const defaultSettings = {
@@ -15,7 +16,7 @@ export default SettingsHandler = (props) => {
         taxPercentage: '10',
         productFilter: 'press',
         magicCentProtection: true,
-        theme: 'press',
+        theme: 'default',
         enableSurcharging: false,
         isAOD: false,
         model: 'unknown'
@@ -27,6 +28,7 @@ export default SettingsHandler = (props) => {
         props.setInfoMsg("Getting account details");
 
         if (props.serial == undefined) return;
+
         try {
             const response = await fetch(backendUrl + "/account/" + props.serial, {
                 method: 'GET',
@@ -42,8 +44,24 @@ export default SettingsHandler = (props) => {
         }
     }
 
+    const getThemes = async () => {
+        try {
+            const response = await fetch(backendUrl + "/themes", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            const data = await response.json();
+            setThemes(data);
+        } catch (error) {
+            console.error('Error getting themes:', error);
+        }
+    }
+
     useEffect(() => {
         getAccount();
+        getThemes();
     }, [props.serial]);
 
     return (

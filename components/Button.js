@@ -38,7 +38,7 @@ export default Button = (props) => {
             {props?.refreshing && <ActivityIndicator size={Platform.OS == 'android' ? "small" : 18} color="white" />}
             {props.icon && !props?.refreshing && <FontAwesomeIcon icon={props.icon} color={'white'} size={props.large ? 22 : 18} transform={props.transform} />}
             {props.image}
-            {props.text && <Text style={styles.text}>{props.text}</Text>}
+            {props.text && <Text style={[styles.text, props.textStyle]}>{props.text}</Text>}
         </Pressable >
     )
 }

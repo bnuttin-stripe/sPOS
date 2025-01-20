@@ -66,6 +66,32 @@ export const themeColors = {
         info: '#33b5e5',
         light: '#F2F5F9',
     },
+    sasko:{
+        banner: '#635BFF',
+        text: '#36455A',
+        textMuted: '#999C9B',
+        primary: '#635BFF',
+        secondary: '#7A73FF',
+        tertiary: '#FFBB00',
+        success: '#00C851',
+        danger: '#ff4444',
+        warning: '#ffbb33',
+        info: '#33b5e5',
+        light: '#F6F9FB',
+    },
+    nrf:{
+        banner: '#635BFF',
+        text: '#36455A',
+        textMuted: '#999C9B',
+        primary: '#635BFF',
+        secondary: '#7A73FF',
+        tertiary: '#FFBB00',
+        success: '#00C851',
+        danger: '#ff4444',
+        warning: '#ffbb33',
+        info: '#33b5e5',
+        light: '#F6F9FB',
+    }
 }
 
 export const defaults = {
