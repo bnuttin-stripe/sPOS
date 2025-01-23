@@ -18,7 +18,7 @@ export default Kiosk = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
     const themes = useRecoilValue(themesAtom);
-    const colors = themes[settings.theme]?.colors;
+    const colors = themes[settings.theme]?.colors || themes['default'].colors;
 
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
@@ -144,7 +144,7 @@ export default Kiosk = (props) => {
                     <Image
                         style={[styles.logo, { width: 180, marginTop: 10 }]}
                         source={{
-                            uri: themes[settings.theme]?.logoDark || 'https://stripe360.stripedemos.com/logos/press_dark.png'
+                            uri: themes[settings.theme]?.logoDark || themes['default'].logoDark
                         }}
                     />
                 </View>

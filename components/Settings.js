@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleQuestion, faXmark, faMobile, faAlignJustify, faLink } from '@fortawesome/pro-solid-svg-icons';
+import { faDownload, faKey, faMobile, faAlignJustify, faLink } from '@fortawesome/pro-solid-svg-icons';
 
 import Button from './Button';
 import TTPIEducation from './TTPIEducation';
@@ -18,8 +18,13 @@ import { css, themeColors } from '../styles';
 
 export default Settings = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
-    const themes = useRecoilValue(themesAtom);
-    const colors = themes[settings.theme]?.colors;
+    // const themes = useRecoilValue(themesAtom);
+    const [themes, setThemes] = useRecoilState(themesAtom);
+    const [refreshingThemes, setRefreshingThemes] = useState(false);
+
+    const backendUrl = process.env.EXPO_PUBLIC_API_URL;
+    
+    const colors = themes[settings.theme]?.colors || themes['default'].colors;
     const navigation = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -27,6 +32,23 @@ export default Settings = (props) => {
     const deviceSettings = () => {
         Linking.openURL('stripe://settings/');
     };
+
+    const getThemes = async () => {
+        setRefreshingThemes(true);
+        try {
+            const response = await fetch(backendUrl + "/themes", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            const data = await response.json();
+            setThemes(data);
+            setRefreshingThemes(false);
+        } catch (error) {
+            console.error('Error getting themes:', error);
+        }
+    }
 
     return (
         <View style={css.container}>
@@ -70,7 +92,7 @@ export default Settings = (props) => {
                         <Switch
                             trackColor={{ false: colors.light, true: colors.secondary }}
                             thumbColor={settings?.magicCentProtection ? colors.primary : colors.secondary}
-                            ios_backgroundColor="#3e3e3e"
+                            ios_backgroundColor="#f5f5f5"
                             onValueChange={() => setSettings({ ...settings, magicCentProtection: !settings?.magicCentProtection })}
                             value={settings?.magicCentProtection}
                         />
@@ -83,7 +105,7 @@ export default Settings = (props) => {
                         <Switch
                             trackColor={{ false: colors.light, true: colors.secondary }}
                             thumbColor={settings?.enableSurcharging ? colors.primary : colors.secondary}
-                            ios_backgroundColor="#3e3e3e"
+                            ios_backgroundColor="#f5f5f5"
                             onValueChange={() => setSettings({ ...settings, enableSurcharging: !settings?.enableSurcharging })}
                             value={settings?.enableSurcharging}
                         />
@@ -123,17 +145,17 @@ export default Settings = (props) => {
                         large={false}
                     />
                     <Button
-                        action={props.reconnectReader}
+                        action={getThemes}
                         color={colors.secondary}
-                        icon={faLink}
-                        text="Reconnect"
+                        icon={faDownload}
+                        text="Themes"
                         large={false}
                     />
 
                     {settings.isAOD && <Button
                         action={deviceSettings}
                         color={colors.secondary}
-                        icon={faMobile}
+                        icon={faKey}
                         text="Device"
                         large={false}
                     />}

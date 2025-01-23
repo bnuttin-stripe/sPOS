@@ -17,7 +17,7 @@ export default Header = (props) => {
     const navigation = useNavigation();
     const settings = useRecoilValue(settingsAtom);
     const themes = useRecoilValue(themesAtom);
-    const colors = themes[settings.theme]?.colors;
+    const colors = themes[settings.theme]?.colors || themes['default'].colors;
 
     const goTo = (page) => {
         navigation.navigate('App', { page: page });
@@ -83,7 +83,7 @@ export default Header = (props) => {
                     <Image
                         style={[styles.logo, { width: 180, marginTop: 10 }]}
                         source={{
-                            uri: themes[settings.theme]?.logoLight || 'https://stripe360.stripedemos.com/logos/press_light.png'
+                            uri: themes[settings.theme]?.logoLight || themes['default'].logoLight
                         }}
                     />
                 </View>

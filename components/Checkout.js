@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from 'react';
 import { Platform, Text, View, Pressable, ScrollView, Modal, Image, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import SunmiPrinter, { AlignValue } from '@heasy/react-native-sunmi-printer';
+import { receiptBMP } from '../assets/receiptLogo';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, settingsAtom, themesAtom, currentCustomerAtom } from '../atoms';
@@ -16,11 +18,10 @@ import { css, themeColors } from '../styles';
 
 export default Checkout = (props) => {
     const navigation = useNavigation();
-    // const settings = useRecoilValue(settingsAtom);
-    // const colors = themeColors[settings.theme];
+
     const settings = useRecoilValue(settingsAtom);
     const themes = useRecoilValue(themesAtom);
-    const colors = themes[settings.theme]?.colors;
+    const colors = themes[settings.theme]?.colors || themes['default'].colors;
 
     const cart = useRecoilValue(cartAtom);
     const uniqueCart = [...new Map(cart.map(item => [item['id'], item])).values()]
@@ -118,7 +119,7 @@ export default Checkout = (props) => {
             SunmiPrinter.printQRCode('https://stripe.com/industries/retail', 8, 0);
             SunmiPrinter.lineWrap(5);
         } catch (error) {
-            Log("Printer error", error);
+            console.log("Printer error", error);
         }
     }
 
@@ -278,7 +279,7 @@ export default Checkout = (props) => {
                                     // text="Send Receipt"
                                     large={false}
                                 />
-                                { false && settings?.model == 'V2sPLUSNC_GL' &&  <Button
+                                { settings?.model == 'V2sPLUSNC_GL' &&  <Button
                                     action={printReceipt}
                                     color={colors.secondary}
                                     icon={faReceipt}
