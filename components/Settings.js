@@ -14,7 +14,7 @@ import Button from './Button';
 import TTPIEducation from './TTPIEducation';
 
 import * as Utils from '../utilities';
-import { css, themeColors } from '../styles';
+import { css } from '../styles';
 
 export default Settings = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);

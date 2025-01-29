@@ -13,7 +13,7 @@ import { faBarcodeRead, faXmark, faChevronRight, faCartShopping, faCartXmark, fa
 import Button from './Button';
 
 import * as Utils from '../utilities';
-import { css, themeColors } from '../styles';
+import { css } from '../styles';
 
 export default Products = (props) => {
     const navigation = useNavigation();
@@ -35,8 +35,11 @@ export default Products = (props) => {
     // Scan QR codes of the product IDs
     const codeScanner = useCodeScanner({
         codeTypes: ['qr'],
-        onCodeScanned: (codes) => {
+        onCodeScanned: (codes) => 
+            {
+            console.log(products);
             const foundProduct = products.find(x => x.id == codes[0].value);
+            if (foundProduct == undefined) return;
             const productInCart = cart.find(x => x.id == codes[0].value);
             if (!productInCart) {
                 setCart([...cart, foundProduct]);
@@ -44,6 +47,11 @@ export default Products = (props) => {
             }
         }
     })
+
+    const closeScanner = () => {
+        setScannerOpen(false)
+        setFoundCode(false);
+    }
 
     const numInCart = (product) => {
         return cart.filter(x => (x.id == product.id)).length;
@@ -181,7 +189,7 @@ export default Products = (props) => {
                     {scannerOpen ?
                         <View style={{ zIndex: 110, flexDirection: 'row', gap: 20 }}>
                             <Button
-                                action={() => setScannerOpen(false)}
+                                action={closeScanner}
                                 color={colors.secondary}
                                 icon={faXmark}
                                 // text="Close"

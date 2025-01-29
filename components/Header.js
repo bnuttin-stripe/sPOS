@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalculator, faGrid, faList, faUser, faGear, faBox, faCartShopping, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
-import { css, themeColors } from '../styles';
+import { css } from '../styles';
 
 import StatusBar from './StatusBar';
 

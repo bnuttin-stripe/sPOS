@@ -12,7 +12,7 @@ import Button from './Button';
 import Settings from './Settings';
 
 import * as Utils from '../utilities';
-import { css, themeColors } from '../styles';
+import { css } from '../styles';
 
 export default Kiosk = (props) => {
     const navigation = useNavigation();

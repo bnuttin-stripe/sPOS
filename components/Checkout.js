@@ -14,7 +14,7 @@ import Customers from './Customers';
 import Button from './Button';
 
 import * as Utils from '../utilities';
-import { css, themeColors } from '../styles';
+import { css } from '../styles';
 
 export default Checkout = (props) => {
     const navigation = useNavigation();

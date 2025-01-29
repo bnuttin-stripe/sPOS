@@ -13,7 +13,7 @@ import { faCircleCheck, faChevronLeft, faReceipt, faCreditCard, faPlus } from '@
 import Button from './Button';
 
 import * as Utils from '../utilities';
-import { css, themeColors } from '../styles';
+import { css } from '../styles';
 
 export default KioskCheckout = (props) => {
     const navigation = useNavigation();

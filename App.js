@@ -2,7 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { AppState, Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
 import { getSerialNumber, isTablet, getModel } from 'react-native-device-info';
 import { TapZoneIndicator, useStripeTerminal } from '@stripe/stripe-terminal-react-native';
-import { css, themeColors } from './styles';
+import { css } from './styles';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/pro-solid-svg-icons';

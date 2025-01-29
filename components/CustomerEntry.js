@@ -5,13 +5,13 @@ import RNPickerSelect from 'react-native-picker-select';
 import { Camera, useCameraPermission, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
 
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { currentCustomerAtom, settingsAtom } from '../atoms';
+import { currentCustomerAtom, settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBarcodeRead, faXmark, faChevronRight, faSave, faIdCard, faMobile } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
-import { css, themeColors } from '../styles';
+import { css } from '../styles';
 
 export default CustomerEntry = (props) => {
     const navigation = useNavigation();
@@ -34,6 +34,7 @@ export default CustomerEntry = (props) => {
         codeTypes: ['pdf-417'],
         onCodeScanned: (codes) => {
             const payload = codes[0].value;
+            // console.log(payload);
             const lastNameRegex = /(?:\nDCS)(.*)(?:\n)/;
             const firstNameRegex = /(?:\nDAC)(.*)(?:\n)/;
             const addressLine1Regex = /(?:\nDAG)(.*)(?:\n)/;
@@ -48,13 +49,18 @@ export default CustomerEntry = (props) => {
                 addressLine2: Utils.capitalizeWords(addressLine2Regex.exec(payload)[1]),
                 city: Utils.capitalizeWords(addressCityRegex.exec(payload)[1]),
                 state: addressStateRegex.exec(payload)[1],
-                postalCode: addressPostalCodeRegex.exec(payload)[1]
+                postalCode: addressPostalCodeRegex.exec(payload)[1].toString().slice(0, 5)
             });
-            setFoundCode(true);
+            // setFoundCode(true);
             setScannerOpen(false);
             return;
         }
     })
+
+    const closeScanner = () => {
+        setScannerOpen(false);
+        // setFoundCode(false);
+    }
 
     const lastNameRef = useRef(null);
     const emailRef = useRef(null);
@@ -209,7 +215,7 @@ export default CustomerEntry = (props) => {
                 <View style={css.buttons}>
                     {scannerOpen && <View style={{ zIndex: 110, flexDirection: 'row', gap: 20 }}>
                         <Button
-                            action={() => setScannerOpen(false)}
+                            action={closeScanner}
                             color={colors.secondary}
                             icon={faXmark}
                             // text="Refresh"
@@ -242,7 +248,8 @@ export default CustomerEntry = (props) => {
                     <Camera
                         style={StyleSheet.absoluteFill}
                         device={device}
-                        isActive={!foundCode}
+                        // isActive={!foundCode}
+                        isActive={true}
                         photo={true}
                         resizeMode="cover"
                         codeScanner={codeScanner}
