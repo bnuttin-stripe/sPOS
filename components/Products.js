@@ -35,9 +35,7 @@ export default Products = (props) => {
     // Scan QR codes of the product IDs
     const codeScanner = useCodeScanner({
         codeTypes: ['qr'],
-        onCodeScanned: (codes) => 
-            {
-            console.log(products);
+        onCodeScanned: (codes) => {
             const foundProduct = products.find(x => x.id == codes[0].value);
             if (foundProduct == undefined) return;
             const productInCart = cart.find(x => x.id == codes[0].value);
@@ -46,24 +44,24 @@ export default Products = (props) => {
                 setFoundCode(true);
             }
         }
-    })
+    });
 
     const closeScanner = () => {
-        setScannerOpen(false)
+        setScannerOpen(false);
         setFoundCode(false);
-    }
+    };
 
     const numInCart = (product) => {
         return cart.filter(x => (x.id == product.id)).length;
-    }
+    };
 
     const addToCart = (product) => {
         setCart([...cart, product]);
-    }
+    };
 
     const removeFromCart = (product) => {
         setCart(cart.filter(x => x.id != product.id));
-    }
+    };
 
     const adjustFinalAmount = (amount) => {
         let output = 0;
@@ -73,7 +71,7 @@ export default Products = (props) => {
             output = 100 - parseInt(decimal);
         }
         return output;
-    }
+    };
 
     const getCartTotal = (cart) => {
         const subtotal = cart.reduce((a, b) => a + b.default_price.unit_amount, 0);
@@ -85,8 +83,8 @@ export default Products = (props) => {
             taxes: taxes,
             adjustment: adjustment,
             total: total
-        }
-    }
+        };
+    };
 
     const getProducts = async () => {
         setRefreshing(true);
@@ -104,7 +102,7 @@ export default Products = (props) => {
 
     const goToCheckout = () => {
         navigation.navigate("App", { page: "Checkout" });
-    }
+    };
 
     useEffect(() => {
         getProducts();
@@ -127,9 +125,10 @@ export default Products = (props) => {
                             {product.name}
                         </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: .8 }]} numeric>
+                    <DataTable.Cell style={[css.cell, { flex: .8, justifyContent: 'flex-end' }]} numeric>
                         <Text style={css.defaultText}>
                             {Utils.displayPrice(product.default_price.unit_amount / 100, product.default_price.currency)}
+                            {product.default_price.recurring && <Text style={{ fontSize: 12, color: colors.text }}> per {product.default_price.recurring.interval}</Text>}
                         </Text>
                     </DataTable.Cell>
                     <DataTable.Cell style={[css.cell, { flex: .5 }]} numeric>
@@ -144,29 +143,12 @@ export default Products = (props) => {
                     </DataTable.Cell>
                 </DataTable.Row>
             </Pressable >
-        )
-    }
+        );
+    };
 
     return (
         <View style={[css.container, { padding: 0 }]}>
             <DataTable style={{ flex: 1 }}>
-                {/* <DataTable.Header style={css.tableHeader}>
-                <DataTable.Title style={{ flex: 4 }}>
-                    <Text style={css.defaultText}>
-                        Product
-                    </Text>
-                </DataTable.Title>
-                <DataTable.Title style={{ flex: 1 }}>
-                    <Text style={css.defaultText}>
-                        Price
-                    </Text>
-                </DataTable.Title>
-                <DataTable.Title style={{ flex: 1 }} numeric>
-                    <Text style={css.defaultText}>
-                        In Cart
-                    </Text>
-                </DataTable.Title>
-            </DataTable.Header> */}
                 <ScrollView
                     refreshControl={
                         <RefreshControl
@@ -176,11 +158,10 @@ export default Products = (props) => {
                             colors={['white']}
                             progressBackgroundColor={colors.primary}
                         />
-                    }
-                >
+                    }>
                     {products.length > 0 && products.map && products.map((product) => Row(product))}
                     {products.length == 0 && !refreshing && <Text style={{ color: colors.text, textAlign: 'center', margin: 40 }}>No products found. Make sure you have some products with default prices in the currency set in the Settings page.</Text>}
-                    <View style={{ height:70 }}></View>
+                    <View style={{ height: 70 }}></View>
                 </ScrollView>
             </DataTable>
 
@@ -223,6 +204,8 @@ export default Products = (props) => {
                         color={colors.primary}
                         icon={faCartShopping}
                         text={Utils.displayPrice(getCartTotal(cart).subtotal / 100, settings.currency)}
+                        disabled={cart.length == 0}
+                        disabledColor={colors.secondary}
                         large={false}
                     />
                 </View>
@@ -241,5 +224,5 @@ export default Products = (props) => {
                 </View>
             </>}
         </View>
-    )
-}
+    );
+};

@@ -1,21 +1,23 @@
 {
-  "images": [
+  "images" : [
     {
-      "idiom": "universal",
-      "filename": "image.png",
-      "scale": "1x"
+      "filename" : "Stripe parallelogram for internal use only - white-1024x1049-191a11f.png",
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "idiom": "universal",
-      "scale": "2x"
+      "filename" : "Stripe parallelogram for internal use only - white-1024x1049-191a11f 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "idiom": "universal",
-      "scale": "3x"
+      "filename" : "Stripe parallelogram for internal use only - white-1024x1049-191a11f 2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
-  "info": {
-    "version": 1,
-    "author": "expo"
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
   }
 }

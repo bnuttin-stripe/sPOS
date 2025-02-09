@@ -4,7 +4,7 @@ import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { transactionAtom, settingsAtom, themesAtom } from '../atoms';
+import { transactionAtom, settingsAtom, themesAtom, refresherAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faBox, faCircleCheck, faCircleExclamation, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
@@ -20,6 +20,7 @@ export default Transactions = (props) => {
     const settings = useRecoilValue(settingsAtom);
     const themes = useRecoilValue(themesAtom);
     const colors = themes[settings.theme]?.colors;
+    const refresher = useRecoilValue(refresherAtom);
     
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
@@ -111,7 +112,7 @@ export default Transactions = (props) => {
 
     useEffect(() => {
         getTransactions();
-    }, []);
+    }, [refresherAtom.transactions]);
 
     const Row = (pi) => {
         return (
@@ -119,7 +120,7 @@ export default Transactions = (props) => {
                 <DataTable.Row>
                     <DataTable.Cell style={[css.cell, { flex: 2 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={css.defaultText}>{pi.metadata?.orderNumber}</Text>
+                            <Text style={css.defaultText}>{pi.metadata?.orderNumber || pi.invoice?.number}</Text>
                             {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBox} color={colors.primary} style={{ marginLeft: 10 }} size={20} />}
                             {pi.metadata?.bopis == 'done' && <FontAwesomeIcon icon={faBoxCheck} color={colors.success} style={{ marginLeft: 10 }} size={20} />}
                         </View>
@@ -159,10 +160,11 @@ export default Transactions = (props) => {
                 </DataTable.Header>
                 <ScrollView>
                     {transactions.length > 0 && transactions.map && transactions.map((pi) => Row(pi, navigation))}
+                    {transactions.length == 0 && <Text style={[css.defaultText, { marginLeft: 20, marginTop: 10 }]}>No data</Text>}
                 </ScrollView>
             </DataTable>
 
-            <View style={css.floatingMenu}>
+            {props.showRefresh && <View style={css.floatingMenu}>
                 <View style={css.buttons}>
                     <Button
                         action={getTransactions}
@@ -173,7 +175,7 @@ export default Transactions = (props) => {
                         refreshing={refreshing}
                     />
                 </View>
-            </View>
+            </View>}
 
             <Modal
                 animationType="fade"
@@ -199,11 +201,11 @@ export default Transactions = (props) => {
                             {/* <View style={{ flexDirection: 'column', flex: 0.5 }}></View> */}
                             <View style={{ flexDirection: 'column', flex: 4 }}>
                                 {selectedTransaction && <>
-                                    <Text style={css.spacedText}>{selectedTransaction?.metadata?.orderNumber}</Text>
+                                    <Text style={css.spacedText}>{selectedTransaction?.metadata?.orderNumber || selectedTransaction?.invoice.number}</Text>
                                     <Text style={css.spacedText}>{Utils.displayDateTime(selectedTransaction?.created)}</Text>
                                     <Text style={css.spacedText}>{status(selectedTransaction)}</Text>
                                     <Text style={css.spacedText}>{Utils.displayPrice(selectedTransaction?.amount_received / 100, settings.currency)}</Text>
-                                    <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.channel)}</Text>
+                                    <Text style={css.spacedText}>{Utils.capitalize(selectedTransaction?.metadata?.channel) || "Subscription"}</Text>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Text style={css.spacedText}>{
                                             selectedTransaction?.latest_charge?.payment_method_details?.card

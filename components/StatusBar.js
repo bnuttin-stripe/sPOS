@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { usePowerState } from 'react-native-device-info';
 
 import { useRecoilValue } from 'recoil';
-import { settingsAtom } from '../atoms';
+import { settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircle, faLink, faLinkSlash, faBatteryExclamation, faBattery1, faBattery2, faBattery3, faBattery4, faBattery5, faBatteryBolt } from '@fortawesome/pro-regular-svg-icons';
@@ -13,12 +13,15 @@ import { css } from '../styles';
 export default StatusBar = (props) => {
     const powerState = usePowerState();
     const settings = useRecoilValue(settingsAtom);
+    const themes = useRecoilValue(themesAtom);
+    const colors = themes[settings.theme]?.colors || themes['default'].colors;
 
     return (
         <>
             <View style={styles.indicator}>
                 {/* <Text style={{ fontSize: 30, color: props.paymentStatus == 'ready' ? '#00C851' : '#ff4444', marginTop: -4, marginRight: 4 }}>•</Text> */}
-                <FontAwesomeIcon icon={props.paymentStatus == 'ready' ? faLink : faLinkSlash} style={{ color: props.paymentStatus == 'ready' ? '#00C851' : '#ff4444' }} size={18} />
+                {/* <FontAwesomeIcon icon={props.paymentStatus == 'ready' ? faLink : faLinkSlash} style={{ color: props.paymentStatus == 'ready' ? '#00C851' : '#ff4444' }} size={18} /> */}
+                <FontAwesomeIcon icon={props.paymentStatus == 'ready' ? faLink : faLinkSlash} style={{ color: colors.bannerText }} size={18} />
                 {settings.isAOD
                     ? powerState.batteryState != 'charging'
                         ? <>

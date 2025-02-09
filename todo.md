@@ -1,2 +1,7 @@
 Magic cent - force scenarios
-Animation for reader status/ disable PAY buttons if offline
+
+Subscriptions
+[ ] Hide from Kiosk offerings
+[ ] Warn if customer already has 3 subs (limit still relevant??)
+[ ] QR codes - in countertop mode only?
+[ ] Toggle calculator/ product nav in Settings page

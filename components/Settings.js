@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faDownload, faKey, faMobile, faAlignJustify, faLink } from '@fortawesome/pro-solid-svg-icons';
+import { faDownload, faKey, faXmark, faAlignJustify, faLink } from '@fortawesome/pro-solid-svg-icons';
 
 import Button from './Button';
 import TTPIEducation from './TTPIEducation';
@@ -23,11 +23,12 @@ export default Settings = (props) => {
     const [refreshingThemes, setRefreshingThemes] = useState(false);
 
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
-    
+
     const colors = themes[settings.theme]?.colors || themes['default'].colors;
     const navigation = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [aboutVisible, setAboutVisible] = useState(false);
 
     const deviceSettings = () => {
         Linking.openURL('stripe://settings/');
@@ -48,7 +49,7 @@ export default Settings = (props) => {
         } catch (error) {
             console.error('Error getting themes:', error);
         }
-    }
+    };
 
     return (
         <View style={css.container}>
@@ -117,16 +118,21 @@ export default Settings = (props) => {
                     value={settings.theme}
                     onValueChange={value => setSettings({ ...settings, theme: value, productFilter: themes[value].productFilter })}
                     items={Object.keys(themes).map(key => ({ label: themes[key]['display'], value: key }))
-                }
+                    }
                 />
+
+                <Pressable style={{flex: 1}} onPress={() => setAboutVisible(true)}>
+                    <Text style={{color: 'blue', textDecorationLine: 'underline'}}>About</Text>
+                </Pressable>
             </ScrollView>
 
+            {/* ---------------------------- TTPI Education ---------------------------- */}
             <Modal
                 animationType="fade"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    setModalVisible(!modalVisible);
+                    setModalVisible(false);
                 }}>
                 <View style={css.centeredView}>
                     <View style={[css.modalView, css.shadow, { marginTop: 40, height: '80%' }]}>
@@ -135,6 +141,37 @@ export default Settings = (props) => {
                 </View>
             </Modal>
 
+            {/* ---------------------------- About ---------------------------- */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={aboutVisible}
+                onRequestClose={() => {
+                    setAboutVisible(false);
+                }}>
+                <View style={css.centeredView}>
+                    <View style={[css.modalView, css.shadow, { marginTop: 60, height: '20%', width: '80%' }]}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'column', flex: 1.8 }}>
+                                <Text style={css.spacedTextMuted}>Version</Text>
+                                <Text style={css.spacedTextMuted}>Author</Text>
+                                <Text style={css.spacedTextMuted}>Info</Text>
+                            </View>
+                            <View style={{ flexDirection: 'column', flex: 4 }}>
+                                <Text style={css.spacedText}>1.0.25</Text>
+                                <Text style={css.spacedText}>Benjamin Nuttin</Text>
+                                <Text style={css.spacedText}>go/stripe360demo/docs</Text>
+                            </View>
+                        </View>
+
+                        <Pressable style={[css.floatingIcon, css.shadow, { right: 0, top: 0, elevation: 0, shadowRadius: 0 }]} onPress={() => setAboutVisible(false)}>
+                            <FontAwesomeIcon icon={faXmark} color={colors.primary} size={18} />
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* ---------------------------- Buttons ---------------------------- */}
             {!props.hideMenu && <View style={css.floatingMenu}>
                 <View style={css.buttons}>
                     <Button

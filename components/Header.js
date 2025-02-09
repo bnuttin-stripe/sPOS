@@ -112,7 +112,7 @@ export default Header = (props) => {
                     <FontAwesomeIcon icon={faList} style={props.page == 'Transactions' ? styles.iconActive : styles.icon} size={22} />
                     <Text style={props.page == 'Transactions' ? styles.titleActive : styles.title}>Transactions</Text>
                 </Pressable>
-                <Pressable style={props.page == 'Customers' ? styles.tabSelected : styles.tab} onPress={() => goTo('Customers')}>
+                <Pressable style={['Customers', 'Customer', 'CustomerEntry'].includes(props.page) ? styles.tabSelected : styles.tab} onPress={() => goTo('Customers')}>
                     <FontAwesomeIcon icon={faUser} style={props.page == 'Customers' ? styles.iconActive : styles.icon} size={22} />
                     <Text style={props.page == 'Customers' ? styles.titleActive : styles.title}>Customers</Text>
                 </Pressable>

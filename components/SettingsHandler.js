@@ -23,7 +23,7 @@ export default SettingsHandler = (props) => {
     };
 
     const getAccount = async () => {
-        const isAOD = props.serial.substring(0,3) == 'STR';
+        const isAOD = props.serial.substring(0, 3) == 'STR';
         const model = getModel();
         props.setInfoMsg("Getting account details");
 
@@ -42,10 +42,11 @@ export default SettingsHandler = (props) => {
             console.error('Error getting account details:', error);
             props.setInfoMsg("Error getting account details");
         }
-    }
+    };
 
     const getThemes = async () => {
         try {
+            // const response = await fetch("https://stripe360.stripedemos.com/themes", {
             const response = await fetch(backendUrl + "/themes", {
                 method: 'GET',
                 headers: {
@@ -53,11 +54,12 @@ export default SettingsHandler = (props) => {
                 },
             });
             const data = await response.json();
+            console.log(data);
             setThemes(data);
         } catch (error) {
             console.error('Error getting themes:', error);
         }
-    }
+    };
 
     useEffect(() => {
         getAccount();
@@ -66,5 +68,5 @@ export default SettingsHandler = (props) => {
 
     return (
         <></>
-    )
-}
+    );
+};

@@ -21,6 +21,11 @@ export const transactionAtom = atom({
     default: []
 });
 
+export const subscriptionAtom = atom({
+    key: 'subscriptionAtom',
+    default: []
+});
+
 export const settingsAtom = atom({
     key: 'settingsAtom',
     default: {},
@@ -110,4 +115,9 @@ export const logAtom = atom({
 export const themesAtom = atom({
     key: 'themesAtom',
     default: [],
+});
+
+export const refresherAtom = atom({
+    key: 'refresherAtom',
+    default: {}
 });

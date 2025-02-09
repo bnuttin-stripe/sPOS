@@ -69,9 +69,9 @@ export default function App({ route }) {
       title: title,
       body: JSON.stringify(data, null, 2)
     }]);
-  }
+  };
 
-  const { createPaymentIntent, setLocalMobileUxConfiguration, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent, getPaymentMethod } = useStripeTerminal();
+  const { createPaymentIntent, retrievePaymentIntent, setLocalMobileUxConfiguration, collectPaymentMethod, confirmPaymentIntent, createSetupIntent, collectSetupIntentPaymentMethod, confirmSetupIntent, getPaymentMethod } = useStripeTerminal();
 
   const checkPermissionsAndInitialize = async () => {
     setInfoMsg("Checking location permissions");
@@ -108,7 +108,7 @@ export default function App({ route }) {
       // For iOS permissions are handled in the info.plist
       await initializeReader();
     }
-  }
+  };
 
   const initializeReader = async () => {
     setInfoMsg("Starting reader software");
@@ -116,7 +116,7 @@ export default function App({ route }) {
 
     if (error) {
       setInfoMsg('StripeTerminal init failed - ' + error.message);
-      Log('initializeReader', error)
+      Log('initializeReader', error);
       return;
     }
 
@@ -136,12 +136,12 @@ export default function App({ route }) {
   const { discoverReaders, connectHandoffReader, connectLocalMobileReader } =
     useStripeTerminal({
       onUpdateDiscoveredReaders: (readers) => {
-        Log('onUpdateDiscoveredReaders', readers)
+        Log('onUpdateDiscoveredReaders', readers);
         if (readers.length > 0) {
           setReader(readers[0]);
           readers[0].serialNumber?.substring(0, 3) == 'STR'
             ? connectAODReader(readers[0])
-            : connectTTPReader(readers[0])
+            : connectTTPReader(readers[0]);
         }
         else {
           setInfoMsg("No reader found");
@@ -151,13 +151,13 @@ export default function App({ route }) {
         Log("onFinishDiscoveringReaders", error);
       },
       onDidChangeOfflineStatus: (status) => {
-        Log('onDidChangeOfflineStatus', status)
+        Log('onDidChangeOfflineStatus', status);
       },
       onDidSucceedReaderReconnect: () => {
         Log("onDidSucceedReaderReconnect", "");
       },
       onDidChangePaymentStatus: (status) => {
-        Log('onDidChangePaymentStatus', status)
+        Log('onDidChangePaymentStatus', status);
         setPaymentStatus(status);
       },
       onDidDisconnect: (reason) => {
@@ -224,9 +224,9 @@ export default function App({ route }) {
       Log("reconnectReader", reader);
       reader.serialNumber.substring(0, 3) == 'STR'
         ? connectAODReader(reader)
-        : connectTTPReader(reader)
+        : connectTTPReader(reader);
     }
-  }
+  };
 
   // For iOS
   useEffect(() => {
@@ -264,12 +264,12 @@ export default function App({ route }) {
       return;
     }
     collectPM(paymentIntent, onSuccess);
-  }
+  };
 
   const collectPM = async (pi, onSuccess) => {
     let payload = {
       paymentIntent: pi
-    }
+    };
     if (settings.enableSurcharging) {
       payload.surchargeNotice = "A 2% surcharge will be added to cover credit card fees";
       payload.updatePaymentIntent = true;
@@ -280,12 +280,12 @@ export default function App({ route }) {
       return;
     }
     confirmPayment(paymentIntent, onSuccess);
-  }
+  };
 
   const confirmPayment = async (pi, onSuccess) => {
     let payload = {
       paymentIntent: pi
-    }
+    };
     if (settings.enableSurcharging) payload.amountSurcharge = 0.02 * pi.amount;
     const { error, paymentIntent } = await confirmPaymentIntent(payload);
     if (error) {
@@ -296,17 +296,17 @@ export default function App({ route }) {
   };
 
   // SETUP INTENTS
-  const setup = async () => {
-    const { error, setupIntent } = await createSetupIntent({
-    });
+  const setup = async (customerId, onSuccess) => {
+    const payload = customerId ? { customer: customerId } : {};
+    const { error, setupIntent } = await createSetupIntent(payload);
     if (error) {
       Log("createSetupIntent", error);
       return;
     }
-    return collectSIPM(setupIntent);
-  }
+    return collectSIPM(setupIntent, onSuccess);
+  };
 
-  const collectSIPM = async (si) => {
+  const collectSIPM = async (si, onSuccess) => {
     const { setupIntent, error } = await collectSetupIntentPaymentMethod({
       setupIntent: si,
       allowRedisplay: "always",
@@ -316,10 +316,10 @@ export default function App({ route }) {
       Log("collectSetupIntentPaymentMethod", error);
       return;
     }
-    return confirmSetup(setupIntent);
-  }
+    return confirmSetup(setupIntent, onSuccess);
+  };
 
-  const confirmSetup = async (si) => {
+  const confirmSetup = async (si, onSuccess) => {
     const { setupIntent, error } = await confirmSetupIntent({
       setupIntent: si,
     });
@@ -335,10 +335,18 @@ export default function App({ route }) {
           'Account': settings.account
         }
       });
-      const data = await response.json();
-      return data;
+      const paymentMethod = await response.json();
+      if (onSuccess) {
+        onSuccess({
+          pm: paymentMethod,
+          si: setupIntent
+        });
+      }
+      else {
+        return paymentMethod;
+      }
     }
-  }
+  };
 
   return (
     <SafeAreaView style={css.app}>
@@ -365,9 +373,9 @@ export default function App({ route }) {
                 {!isTablet() && <>
                   <Header page={page} reader={reader} paymentStatus={paymentStatus} />
                   {(page == 'Calculator' || page == undefined) && <Calculator pay={pay} />}
-                  {page == 'Products' && <Products pay={pay} />}
-                  {page == 'Checkout' && <Checkout pay={pay} />}
-                  {page == 'Transactions' && <Transactions setup={setup} />}
+                  {page == 'Products' && <Products />}
+                  {page == 'Checkout' && <Checkout pay={pay} setup={setup} />}
+                  {page == 'Transactions' && <Transactions setup={setup} showRefresh={true}/>}
                   {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} />}
                   {page == 'Customer' && <Customer id={route.params.id} setup={setup} />}
                   {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}

@@ -23,7 +23,7 @@ export default CardVerifier = (props) => {
     const [verificationSuccessful, setVerificationSuccessful] = useState(null);
 
     const checkCard = async () => {
-        const pm = await props.setup();
+        const { pm } = await props.setup();
         setVerificationPM(pm);
     }
 
