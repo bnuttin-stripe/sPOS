@@ -24,6 +24,7 @@ export default CustomerEntry = (props) => {
     const [customer, setCustomer] = useState({});
     const [savingCustomer, setSavingCustomer] = useState(false);
     const [currentCustomer, setCurrentCustomer] = useRecoilState(currentCustomerAtom);
+    const [formValid, setFormValid] = useState(false);
 
     const device = useCameraDevice('back');
 
@@ -101,11 +102,15 @@ export default CustomerEntry = (props) => {
         }
     }
 
+    useEffect(() => {
+        setFormValid(customer.firstName && customer.lastName && customer.email);
+    }, [customer]);
+
     return (
         <View style={css.container}>
             <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 10 }}>New Customer</Text>
             <ScrollView>
-                <Text style={css.label}>First Name</Text>
+                <Text style={css.label}>First Name*</Text>
                 <TextInput
                     style={css.input}
                     inputMode="text"
@@ -116,7 +121,7 @@ export default CustomerEntry = (props) => {
                     onSubmitEditing={() => { lastNameRef.current.focus(); }}
                 />
 
-                <Text style={css.label}>Last Name</Text>
+                <Text style={css.label}>Last Name*</Text>
                 <TextInput
                     style={css.input}
                     inputMode="text"
@@ -128,7 +133,7 @@ export default CustomerEntry = (props) => {
                     onSubmitEditing={() => { emailRef.current.focus(); }}
                 />
 
-                <Text style={css.label}>Email</Text>
+                <Text style={css.label}>Email*</Text>
                 <TextInput
                     style={css.input}
                     inputMode="email"
@@ -239,6 +244,8 @@ export default CustomerEntry = (props) => {
                         text="Save"
                         large={false}
                         refreshing={savingCustomer}
+                        disabled={!formValid}
+                        disabledColor={colors.secondary}
                     />
                 </View>
             </View>
