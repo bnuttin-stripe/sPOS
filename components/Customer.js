@@ -5,7 +5,7 @@ import { useRecoilValue, useRecoilState } from 'recoil';
 import { settingsAtom, themesAtom, refresherAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowTurnLeft, faUser, faCalendar, faArrowsRotate } from '@fortawesome/pro-solid-svg-icons';
+import { faList, faUser, faCalendar, faArrowsRotate } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css, themeColors } from '../styles';
@@ -103,7 +103,7 @@ export default Customer = (props) => {
 
                 <View style={{ flex: 1, marginLeft: -15, marginRight: -15, marginBottom: 0 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 20, marginLeft: 15, marginRight: 15 }}>
-                        <FontAwesomeIcon icon={faCalendar} color={colors.primary} size={18} />
+                        <FontAwesomeIcon icon={faList} color={colors.primary} size={18} />
                         <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 5 }}>Transactions</Text>
                     </View>
                     <Transactions customer={props.id} refresh={getCustomer} setup={props.setup} showRefresh={false} />

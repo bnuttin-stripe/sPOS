@@ -54,7 +54,7 @@ export default SettingsHandler = (props) => {
                 },
             });
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             setThemes(data);
         } catch (error) {
             console.error('Error getting themes:', error);

@@ -61,7 +61,7 @@ export default Kiosk = (props) => {
             },
         });
         const data = await response.json();
-        setProducts(data);
+        setProducts(data.filter(product => !product.default_price.recurring));
         setRefreshing(false);
     };
 
