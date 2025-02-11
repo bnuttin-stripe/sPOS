@@ -139,7 +139,7 @@ export default Checkout = (props) => {
                     } else {
                         setSubError(null);
                     }
-                    console.log(data);
+                    // console.log(data);
                     setSubStartInProgress(false);
                     showReceiptModal();
                 });
