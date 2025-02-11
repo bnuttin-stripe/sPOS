@@ -30,6 +30,7 @@ export default Checkout = (props) => {
     const resetCart = useResetRecoilState(cartAtom);
     const currentCustomer = useRecoilValue(currentCustomerAtom);
     const resetCurrentCustomer = useResetRecoilState(currentCustomerAtom);
+    const [subError, setSubError] = useState(null);
 
     const [modalVisible, setModalVisible] = useState(false);
     const [receiptModalVisible, setReceiptModalVisible] = useState(false);
@@ -39,10 +40,6 @@ export default Checkout = (props) => {
     const closeModal = () => {
         setModalVisible(false);
     };
-
-    useEffect(() => {
-        console.log(cart);
-    }, [cartSubItems]);
 
     const numInCart = (product) => {
         return cart.filter(x => (x.id == product.id)).length;
@@ -74,7 +71,7 @@ export default Checkout = (props) => {
     const pay = () => {
         // Cart empty - abort
         if (cart.length == 0) return;
-        
+
         // Cart has some one-off items - we'll process the payment
         if (cartOneOffItems.length > 0) {
             const payload = {
@@ -122,9 +119,9 @@ export default Checkout = (props) => {
                 customer: currentCustomer.id,
             };
             if (obj.amount) {
-                payload.previousPI = obj // One off items were paid for with that PI - server will query the PI to get the generaterd_card on the latest charge
+                payload.previousPI = obj; // One off items were paid for with that PI - server will query the PI to get the generaterd_card on the latest charge
             }
-            else{
+            else {
                 payload.si = obj.si; // No one-off items, so we get the pm directly from the SetupIntent
             }
             await fetch(backendUrl + '/startAODSubscription', {
@@ -137,6 +134,12 @@ export default Checkout = (props) => {
             })
                 .then(res => res.json())
                 .then(async data => {
+                    if (data.error) {
+                        setSubError("Card could not be used to pre-authorize the subscription. Please try again.");
+                    } else {
+                        setSubError(null);
+                    }
+                    console.log(data);
                     setSubStartInProgress(false);
                     showReceiptModal();
                 });
@@ -283,10 +286,16 @@ export default Checkout = (props) => {
                                 <FontAwesomeIcon icon={faExclamation} color={colors.danger} size={14} style={{ marginRight: 5 }} />
                                 <Text style={{ color: colors.danger, fontSize: 14 }}>Customer required to proceed.</Text>
                             </>
-                            : <>
-                                <FontAwesomeIcon icon={faArrowRight} color={colors.primary} size={14} style={{ marginRight: 5 }} />
-                                <Text style={{ color: colors.primary, fontSize: 14 }}>Subscription will kick off automatically on the card used at checkout.</Text>
-                            </>
+                            : <View style={{ flexDirection: 'column' }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <FontAwesomeIcon icon={faArrowRight} color={colors.primary} size={14} style={{ marginRight: 5 }} />
+                                    <Text style={{ color: colors.primary, fontSize: 14 }}>Subscription will kick off automatically on the card used at checkout.</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+                                    <FontAwesomeIcon icon={faExclamationTriangle} color={colors.warning} size={14} style={{ marginRight: 5 }} />
+                                    <Text style={{ color: colors.warning, fontSize: 14 }}>Subscription can only be started with a card physically presented - no Wallet.</Text>
+                                </View>
+                            </View>
                         }
                     </View>
                 </View>}
@@ -361,7 +370,7 @@ export default Checkout = (props) => {
                     setReceiptModalVisible(false);
                 }}>
                 <View style={css.centeredView}>
-                    <View style={[css.modalView, css.shadow, { height: 250, padding: 20 }]}>
+                    <View style={[css.modalView, css.shadow, { height: 320, padding: 20 }]}>
                         <View style={{ flexDirection: 'row', marginBottom: 10 }}>
                             <View>
                                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Transaction complete</Text>
@@ -378,8 +387,11 @@ export default Checkout = (props) => {
                                 style={css.input}
                                 inputMode="email"
                                 value={currentCustomer?.email || ""}
-                            // onChangeText={()}
                             />
+                            {subError && <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+                                <FontAwesomeIcon icon={faExclamationTriangle} color={colors.danger} size={14} style={{ marginRight: 5 }} />
+                                <Text style={{ color: colors.danger, fontSize: 14 }}>One-off items were processed successfully, but subscriptions can only be started with a card physically presented. Please try again.</Text>
+                            </View>}
                         </View>
                         <View style={css.floatingMenu}>
                             <View style={css.buttons}>
@@ -387,14 +399,12 @@ export default Checkout = (props) => {
                                     action={() => { }}
                                     color={colors.secondary}
                                     icon={faEnvelope}
-                                    // text="Send Receipt"
                                     large={false}
                                 />
                                 {settings?.model == 'V2sPLUSNC_GL' && <Button
                                     action={printReceipt}
                                     color={colors.secondary}
                                     icon={faReceipt}
-                                    // text="Send Receipt"
                                     large={false}
                                 />}
                                 <Button

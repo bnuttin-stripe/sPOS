@@ -65,10 +65,10 @@ export default Settings = (props) => {
         inputAndroid: {
           fontSize: 16,
           paddingHorizontal: 10,
-          paddingVertical: 8,
-          borderWidth: 0.5,
-          borderColor: 'purple',
-          borderRadius: 8,
+          paddingVertical: 5,
+          borderWidth: 1,
+          borderColor: 'gray',
+          borderRadius: 5,
           color: 'black',
           paddingRight: 30, // to ensure the text is never behind the icon
         },
@@ -142,9 +142,10 @@ export default Settings = (props) => {
                     onValueChange={value => setSettings({ ...settings, theme: value, productFilter: themes[value].productFilter })}
                     items={Object.keys(themes).map(key => ({ label: themes[key]['display'], value: key }))}
                     style={pickerSelectStyles}
+                    useNativeAndroidPickerStyle={false}
                 />
 
-                <Pressable style={{ flex: 1, marginTop: 20 }} onPress={() => setAboutVisible(true)}>
+                <Pressable style={{ flex: 1, marginTop: 20, marginBottom: 80 }} onPress={() => setAboutVisible(true)}>
                     <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>About</Text>
                 </Pressable>
             </ScrollView>

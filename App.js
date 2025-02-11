@@ -55,10 +55,10 @@ export default function App({ route }) {
       setAppState(nextAppState);
     };
 
-    AppState.addEventListener('change', handleAppStateChange);
+    AppState.addEventListener?.('change', handleAppStateChange);
 
     return () => {
-      AppState.removeEventListener('change', handleAppStateChange);
+      AppState.removeEventListener?.('change', handleAppStateChange);
     };
   }, []);
 
@@ -279,6 +279,7 @@ export default function App({ route }) {
       Log("collectPaymentMethod", error);
       return;
     }
+    // console.log("collectPM", paymentIntent);
     confirmPayment(paymentIntent, onSuccess);
   };
 

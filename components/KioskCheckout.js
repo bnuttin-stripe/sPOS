@@ -171,7 +171,6 @@ export default KioskCheckout = (props) => {
 
     return (
         <View style={css.container}>
-            {/* <Pressable onLongPress={() => console.log("TEST")}> */}
             <View style={styles.header}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Image
@@ -182,7 +181,6 @@ export default KioskCheckout = (props) => {
                     />
                 </View>
             </View>
-            {/* </Pressable> */}
             <ScrollView style={styles.cart}>
                 <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: 'bold' }}>Cart</Text>
                 {cart.length == 0
