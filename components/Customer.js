@@ -55,10 +55,6 @@ export default Customer = (props) => {
     };
 
     const loadSavedCart = async () => {
-        // if (!customer?.metadata?.cart) return;
-        // setCurrentCustomer(customer);
-        // setCart(JSON.parse(customer.metadata.cart));
-        // navigation.navigate("App", { page: "Checkout" });
         if (!customer?.metadata?.cart_chunks) return;
         const cart_chunks = customer.metadata.cart_chunks;
         let chunks = [];
@@ -66,7 +62,7 @@ export default Customer = (props) => {
             chunks.push(customer.metadata['cart_chunk_' + i]);
         }
         setCurrentCustomer(customer);
-        setCart(JSON.parse(chunks.join()));
+        setCart(JSON.parse(chunks.join('')));
         navigation.navigate("App", { page: "Checkout" });
     };
 

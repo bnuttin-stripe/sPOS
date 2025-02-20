@@ -24,6 +24,8 @@ import SettingsHandler from './components/SettingsHandler';
 import Kiosk from './components/Kiosk';
 import KioskCheckout from './components/KioskCheckout';
 
+import DataLoader from './components/DataLoader';
+
 import * as Utils from './utilities';
 
 export default function App({ route }) {
@@ -370,6 +372,7 @@ export default function App({ route }) {
                 <Text style={{ padding: 40 }}>{infoMsg}</Text>
               </View>
               : <>
+                <DataLoader />
                 {isTablet() && <>
                   {(page == 'Kiosk' || page == undefined) && <Kiosk columns={4} />}
                   {page == 'KioskCheckout' && <KioskCheckout pay={pay} />}
@@ -379,7 +382,7 @@ export default function App({ route }) {
                   {(page == 'Calculator' || page == undefined) && <Calculator pay={pay} />}
                   {page == 'Products' && <Products />}
                   {page == 'Checkout' && <Checkout pay={pay} setup={setup} />}
-                  {page == 'Transactions' && <Transactions setup={setup} showRefresh={true}/>}
+                  {page == 'Transactions' && <Transactions setup={setup} showRefresh={true} />}
                   {page == 'Customers' && <Customers showLTV={true} mode='details' showIcons={true} />}
                   {page == 'Customer' && <Customer id={route.params.id} setup={setup} />}
                   {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
