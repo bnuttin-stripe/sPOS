@@ -131,7 +131,6 @@ export const css = {
         fontSize: 10,
         textAlign: 'center',
         marginTop: -3,
-
     }
 };
 

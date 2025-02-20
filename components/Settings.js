@@ -182,7 +182,7 @@ export default Settings = (props) => {
                                 <Text style={css.spacedTextMuted}>Info</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 4 }}>
-                                <Text style={css.spacedText}>1.0.27</Text>
+                                <Text style={css.spacedText}>1.0.31</Text>
                                 <Text style={css.spacedText}>Benjamin Nuttin</Text>
                                 <Text style={css.spacedText}>go/stripe360demo/docs</Text>
                             </View>

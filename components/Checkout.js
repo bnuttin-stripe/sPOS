@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, settingsAtom, themesAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft, faUser, faEnvelope, faXmark, faReceipt, faExclamationTriangle, faExclamation, faArrowRight, faInfoCircle, faPlus, faCalendar, faCartShopping, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
+import { faChevronLeft, faUser, faEnvelope, faXmark, faReceipt, faExclamationTriangle, faExclamation, faArrowRight, faCartXmark, faPlus, faCalendar, faCartShopping, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
 
 import Customers from './Customers';
 import Button from './Button';
@@ -217,11 +217,13 @@ export default Checkout = (props) => {
             <ScrollView>
                 {/* ------------------------- EMPTY CART ------------------------- */}
                 {cart.length == 0 && <>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 30 }}>
-                        <FontAwesomeIcon icon={faCartShopping} color={colors.primary} size={18} />
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 5 }}>Cart</Text>
+                    <View style={{ marginBottom: 30 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                            <FontAwesomeIcon icon={faCartShopping} color={colors.primary} size={18} />
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 5 }}>Cart</Text>
+                        </View>
+                        <Text style={css.defaultText}>Cart is empty.</Text>
                     </View>
-                    <Text style={{ color: colors.text, textAlign: 'center', margin: 20 }}>Cart is empty.</Text>
                 </>}
 
                 {/* ------------------------- ONE-OFF ITEMS ------------------------- */}
@@ -430,6 +432,13 @@ export default Checkout = (props) => {
                         large={false}
                     />
 
+                    <Button
+                        action={resetCart}
+                        color={colors.secondary}
+                        icon={faCartXmark}
+                        // text="Reset"
+                        large={false}
+                    />
 
                     <Button
                         action={pay}

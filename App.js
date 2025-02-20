@@ -258,6 +258,7 @@ export default function App({ route }) {
         }
       });
     }
+    // console.log("pay", payload);
     const { error, paymentIntent } = await createPaymentIntent(payload);
     if (error) {
       Log("createPaymentIntent", error);
@@ -293,6 +294,7 @@ export default function App({ route }) {
       Log("confirmPaymentIntent", error);
       return;
     }
+    Log("confirmPaymentIntent", paymentIntent);
     if (onSuccess) onSuccess(paymentIntent);
   };
 
@@ -343,9 +345,10 @@ export default function App({ route }) {
           si: setupIntent
         });
       }
-      else {
-        return paymentMethod;
-      }
+      return {
+        pm: paymentMethod,
+        si: setupIntent
+      };
     }
   };
 

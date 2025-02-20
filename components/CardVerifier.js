@@ -24,6 +24,7 @@ export default CardVerifier = (props) => {
 
     const checkCard = async () => {
         const { pm } = await props.setup();
+        // console.log("pm", pm);
         setVerificationPM(pm);
     }
 

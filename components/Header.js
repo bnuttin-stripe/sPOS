@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { settingsAtom, cartAtom, currentCustomerAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCalculator, faGrid, faList, faUser, faGear, faBox, faCartShopping, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCalculator, faGrid, faList, faUser, faGear, faBox, faCartShopping, faCartCircleCheck } from '@fortawesome/pro-solid-svg-icons';
 
 import * as Utils from '../utilities';
 import { css } from '../styles';
@@ -18,6 +18,7 @@ export default Header = (props) => {
     const settings = useRecoilValue(settingsAtom);
     const themes = useRecoilValue(themesAtom);
     const colors = themes[settings.theme]?.colors || themes['default'].colors;
+    const cart = useRecoilValue(cartAtom);
 
     const goTo = (page) => {
         navigation.navigate('App', { page: page });
@@ -105,7 +106,7 @@ export default Header = (props) => {
                     <Text style={props.page == 'Products' ? styles.titleActive : styles.title}>Products</Text>
                 </Pressable>
                 <Pressable style={props.page == 'Checkout' ? styles.tabSelected : styles.tab} onPress={() => goTo('Checkout')}>
-                    <FontAwesomeIcon icon={faCartShopping} style={props.page == 'Checkout' ? styles.iconActive : styles.icon} size={22} />
+                    <FontAwesomeIcon icon={cart.length > 0 ? faCartCircleCheck : faCartShopping} style={props.page == 'Checkout' ? styles.iconActive : styles.icon} size={22} />
                     <Text style={props.page == 'Checkout' ? styles.titleActive : styles.title}>Cart</Text>
                 </Pressable>
                 <Pressable style={props.page == 'Transactions' ? styles.tabSelected : styles.tab} onPress={() => goTo('Transactions')}>

@@ -33,7 +33,7 @@ export default Calculator = (props) => {
         const payload = {
             amount: amount,
             currency: settings.currency,
-            capture_method: 'automatic',
+            captureMethod: 'automatic',
             metadata: {
                 app: 'sPOS',
                 channel: 'calculator',
