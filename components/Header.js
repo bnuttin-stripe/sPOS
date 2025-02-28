@@ -19,6 +19,9 @@ export default Header = (props) => {
     const themes = useRecoilValue(themesAtom);
     const colors = themes[settings.theme]?.colors || themes['default'].colors;
     const cart = useRecoilValue(cartAtom);
+    const page = props.page == undefined
+        ? settings.showCalculator ? 'Calculator' : 'Products'
+        : props.page;
 
     const goTo = (page) => {
         navigation.navigate('App', { page: page });
@@ -97,30 +100,28 @@ export default Header = (props) => {
                 <StatusBar paymentStatus={props.paymentStatus} />
             </View>
             <View style={styles.header}>
-                <Pressable style={(props.page == 'Calculator' || props.page == undefined) ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>
-                    <FontAwesomeIcon icon={faCalculator} style={(props.page == 'Calculator' || props.page == undefined) ? styles.iconActive : styles.icon} size={22} />
-                    <Text style={(props.page == 'Calculator' || props.page == undefined) ? styles.titleActive : styles.title}>Calculator</Text>
+                {settings.showCalculator &&
+                    <Pressable style={page == 'Calculator' ? styles.tabSelected : styles.tab} onPress={() => goTo('Calculator')}>
+                        <FontAwesomeIcon icon={faCalculator} style={page == 'Calculator' ? styles.iconActive : styles.icon} size={22} />
+                        <Text style={page == 'Calculator' ? styles.titleActive : styles.title}>Calculator</Text>
+                    </Pressable>
+                }
+                <Pressable style={page == 'Products' ? styles.tabSelected : styles.tab} onPress={() => goTo('Products')}>
+                    <FontAwesomeIcon icon={faBox} style={page == 'Products' ? styles.iconActive : styles.icon} size={22} />
+                    <Text style={page == 'Products' ? styles.titleActive : styles.title}>Products</Text>
                 </Pressable>
-                <Pressable style={props.page == 'Products' ? styles.tabSelected : styles.tab} onPress={() => goTo('Products')}>
-                    <FontAwesomeIcon icon={faBox} style={props.page == 'Products' ? styles.iconActive : styles.icon} size={22} />
-                    <Text style={props.page == 'Products' ? styles.titleActive : styles.title}>Products</Text>
+                <Pressable style={page == 'Checkout' ? styles.tabSelected : styles.tab} onPress={() => goTo('Checkout')}>
+                    <FontAwesomeIcon icon={cart.length > 0 ? faCartCircleCheck : faCartShopping} style={page == 'Checkout' ? styles.iconActive : styles.icon} size={22} />
+                    <Text style={page == 'Checkout' ? styles.titleActive : styles.title}>Cart</Text>
                 </Pressable>
-                <Pressable style={props.page == 'Checkout' ? styles.tabSelected : styles.tab} onPress={() => goTo('Checkout')}>
-                    <FontAwesomeIcon icon={cart.length > 0 ? faCartCircleCheck : faCartShopping} style={props.page == 'Checkout' ? styles.iconActive : styles.icon} size={22} />
-                    <Text style={props.page == 'Checkout' ? styles.titleActive : styles.title}>Cart</Text>
+                <Pressable style={page == 'Transactions' ? styles.tabSelected : styles.tab} onPress={() => goTo('Transactions')}>
+                    <FontAwesomeIcon icon={faList} style={page == 'Transactions' ? styles.iconActive : styles.icon} size={22} />
+                    <Text style={page == 'Transactions' ? styles.titleActive : styles.title}>Transactions</Text>
                 </Pressable>
-                <Pressable style={props.page == 'Transactions' ? styles.tabSelected : styles.tab} onPress={() => goTo('Transactions')}>
-                    <FontAwesomeIcon icon={faList} style={props.page == 'Transactions' ? styles.iconActive : styles.icon} size={22} />
-                    <Text style={props.page == 'Transactions' ? styles.titleActive : styles.title}>Transactions</Text>
+                <Pressable style={['Customers', 'Customer', 'CustomerEntry'].includes(page) ? styles.tabSelected : styles.tab} onPress={() => goTo('Customers')}>
+                    <FontAwesomeIcon icon={faUser} style={page == 'Customers' ? styles.iconActive : styles.icon} size={22} />
+                    <Text style={page == 'Customers' ? styles.titleActive : styles.title}>Customers</Text>
                 </Pressable>
-                <Pressable style={['Customers', 'Customer', 'CustomerEntry'].includes(props.page) ? styles.tabSelected : styles.tab} onPress={() => goTo('Customers')}>
-                    <FontAwesomeIcon icon={faUser} style={props.page == 'Customers' ? styles.iconActive : styles.icon} size={22} />
-                    <Text style={props.page == 'Customers' ? styles.titleActive : styles.title}>Customers</Text>
-                </Pressable>
-                {/* <Pressable style={props.page == 'Settings' ? styles.tabSelected : styles.tab} onPress={() => goTo('Settings')}>
-                    <FontAwesomeIcon icon={faGear} style={styles.icon} size={22} />
-                    <Text style={styles.title}>Settings</Text>
-                </Pressable> */}
             </View>
         </>
     );

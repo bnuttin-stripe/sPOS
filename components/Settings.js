@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faDownload, faKey, faXmark, faAlignJustify, faLink } from '@fortawesome/pro-solid-svg-icons';
+import { faDownload, faKey, faXmark, faAlignJustify, faGear } from '@fortawesome/pro-solid-svg-icons';
 
 import Button from './Button';
 import TTPIEducation from './TTPIEducation';
@@ -53,37 +53,81 @@ export default Settings = (props) => {
 
     const pickerSelectStyles = StyleSheet.create({
         inputIOS: {
-          fontSize: 16,
-          paddingVertical: 6,
-          paddingHorizontal: 10,
-          borderWidth: 1,
-          borderColor: 'gray',
-          borderRadius: 4,
-          color: 'black',
-          paddingRight: 30, // to ensure the text is never behind the icon
+            fontSize: 16,
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+            borderWidth: 1,
+            borderColor: 'gray',
+            borderRadius: 4,
+            color: 'black',
+            paddingRight: 30, // to ensure the text is never behind the icon
         },
         inputAndroid: {
-          fontSize: 16,
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-          borderWidth: 1,
-          borderColor: 'gray',
-          borderRadius: 5,
-          color: 'black',
-          paddingRight: 30, // to ensure the text is never behind the icon
+            fontSize: 16,
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+            borderWidth: 1,
+            borderColor: 'gray',
+            borderRadius: 5,
+            color: 'black',
+            paddingRight: 30, // to ensure the text is never behind the icon
         },
-      });
+    });
 
     return (
         <View style={css.container}>
-            {Platform.OS == 'ios' &&
-                <View style={{ borderWidth: 1, padding: 20, borderRadius: 10, marginBottom: 20, backgroundColor: 'whitesmoke' }}>
-                    <Text style={{ fontSize: 16, marginBottom: 20 }}>This app leverages Tap to Pay on iPhone for easy and secure payments</Text>
-                    <Pressable onPress={() => setModalVisible(true)}>
-                        <Text style={{ color: 'blue', fontWeight: 'bold', fontSize: 16, marginHorizontal: 'auto' }}>Learn more about Tap to Pay on iPhone</Text>
-                    </Pressable>
-                </View>}
             <ScrollView>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                    <FontAwesomeIcon icon={faGear} color={colors.primary} size={20} />
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 5 }}>Settings</Text>
+                </View>
+                {Platform.OS == 'ios' &&
+                    <View style={{ borderWidth: 1, padding: 20, borderRadius: 10, marginBottom: 20, backgroundColor: 'whitesmoke' }}>
+                        <Text style={{ fontSize: 16, marginBottom: 20 }}>This app leverages Tap to Pay on iPhone for easy and secure payments</Text>
+                        <Pressable onPress={() => setModalVisible(true)}>
+                            <Text style={{ color: 'blue', fontWeight: 'bold', fontSize: 16, marginHorizontal: 'auto' }}>Learn more about Tap to Pay on iPhone</Text>
+                        </Pressable>
+                    </View>}
+
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
+                    <Text style={css.label}>Magic cent protection</Text>
+                    <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
+                        <Switch
+                            trackColor={{ false: colors.light, true: colors.secondary }}
+                            thumbColor={settings?.magicCentProtection ? colors.primary : colors.secondary}
+                            ios_backgroundColor="#f5f5f5"
+                            onValueChange={() => setSettings({ ...settings, magicCentProtection: !settings?.magicCentProtection })}
+                            value={settings?.magicCentProtection}
+                        />
+                    </View>
+                </View>
+
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
+                    <Text style={css.label}>Show Calculator</Text>
+                    <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
+                        <Switch
+                            trackColor={{ false: colors.light, true: colors.secondary }}
+                            thumbColor={settings?.showCalculator ? colors.primary : colors.secondary}
+                            ios_backgroundColor="#f5f5f5"
+                            onValueChange={() => setSettings({ ...settings, showCalculator: !settings?.showCalculator })}
+                            value={settings?.showCalculator}
+                        />
+                    </View>
+                </View>
+
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
+                    <Text style={css.label}>Enable 2% surcharging</Text>
+                    <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
+                        <Switch
+                            trackColor={{ false: colors.light, true: colors.secondary }}
+                            thumbColor={settings?.enableSurcharging ? colors.primary : colors.secondary}
+                            ios_backgroundColor="#f5f5f5"
+                            onValueChange={() => setSettings({ ...settings, enableSurcharging: !settings?.enableSurcharging })}
+                            value={settings?.enableSurcharging}
+                        />
+                    </View>
+                </View>
+
                 <Text style={css.label}>Order ID prefix</Text>
                 <TextInput
                     style={css.input}
@@ -109,32 +153,6 @@ export default Settings = (props) => {
                     autoCapitalize='none'
                     onChangeText={value => setSettings({ ...settings, productFilter: value })}
                 />
-
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
-                    <Text style={css.label}>Magic cent protection</Text>
-                    <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
-                        <Switch
-                            trackColor={{ false: colors.light, true: colors.secondary }}
-                            thumbColor={settings?.magicCentProtection ? colors.primary : colors.secondary}
-                            ios_backgroundColor="#f5f5f5"
-                            onValueChange={() => setSettings({ ...settings, magicCentProtection: !settings?.magicCentProtection })}
-                            value={settings?.magicCentProtection}
-                        />
-                    </View>
-                </View>
-
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
-                    <Text style={css.label}>Enable 2% surcharging</Text>
-                    <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
-                        <Switch
-                            trackColor={{ false: colors.light, true: colors.secondary }}
-                            thumbColor={settings?.enableSurcharging ? colors.primary : colors.secondary}
-                            ios_backgroundColor="#f5f5f5"
-                            onValueChange={() => setSettings({ ...settings, enableSurcharging: !settings?.enableSurcharging })}
-                            value={settings?.enableSurcharging}
-                        />
-                    </View>
-                </View>
 
                 <Text>Theme</Text>
                 <RNPickerSelect

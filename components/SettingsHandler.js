@@ -19,7 +19,8 @@ export default SettingsHandler = (props) => {
         theme: 'default',
         enableSurcharging: false,
         isAOD: false,
-        model: 'unknown'
+        model: 'unknown',
+        showCalculator: true
     };
 
     const getAccount = async () => {

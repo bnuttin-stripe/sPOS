@@ -293,10 +293,10 @@ export default Checkout = (props) => {
                                     <FontAwesomeIcon icon={faArrowRight} color={colors.primary} size={14} style={{ marginRight: 5 }} />
                                     <Text style={{ color: colors.primary, fontSize: 14 }}>Subscription will kick off automatically on the card used at checkout.</Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+                                {false && <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
                                     <FontAwesomeIcon icon={faExclamationTriangle} color={colors.warning} size={14} style={{ marginRight: 5 }} />
                                     <Text style={{ color: colors.warning, fontSize: 14 }}>Subscription can only be started with a card physically presented - no Wallet.</Text>
-                                </View>
+                                </View>}
                             </View>
                         }
                     </View>

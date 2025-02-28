@@ -379,7 +379,13 @@ export default function App({ route }) {
                 </>}
                 {!isTablet() && <>
                   <Header page={page} reader={reader} paymentStatus={paymentStatus} />
-                  {(page == 'Calculator' || page == undefined) && <Calculator pay={pay} />}
+                  {page == undefined && <>
+                    {settings.showCalculator
+                      ? <Calculator pay={pay} />
+                      : <Products />
+                    }
+                  </>}
+                  {page == 'Calculator' && <Calculator pay={pay} />}
                   {page == 'Products' && <Products />}
                   {page == 'Checkout' && <Checkout pay={pay} setup={setup} />}
                   {page == 'Transactions' && <Transactions setup={setup} showRefresh={true} />}
