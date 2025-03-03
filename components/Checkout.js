@@ -78,6 +78,7 @@ export default Checkout = (props) => {
                 amount: getCartTotal(cartOneOffItems).total,
                 currency: settings.currency,
                 captureMethod: 'automatic',
+                paymentMethodTypes: ['card_present', 'wechat_pay'],
                 metadata: {
                     app: 'sPOS',
                     channel: 'catalog',

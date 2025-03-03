@@ -62,6 +62,7 @@ export default KioskCheckout = (props) => {
             amount: getCartTotal(cart).total,
             currency: settings.currency,
             captureMethod: 'automatic',
+            paymentMethodTypes: ['card_present', 'wechat_pay'],
             metadata: {
                 app: 'sPOS',
                 channel: 'kiosk',

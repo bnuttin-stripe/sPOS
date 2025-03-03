@@ -34,11 +34,12 @@ export default Products = (props) => {
 
     // Scan QR codes of the product IDs
     const codeScanner = useCodeScanner({
-        codeTypes: ['qr'],
+        codeTypes: ['qr', 'upc-a'],
         onCodeScanned: (codes) => {
-            const foundProduct = products.find(x => x.id == codes[0].value);
+            console.log(codes[0].value);
+            const foundProduct = products.find(x => x.id == codes[0].value || x.metadata?.upca == codes[0].value);
             if (foundProduct == undefined) return;
-            const productInCart = cart.find(x => x.id == codes[0].value);
+            const productInCart = cart.find(x => x.id == codes[0].value || x.metadata?.upca == codes[0].value);
             if (!productInCart) {
                 setCart([...cart, foundProduct]);
                 setFoundCode(true);

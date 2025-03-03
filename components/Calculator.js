@@ -33,6 +33,7 @@ export default Calculator = (props) => {
         const payload = {
             amount: amount,
             currency: settings.currency,
+            paymentMethodTypes: ['card_present', 'wechat_pay'],
             captureMethod: 'automatic',
             metadata: {
                 app: 'sPOS',
