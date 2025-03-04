@@ -192,17 +192,23 @@ export default Settings = (props) => {
                     setAboutVisible(false);
                 }}>
                 <View style={css.centeredView}>
-                    <View style={[css.modalView, css.shadow, { marginTop: 60, height: '20%', width: '80%' }]}>
+                    <View style={[css.modalView, css.shadow, { marginTop: 60, height: '40%', width: '80%' }]}>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flexDirection: 'column', flex: 1.8 }}>
                                 <Text style={css.spacedTextMuted}>Version</Text>
+                                <Text style={css.spacedTextMuted}>SN</Text>
                                 <Text style={css.spacedTextMuted}>Author</Text>
                                 <Text style={css.spacedTextMuted}>Info</Text>
+                                <Text style={css.spacedTextMuted}>Account</Text>
+                                <Text style={css.spacedTextMuted}>TTP ID</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 4 }}>
                                 <Text style={css.spacedText}>1.0.34</Text>
+                                <Text style={css.spacedText}>{props.serial}</Text>
                                 <Text style={css.spacedText}>Benjamin Nuttin</Text>
                                 <Text style={css.spacedText}>go/stripe360demo/docs</Text>
+                                <Text style={css.spacedText}>{settings.account}</Text>
+                                <Text style={css.spacedText}>{settings.ttpLocation}</Text>
                             </View>
                         </View>
 

@@ -9,6 +9,7 @@ export default SettingsHandler = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
     const [themes, setThemes] = useRecoilState(themesAtom);
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
+    // const backendUrl = 'https://fog-climbing-currant.glitch.me';
 
     const defaultSettings = {
         storeName: 'Stripe Press',
@@ -20,7 +21,8 @@ export default SettingsHandler = (props) => {
         enableSurcharging: false,
         isAOD: false,
         model: 'unknown',
-        showCalculator: true
+        showCalculator: true,
+        ttpLocation: ''
     };
 
     const getAccount = async () => {
@@ -38,16 +40,23 @@ export default SettingsHandler = (props) => {
                 },
             });
             const data = await response.json();
-            setSettings({ ...defaultSettings, account: data.id, country: data.country, currency: data.default_currency, isAOD: isAOD, model: model });
+            setSettings({ 
+                ...defaultSettings, 
+                account: data.id, 
+                country: data.country, 
+                currency: data.default_currency, 
+                isAOD: isAOD, 
+                model: model,
+                ttpLocation: data.ttp_location
+            });
         } catch (error) {
             console.error('Error getting account details:', error);
-            props.setInfoMsg("Error getting account details");
+            props.setInfoMsg("Error getting account details" + JSON.stringify(error));
         }
     };
 
     const getThemes = async () => {
         try {
-            // const response = await fetch("https://stripe360.stripedemos.com/themes", {
             const response = await fetch(backendUrl + "/themes", {
                 method: 'GET',
                 headers: {

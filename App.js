@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import { AppState, Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
-import { getSerialNumber, isTablet, getModel } from 'react-native-device-info';
+import { getSerialNumber, getDeviceId, isTablet, getModel } from 'react-native-device-info';
 import { TapZoneIndicator, useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { css } from './styles';
 
@@ -33,6 +33,7 @@ export default function App({ route }) {
   const backendUrl = process.env.EXPO_PUBLIC_API_URL;
   const settings = useRecoilValue(settingsAtom);
   const [serial, setSerial] = useState();
+  const [deviceId, setDeviceId] = useState();
 
   const { initialize } = useStripeTerminal();
   const [initialized, setInitialized] = useState(false);
@@ -46,6 +47,8 @@ export default function App({ route }) {
     (async () => {
       const sn = await getSerialNumber();
       setSerial(sn);
+      const deviceId = await getDeviceId();
+      setDeviceId(deviceId);
     })();
   }, []);
 
@@ -211,7 +214,7 @@ export default function App({ route }) {
   const connectTTPReader = async (reader) => {
     const { error } = await connectLocalMobileReader({
       reader: reader,
-      locationId: process.env.EXPO_PUBLIC_TTPA_LOCATION
+      locationId: settings.ttpLocation
     });
     if (error) {
       setInfoMsg('Failed to discover readers. ' + error.message);
@@ -393,7 +396,7 @@ export default function App({ route }) {
                   {page == 'Customer' && <Customer id={route.params.id} setup={setup} />}
                   {page == 'CustomerEntry' && <CustomerEntry origin={route.params.origin} />}
                   {page == 'Scanner' && <Scanner />}
-                  {page == 'Settings' && <Settings reconnectReader={reconnectReader} />}
+                  {page == 'Settings' && <Settings reconnectReader={reconnectReader} serial={serial} deviceId={deviceId}/>}
                   {page == 'Log' && <LogViewer />}
                 </>}
               </>
