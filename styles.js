@@ -39,11 +39,11 @@ export const css = {
     },
     spacedText: {
         marginBottom: 12,
-        fontSize: defaults.fontSize + 1,
+        fontSize: defaults.fontSize,
     },
     spacedTextMuted: {
         marginBottom: 12,
-        fontSize: defaults.fontSize + 1,
+        fontSize: defaults.fontSize,
         fontWeight: '300'
     },
     bold: {
