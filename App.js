@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import { AppState, Text, View, PermissionsAndroid, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
-import { getSerialNumber, getDeviceId, isTablet, getModel } from 'react-native-device-info';
+import { getSerialNumber, getDeviceId, getUniqueId, isTablet, getModel } from 'react-native-device-info';
 import { TapZoneIndicator, useStripeTerminal } from '@stripe/stripe-terminal-react-native';
 import { css } from './styles';
 
@@ -47,7 +47,7 @@ export default function App({ route }) {
     (async () => {
       const sn = await getSerialNumber();
       setSerial(sn);
-      const deviceId = await getDeviceId();
+      const deviceId = await getUniqueId();
       setDeviceId(deviceId);
     })();
   }, []);
@@ -368,7 +368,7 @@ export default function App({ route }) {
       {initialized && <>
         {reader
           ? <>
-            <SettingsHandler serial={serial} setInfoMsg={setInfoMsg} />
+            <SettingsHandler serial={serial} deviceId={deviceId} setInfoMsg={setInfoMsg} />
             {!settings.account
               ? <View style={{ justifyContent: 'center', flex: 1 }}>
                 <ActivityIndicator size="large" color={'#36455A'} />

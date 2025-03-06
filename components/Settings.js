@@ -18,9 +18,9 @@ import { css } from '../styles';
 
 export default Settings = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
-    // const themes = useRecoilValue(themesAtom);
     const [themes, setThemes] = useRecoilState(themesAtom);
     const [refreshingThemes, setRefreshingThemes] = useState(false);
+
 
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
@@ -76,7 +76,7 @@ export default Settings = (props) => {
 
     return (
         <View style={css.container}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                     <FontAwesomeIcon icon={faGear} color={colors.primary} size={20} />
                     <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 5 }}>Settings</Text>
@@ -205,7 +205,7 @@ export default Settings = (props) => {
                     setAboutVisible(false);
                 }}>
                 <View style={css.centeredView}>
-                    <View style={[css.modalView, css.shadow, { marginTop: 60, height: '40%', width: '80%' }]}>
+                    <View style={[css.modalView, css.shadow, { marginTop: 60, height: 310, width: '80%' }]}>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flexDirection: 'column', flex: 1.8 }}>
                                 <Text style={css.spacedTextMuted}>Version</Text>
@@ -214,6 +214,7 @@ export default Settings = (props) => {
                                 <Text style={css.spacedTextMuted}>Info</Text>
                                 <Text style={css.spacedTextMuted}>Account</Text>
                                 <Text style={css.spacedTextMuted}>TTP ID</Text>
+                                <Text style={css.spacedTextMuted}>Device ID</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 4 }}>
                                 <Text style={css.spacedText}>1.0.34</Text>
@@ -222,6 +223,7 @@ export default Settings = (props) => {
                                 <Text style={css.spacedText}>go/stripe360demo/docs</Text>
                                 <Text style={css.spacedText}>{settings.account}</Text>
                                 <Text style={css.spacedText}>{settings.ttpLocation}</Text>
+                                <Text style={css.spacedText}>{props.deviceId}</Text>
                             </View>
                         </View>
 

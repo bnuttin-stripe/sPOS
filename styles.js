@@ -93,14 +93,15 @@ export const css = {
     },
     buttons: {
         flexDirection: 'row',
-        gap: 16
+        gap: 16,
+        padding: 8
     },
     floatingMenu: {
         position: 'absolute',
-        bottom: 20,
+        bottom: 10,
         left: 20,
         gap: 20,
-        marginRight: -20,
+        marginRight: -20
     },
     floatingIcon: {
         position: 'absolute',

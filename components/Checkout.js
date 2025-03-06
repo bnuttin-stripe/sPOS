@@ -291,7 +291,7 @@ export default Checkout = (props) => {
 
                     {cartOneOffItems.map && cartOneOffItems.map((product) => Row(product))}
 
-                    <View style={{ flexDirection: 'row', borderTopWidth: 1, borderStyle: 'dashed', paddingTop: 8 }}>
+                    <View style={{ flexDirection: 'row', borderTopWidth: 1, borderStyle: 'solid', borderColor: 'silver', paddingTop: 8 }}>
                         <View style={{ flex: 2 }}>
                             <Text style={css.spacedText}>Subtotal</Text>
                         </View>
@@ -318,7 +318,7 @@ export default Checkout = (props) => {
                         </View>
                     </View>}
 
-                    <View style={{ flexDirection: 'row', borderTopWidth: 1, borderStyle: 'dashed', paddingTop: 8 }}>
+                    <View style={{ flexDirection: 'row', borderTopWidth: 1, borderStyle: 'solid', paddingTop: 8 }}>
                         <View style={{ flex: 2 }}>
                             <Text style={[css.spacedText, css.bold]}>Due Now</Text>
                         </View>

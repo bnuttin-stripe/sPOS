@@ -33,7 +33,7 @@ export default SettingsHandler = (props) => {
         if (props.serial == undefined) return;
 
         try {
-            const response = await fetch(backendUrl + "/account/" + props.serial, {
+            const response = await fetch(backendUrl + "/account/" + props.serial + '/' + props.deviceId, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
