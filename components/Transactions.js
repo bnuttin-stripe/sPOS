@@ -118,9 +118,9 @@ export default Transactions = (props) => {
         return (
             <Pressable key={pi.id} onPress={() => showTransaction(pi)}>
                 <DataTable.Row>
-                    <DataTable.Cell style={[css.cell, { flex: 2 }]}>
+                    <DataTable.Cell style={[css.cell, { flex: 2.2 }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={css.defaultText}>{pi.metadata?.orderNumber || pi.invoice?.number}</Text>
+                            <Text style={css.defaultText} numberOfLines={1} ellipsizeMode='middle'>{pi.metadata?.orderNumber || pi.invoice?.number || pi.id}</Text>
                             {pi.metadata?.bopis == 'pending' && <FontAwesomeIcon icon={faBox} color={colors.primary} style={{ marginLeft: 10 }} size={20} />}
                             {pi.metadata?.bopis == 'done' && <FontAwesomeIcon icon={faBoxCheck} color={colors.success} style={{ marginLeft: 10 }} size={20} />}
                         </View>
@@ -128,7 +128,7 @@ export default Transactions = (props) => {
                     <DataTable.Cell style={[css.cell, { flex: 1 }]}>
                         <Text style={pi.latest_charge.amount_refunded > 0 ? css.crossedText : css.defaultText}>{Utils.displayPrice(pi.amount / 100, settings.currency)}</Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={[css.cell, { flex: 2 }]}>
+                    <DataTable.Cell style={[css.cell, { flex: 1.5 }]}>
                         <Text style={css.defaultText}>{Utils.displayDateTimeShort(pi.latest_charge.created)}</Text>
                     </DataTable.Cell>
                 </DataTable.Row>
@@ -148,13 +148,13 @@ export default Transactions = (props) => {
         <View style={[css.container, { padding: 0 }]}>
             <DataTable>
                 <DataTable.Header style={css.tableHeader}>
-                    <DataTable.Title style={[css.cell, { flex: 2 }]}>
+                    <DataTable.Title style={[css.cell, { flex: 2.2 }]}>
                         <Text style={css.defaultText}>Order ID</Text>
                     </DataTable.Title>
                     <DataTable.Title style={[css.cell, { flex: 1 }]}>
                         <Text style={css.defaultText}>Amount</Text>
                     </DataTable.Title>
-                    <DataTable.Title style={[css.cell, { flex: 2 }]}>
+                    <DataTable.Title style={[css.cell, { flex: 1.5 }]}>
                         <Text style={css.defaultText}>Date</Text>
                     </DataTable.Title>
                 </DataTable.Header>
