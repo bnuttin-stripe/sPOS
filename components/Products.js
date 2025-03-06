@@ -97,7 +97,7 @@ export default Products = (props) => {
             },
         });
         const data = await response.json();
-        setProducts(data);
+        setProducts(settings.hideSubscriptions ? data.filter(product => !product.default_price.recurring) : data);
         setRefreshing(false);
     };
 
@@ -107,7 +107,7 @@ export default Products = (props) => {
 
     useEffect(() => {
         getProducts();
-    }, []);
+    }, [settings.hideSubscriptions]);
 
     const Row = (product) => {
         return (

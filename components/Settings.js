@@ -128,6 +128,19 @@ export default Settings = (props) => {
                     </View>
                 </View>
 
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0, marginBottom: 20 }}>
+                    <Text style={css.label}>Hide subscription products</Text>
+                    <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
+                        <Switch
+                            trackColor={{ false: colors.light, true: colors.secondary }}
+                            thumbColor={settings?.hideSubscriptions ? colors.primary : colors.secondary}
+                            ios_backgroundColor="#f5f5f5"
+                            onValueChange={() => setSettings({ ...settings, hideSubscriptions: !settings?.hideSubscriptions })}
+                            value={settings?.hideSubscriptions}
+                        />
+                    </View>
+                </View>
+
                 <Text style={css.label}>Order ID prefix</Text>
                 <TextInput
                     style={css.input}

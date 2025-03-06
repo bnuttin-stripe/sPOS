@@ -1,14 +1,15 @@
 import { React, useState, useEffect } from 'react';
-import { Platform, Text, View, Pressable, ScrollView, Modal, Image, TextInput } from 'react-native';
+import { Platform, Text, View, Pressable, ScrollView, Modal, Image, TextInput, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SunmiPrinter, { AlignValue } from '@heasy/react-native-sunmi-printer';
+import QRCode from 'react-native-qrcode-svg';
 import { receiptBMP } from '../assets/receiptLogo';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { cartAtom, settingsAtom, themesAtom, currentCustomerAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft, faUser, faEnvelope, faXmark, faReceipt, faExclamationTriangle, faExclamation, faArrowRight, faCartXmark, faPlus, faCalendar, faCartShopping, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faUser, faEnvelope, faXmark, faReceipt, faExclamationTriangle, faExclamation, faArrowRight, faCartXmark, faPlus, faCalendar, faCartShopping, faMagnifyingGlass, faQrcode, faArrowsRotate, faCircleCheck } from '@fortawesome/pro-solid-svg-icons';
 
 import Customers from './Customers';
 import Button from './Button';
@@ -34,8 +35,13 @@ export default Checkout = (props) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [receiptModalVisible, setReceiptModalVisible] = useState(false);
+    const [customerCheckoutModalVisible, setCustomerCheckoutModalVisible] = useState(false);
 
     const [subStartInProgress, setSubStartInProgress] = useState(false);
+    const [qrCodeGenerated, setQrCodeGenerated] = useState(false);
+    const [checkoutSession, setCheckoutSession] = useState(null);
+    const [refreshingCheckoutSession, setRefreshingCheckoutSession] = useState(false);
+    const [refreshingIntervalID, setRefreshingIntervalID] = useState(null);
 
     const closeModal = () => {
         setModalVisible(false);
@@ -149,7 +155,6 @@ export default Checkout = (props) => {
 
     const showReceiptModal = () => {
         setReceiptModalVisible(true);
-
     };
 
     const newSale = () => {
@@ -189,6 +194,56 @@ export default Checkout = (props) => {
         } catch (error) {
             console.log("Printer error", error);
         }
+    };
+
+    const customerCheckout = async () => {
+        console.log(getCartTotal(cart));
+        setCustomerCheckoutModalVisible(true);
+        setQrCodeGenerated(false);
+        const response = await fetch(backendUrl + '/checkoutSession', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Account': settings.account
+            },
+            body: JSON.stringify({
+                orderNumber: Utils.generateOrderNumber(settings.orderPrefix),
+                cart: cart,
+                totals: getCartTotal(cart),
+                customer: currentCustomer.id,
+                currency: settings.currency,
+                successUrl: 'https://nike.com',
+                cancelUrl: 'https://nike.com'
+            })
+        });
+        const data = await response.json();
+        setCheckoutSession(data);
+        setQrCodeGenerated(true);
+        setRefreshingIntervalID(setInterval(async () => await refreshCheckoutSession(data.id), 3000));
+    };
+
+    const refreshCheckoutSession = async (id) => {
+        setRefreshingCheckoutSession(true);
+        const response = await fetch(backendUrl + '/checkoutSession/' + id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Account': settings.account
+            },
+        });
+        const data = await response.json();
+        setCheckoutSession(data);
+        setRefreshingCheckoutSession(false);
+        
+    };
+
+    const closeCustomerCheckoutModal = () => {
+        clearInterval(refreshingIntervalID);
+
+        setRefreshingIntervalID(null);
+        setCheckoutSession(null);
+        setQrCodeGenerated(false);
+        setCustomerCheckoutModalVisible(false);
     };
 
     const Row = (product) => {
@@ -330,6 +385,7 @@ export default Checkout = (props) => {
                 <View style={{ height: 80 }}></View>
             </ScrollView>
 
+            {/* ------------------------- CUSTOMER SEARCH MODAL ------------------------- */}
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -365,6 +421,7 @@ export default Checkout = (props) => {
                 </View>
             </Modal>
 
+            {/* ------------------------- RECEIPT MODAL ------------------------- */}
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -423,7 +480,77 @@ export default Checkout = (props) => {
                 </View>
             </Modal>
 
-            <View style={css.floatingMenu}>
+            {/* ------------------------- CUSTOMER CHECKOUT MODAL ------------------------- */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={customerCheckoutModalVisible}
+                onRequestClose={closeCustomerCheckoutModal}>
+                <View style={css.centeredView}>
+                    <View style={[css.modalView, css.shadow, { height: 320, padding: 10 }]}>
+                        <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                            <View>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Customer checkout</Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row-reverse' }}>
+                                <Pressable onPress={closeCustomerCheckoutModal}>
+                                    <FontAwesomeIcon icon={faXmark} color={colors.primary} size={18} />
+                                </Pressable>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: 'row', height: 210, justifyContents: 'center' }}>
+                            {qrCodeGenerated
+                                ? <>
+                                    {checkoutSession?.url //session is active
+                                        ? <QRCode
+                                            value={checkoutSession?.url}
+                                            logo={{ uri: themes[settings.theme]?.logoDark || themes['default'].logoDark }}
+                                            size={200}
+                                        />
+                                        : <>
+                                            {checkoutSession?.status == 'complete' // session inactive
+                                                ? <View style={{ flexDirection: 'column', height: 200, justifyContent: 'center', alignItems: 'center' }}>
+                                                    <FontAwesomeIcon icon={faCircleCheck} color={colors.success} size={50} />
+                                                    <Text style={{ color: colors.success, fontSize: 16, marginTop: 20 }}>Payment Successful</Text>
+                                                    <Text style={{ color: colors.primary, fontSize: 16, marginTop: 20, marginBottom: 20 }}>Paid with {checkoutSession?.payment_intent?.latest_charge?.payment_method_details?.type}</Text>
+                                                    <Button 
+                                                        action={() => {setReceiptModalVisible(true); closeCustomerCheckoutModal()}}
+                                                        color={colors.primary}
+                                                        icon={faChevronRight}
+                                                        text="Next"
+                                                        large={false}
+                                                    />
+                                                </View>
+                                                : <View style={{ flexDirection: 'row' }}>
+                                                    <FontAwesomeIcon icon={faExclamationTriangle} color={colors.danger} size={50} />
+                                                    <Text style={{ color: colors.danger, fontSize: 16, marginTop: 20 }}>Session Expired</Text>
+                                                </View>
+                                            }
+                                        </>}
+                                </>
+                                : <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                    <ActivityIndicator size={50} color={colors.primary} />
+                                </View>
+                            }
+                        </View>
+                        {refreshingCheckoutSession && checkoutSession?.status !== 'complete' && <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                            <ActivityIndicator size={24} color={colors.primary} />
+                            {/* <Text style={{ color: colors.primary, fontSize: 16, marginLeft: 10 }}>Waiting for customer...</Text> */}
+                        </View>}
+                        {/* <View style={css.floatingMenu}>
+                            <Button
+                                action={refreshCheckoutSession}
+                                color={colors.primary}
+                                icon={faArrowsRotate}
+                                text="Refresh"
+                                large={false}
+                            />
+                        </View> */}
+                    </View>
+                </View>
+            </Modal>
+
+            <ScrollView style={css.floatingMenu} horizontal showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
                 <View style={css.buttons}>
                     <Button
                         action={goBack}
@@ -437,7 +564,7 @@ export default Checkout = (props) => {
                         action={resetCart}
                         color={colors.secondary}
                         icon={faCartXmark}
-                        // text="Reset"
+                        // text="ResetResetResetResetReset"
                         large={false}
                     />
 
@@ -450,15 +577,23 @@ export default Checkout = (props) => {
                         text={Platform.OS == 'ios'
                             ? "Tap to Pay on iPhone"
                             : cartOneOffItems.length == 0
-                                ? "Save Card"
+                                ? cartSubItems.length == 0 ? "Pay" : "Save Card"
                                 : "Collect " + Utils.displayPrice(getCartTotal(cartOneOffItems).total / 100, settings.currency)
                         }
                         // textStyle={{ fontSize: Platform.OS == 'ios' ? 16 : 16, fontWeight: Platform.OS == 'ios' ? 600 : 400 }}
                         large={false}
                         disabled={cart.length == 0 || (cartHasSubscription() && !currentCustomer.id)}
                     />
+
+                    {!settings.isAOD && !cartHasSubscription() && <Button
+                        action={customerCheckout}
+                        color={colors.primary}
+                        icon={faQrcode}
+                        // text="Reset"
+                        large={false}
+                    />}
                 </View>
-            </View>
+            </ScrollView>
         </View>
     );
 };

@@ -99,7 +99,8 @@ export const css = {
         position: 'absolute',
         bottom: 20,
         left: 20,
-        gap: 20
+        gap: 20,
+        marginRight: -20,
     },
     floatingIcon: {
         position: 'absolute',
