@@ -13,8 +13,7 @@ import App from './App';
 export default function Root() {
   const fetchTokenProvider = async () => {
     const serial = await getSerialNumber();
-    const model = getModel();
-    // console.log('MODEL:', model);
+    const deviceId = await getUniqueId();
 
     try {
       // const response = await fetch('https://fog-climbing-currant.glitch.me/connection_token', {
@@ -24,7 +23,8 @@ export default function Root() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          serialNumber: serial
+          serialNumber: serial,
+          deviceId: deviceId
         })
       });
       const { secret } = await response.json();

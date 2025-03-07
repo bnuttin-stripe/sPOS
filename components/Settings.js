@@ -217,7 +217,7 @@ export default Settings = (props) => {
                                 <Text style={css.spacedTextMuted}>Device ID</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 4 }}>
-                                <Text style={css.spacedText}>1.0.34</Text>
+                                <Text style={css.spacedText}>1.0.35</Text>
                                 <Text style={css.spacedText}>{props.serial}</Text>
                                 <Text style={css.spacedText}>Benjamin Nuttin</Text>
                                 <Text style={css.spacedText}>go/stripe360demo/docs</Text>
