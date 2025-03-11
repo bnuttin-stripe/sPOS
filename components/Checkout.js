@@ -84,7 +84,7 @@ export default Checkout = (props) => {
                 amount: getCartTotal(cartOneOffItems).total,
                 currency: settings.currency,
                 captureMethod: 'automatic',
-                paymentMethodTypes: ['card_present', 'wechat_pay'],
+                paymentMethodTypes: ['card_present'],
                 metadata: {
                     app: 'sPOS',
                     channel: 'catalog',
@@ -92,12 +92,16 @@ export default Checkout = (props) => {
                     cart: cartOneOffItems.map(x => x.name).join('\n')
                 }
             };
+            if (['cny', 'aud', 'cad', 'eur', 'gbp', 'hkd', 'jpy', 'sgd', 'usd', 'dkk', 'nok', 'sek', 'chf'].includes(settings.currency)) {
+                payload.paymentMethodTypes.push('wechat_pay');
+            }
             // If we have a customer, we attach it to the payment
             if (currentCustomer.id) {
                 payload.customer = currentCustomer.id;
-                // And if there are subscriptions in the cart, we'll set up future usage on the card 
+                // And if there are subscriptions in the cart, we'll set up future usage on the card and remove wechat soince it's not supported for subs
                 if (cartSubItems.length > 0) {
                     payload.setupFutureUsage = 'off_session';
+                    payload.paymentMethodTypes.pop();
                 }
             }
             cartSubItems.length == 0 ? props.pay(payload, showReceiptModal) : props.pay(payload, processSubscription);

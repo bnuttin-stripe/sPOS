@@ -43,6 +43,7 @@ export default SettingsHandler = (props) => {
             setSettings({ 
                 ...defaultSettings, 
                 account: data.id, 
+                accountName: data.business_profile?.name,
                 country: data.country, 
                 currency: data.default_currency, 
                 isAOD: isAOD, 

@@ -21,7 +21,7 @@ export default Transactions = (props) => {
     const themes = useRecoilValue(themesAtom);
     const colors = themes[settings.theme]?.colors;
     const refresher = useRecoilValue(refresherAtom);
-    
+
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
     const [refreshing, setRefreshing] = useState(true);
@@ -62,7 +62,7 @@ export default Transactions = (props) => {
         const data = await response.json();
         setTransactions(data);
         setRefreshing(false);
-    }
+    };
 
     const refundTransaction = async () => {
         setIsRefunding(true);
@@ -80,7 +80,7 @@ export default Transactions = (props) => {
         setSelectedTransaction(data);
         setIsRefunding(false);
         getTransactions();
-    }
+    };
 
     const bopisDone = async () => {
         setIsPickingUp(true);
@@ -98,17 +98,17 @@ export default Transactions = (props) => {
         setSelectedTransaction(data);
         setIsPickingUp(false);
         getTransactions();
-    }
+    };
 
     const showTransaction = (pi) => {
         setModalVisible(true);
         setSelectedTransaction(pi);
-    }
+    };
 
     const closeModal = () => {
         if (props.refresh) props.refresh(true);
         setModalVisible(false);
-    }
+    };
 
     useEffect(() => {
         getTransactions();
@@ -133,8 +133,8 @@ export default Transactions = (props) => {
                     </DataTable.Cell>
                 </DataTable.Row>
             </Pressable >
-        )
-    }
+        );
+    };
 
     const status = (pi) => {
         if (pi.latest_charge.amount_refunded > 0) {
@@ -142,7 +142,7 @@ export default Transactions = (props) => {
         } else {
             return 'Succeeded';
         }
-    }
+    };
 
     return (
         <View style={[css.container, { padding: 0 }]}>
@@ -233,17 +233,17 @@ export default Transactions = (props) => {
 
                         <View style={css.floatingMenu}>
                             <View style={css.buttons}>
-                            {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
-                                <Button
-                                    action={refundTransaction}
-                                    color={colors.primary}
-                                    icon={faArrowRightArrowLeft}
-                                    text="Refund"
-                                    large={false}
-                                    refreshing={isRefunding}
-                                    transform="rotate-90"
-                                />
-                            }
+                                {selectedTransaction && status(selectedTransaction) == 'Succeeded' &&
+                                    <Button
+                                        action={refundTransaction}
+                                        color={colors.primary}
+                                        icon={faArrowRightArrowLeft}
+                                        text="Refund"
+                                        large={false}
+                                        refreshing={isRefunding}
+                                        transform="rotate-90"
+                                    />
+                                }
                             </View>
                         </View>
 
@@ -251,5 +251,5 @@ export default Transactions = (props) => {
                 </View>
             </Modal>
         </View>
-    )
-}
+    );
+};

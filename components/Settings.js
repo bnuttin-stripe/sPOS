@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { settingsAtom, themesAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faDownload, faKey, faXmark, faAlignJustify, faGear } from '@fortawesome/pro-solid-svg-icons';
+import { faDownload, faRotate, faKey, faXmark, faAlignJustify, faGear, faQuestion } from '@fortawesome/pro-solid-svg-icons';
 
 import Button from './Button';
 import TTPIEducation from './TTPIEducation';
@@ -20,7 +20,6 @@ export default Settings = (props) => {
     const [settings, setSettings] = useRecoilState(settingsAtom);
     const [themes, setThemes] = useRecoilState(themesAtom);
     const [refreshingThemes, setRefreshingThemes] = useState(false);
-
 
     const backendUrl = process.env.EXPO_PUBLIC_API_URL;
 
@@ -141,6 +140,32 @@ export default Settings = (props) => {
                     </View>
                 </View>
 
+                <Text>Theme</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginBottom: 20 }}>
+                    <View style={{flex: 1}}>
+                        <RNPickerSelect
+                            value={settings.theme}
+                            placeholder={{}}
+                            onValueChange={value => setSettings({ ...settings, theme: value, productFilter: themes[value].productFilter })}
+                            items={Object.keys(themes).map(key => ({ label: themes[key]['display'], value: key })).sort((a, b) => a.label.localeCompare(b.label))}
+                            style={pickerSelectStyles}
+                            useNativeAndroidPickerStyle={false}
+                        />
+                    </View>
+                    <Pressable style={{flexDirection: 'row-reverse', marginLeft: 15, marginRight: 8, paddingBottom: 10}} onPress={getThemes} disabled={refreshingThemes}>
+                        <FontAwesomeIcon icon={refreshingThemes ? faRotate : faDownload} color={colors.primary} size={30} />
+                    </Pressable>
+                </View>
+
+                <Text style={css.label}>Product filter</Text>
+                <TextInput
+                    style={css.input}
+                    inputMode="text"
+                    value={settings?.productFilter}
+                    autoCapitalize='none'
+                    onChangeText={value => setSettings({ ...settings, productFilter: value })}
+                />
+
                 <Text style={css.label}>Order ID prefix</Text>
                 <TextInput
                     style={css.input}
@@ -158,27 +183,10 @@ export default Settings = (props) => {
                     onChangeText={value => setSettings({ ...settings, taxPercentage: value })}
                 />
 
-                <Text style={css.label}>Product filter</Text>
-                <TextInput
-                    style={css.input}
-                    inputMode="text"
-                    value={settings?.productFilter}
-                    autoCapitalize='none'
-                    onChangeText={value => setSettings({ ...settings, productFilter: value })}
-                />
-
-                <Text>Theme</Text>
-                <RNPickerSelect
-                    value={settings.theme}
-                    onValueChange={value => setSettings({ ...settings, theme: value, productFilter: themes[value].productFilter })}
-                    items={Object.keys(themes).map(key => ({ label: themes[key]['display'], value: key }))}
-                    style={pickerSelectStyles}
-                    useNativeAndroidPickerStyle={false}
-                />
-
-                <Pressable style={{ flex: 1, marginTop: 20, marginBottom: 80 }} onPress={() => setAboutVisible(true)}>
+                {/* <Pressable style={{ flex: 1, marginTop: 20, marginBottom: 80 }} onPress={() => setAboutVisible(true)}>
                     <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>About</Text>
-                </Pressable>
+                </Pressable> */}
+                <View style={{marginBottom: 80}}></View>
             </ScrollView>
 
             {/* ---------------------------- TTPI Education ---------------------------- */}
@@ -205,23 +213,25 @@ export default Settings = (props) => {
                     setAboutVisible(false);
                 }}>
                 <View style={css.centeredView}>
-                    <View style={[css.modalView, css.shadow, { marginTop: 60, height: 310, width: '80%' }]}>
+                    <View style={[css.modalView, css.shadow, { marginTop: 60, height: 340, width: '80%' }]}>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flexDirection: 'column', flex: 1.8 }}>
                                 <Text style={css.spacedTextMuted}>Version</Text>
                                 <Text style={css.spacedTextMuted}>SN</Text>
                                 <Text style={css.spacedTextMuted}>Author</Text>
                                 <Text style={css.spacedTextMuted}>Info</Text>
-                                <Text style={css.spacedTextMuted}>Account</Text>
+                                <Text style={css.spacedTextMuted}>Acct ID</Text>
+                                <Text style={css.spacedTextMuted}>Acct Name</Text>
                                 <Text style={css.spacedTextMuted}>TTP ID</Text>
                                 <Text style={css.spacedTextMuted}>Device ID</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 4 }}>
-                                <Text style={css.spacedText}>1.0.35</Text>
+                                <Text style={css.spacedText}>1.0.37</Text>
                                 <Text style={css.spacedText}>{props.serial}</Text>
                                 <Text style={css.spacedText}>Benjamin Nuttin</Text>
                                 <Text style={css.spacedText}>go/stripe360demo/docs</Text>
                                 <Text style={css.spacedText}>{settings.account}</Text>
+                                <Text style={css.spacedText}>{settings.accountName}</Text>
                                 <Text style={css.spacedText}>{settings.ttpLocation}</Text>
                                 <Text style={css.spacedText}>{props.deviceId}</Text>
                             </View>
@@ -235,7 +245,7 @@ export default Settings = (props) => {
             </Modal>
 
             {/* ---------------------------- Buttons ---------------------------- */}
-            {!props.hideMenu && <View style={css.floatingMenu}>
+            {!props.hideMenu && <ScrollView style={css.floatingMenu} horizontal showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
                 <View style={css.buttons}>
                     <Button
                         action={() => navigation.navigate("App", { page: "Log" })}
@@ -244,13 +254,13 @@ export default Settings = (props) => {
                         text="Logs"
                         large={false}
                     />
-                    <Button
+                    {/* <Button
                         action={getThemes}
                         color={colors.secondary}
                         icon={faDownload}
                         text="Themes"
                         large={false}
-                    />
+                    /> */}
 
                     {settings.isAOD && <Button
                         action={deviceSettings}
@@ -259,8 +269,16 @@ export default Settings = (props) => {
                         text="Device"
                         large={false}
                     />}
+
+                    <Button
+                        action={() => setAboutVisible(true)}
+                        color={colors.secondary}
+                        icon={faQuestion}
+                        text="About"
+                        large={false}
+                    />
                 </View>
-            </View>}
+            </ScrollView>}
 
         </View>
     );

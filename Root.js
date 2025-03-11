@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { registerRootComponent } from 'expo';
 import { StripeTerminalProvider } from '@stripe/stripe-terminal-react-native';
-import { usePowerState, getCarrier, getSerialNumber, getDevice, getBrand, getDeviceId, getDeviceName, getModel, getDeviceType, isTablet } from 'react-native-device-info';
+import { getSerialNumber, getUniqueId } from 'react-native-device-info';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';

@@ -124,7 +124,7 @@ export const css = {
     },
     inlineButton: {
         color: 'white',
-        width: 70,
+        width: 80,
         borderRadius: 20,
         paddingLeft: 10,
         paddingRight: 10,

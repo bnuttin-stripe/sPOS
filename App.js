@@ -212,6 +212,7 @@ export default function App({ route }) {
   };
 
   const connectTTPReader = async (reader) => {
+    // Log("firing connectLocalMobileReader with location", settings?.ttpLocation);
     const { error } = await connectLocalMobileReader({
       reader: reader,
       locationId: settings.ttpLocation
@@ -219,6 +220,7 @@ export default function App({ route }) {
     if (error) {
       setInfoMsg('Failed to discover readers. ' + error.message);
       Log("connectLocalMobileReader", error);
+      // Log("settings.ttpLocation", settings?.ttpLocation);
       return;
     }
     return;
@@ -242,13 +244,13 @@ export default function App({ route }) {
   }, [appState]);
 
   useEffect(() => {
-    if (initialized && serial !== undefined) {
+    if (initialized && serial !== '' && deviceId !== '') {
       serial.substring(0, 3) == 'STR'
         ? discoverHandoffReader()
         : discoverLocalMobileReader();
     }
     Log("model", getModel());
-  }, [initialized, serial]);
+  }, [initialized, serial, deviceId]);
 
   /// PAYMENT INTENTS
   const pay = async (payload, onSuccess) => {
@@ -336,7 +338,8 @@ export default function App({ route }) {
       return;
     }
     else {
-      const response = await fetch(backendUrl + '/payment-method/' + setupIntent.paymentMethodId, {
+      Log("getting PM from SI", setupIntent);
+      const response = await fetch(backendUrl + '/payment-method/' + setupIntent?.latestAttempt?.paymentMethodDetails?.cardPresent?.generatedCard, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

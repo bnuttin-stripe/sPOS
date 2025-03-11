@@ -4,7 +4,7 @@ import { DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { themesAtom, settingsAtom } from '../atoms';
+import { themesAtom, settingsAtom, logAtom } from '../atoms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowsRotate, faXmark, faArrowRightArrowLeft, faBoxCheck, faCircleCheck, faCircleExclamation, faBan, faMagnifyingGlass } from '@fortawesome/pro-solid-svg-icons';
@@ -19,14 +19,27 @@ export default CardVerifier = (props) => {
     const themes = useRecoilValue(themesAtom);
     const colors = themes[settings.theme]?.colors;
 
+    const [logs, setLogs] = useRecoilState(logAtom);
+
     const [verificationPM, setVerificationPM] = useState(null);
     const [verificationSuccessful, setVerificationSuccessful] = useState(null);
 
+    const Log = (title, data) => {
+        console.log(title, data);
+        setLogs([...logs, {
+            time: Date.now(),
+            title: title,
+            body: JSON.stringify(data, null, 2)
+        }]);
+    };
+
     const checkCard = async () => {
+        Log("Checking card", props.pi);
         const { pm } = await props.setup();
-        // console.log("pm", pm);
+        Log("CardVerifier pm", pm);
+        Log("CardVerifier pi", props.pi);
         setVerificationPM(pm);
-    }
+    };
 
     useEffect(() => {
         if (verificationPM != null) {
@@ -43,21 +56,21 @@ export default CardVerifier = (props) => {
         return verificationPM?.card_present?.fingerprint == props.pi?.latest_charge?.payment_method_details?.card?.fingerprint ||
             verificationPM?.card_present?.fingerprint == props.pi?.latest_charge?.payment_method_details?.card_present?.fingerprint ||
             verificationPM?.card_present?.payment_account_reference == props.pi?.latest_charge?.payment_method_details?.card?.payment_account_reference ||
-            verificationPM?.card_present?.payment_account_reference == props.pi?.latest_charge?.payment_method_details?.card_present?.payment_account_reference
-    }
+            verificationPM?.card_present?.payment_account_reference == props.pi?.latest_charge?.payment_method_details?.card_present?.payment_account_reference;
+    };
 
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 12, marginRight: -10, flex: 1 }}>
-            {verificationSuccessful !== null 
-                    ? verificationSuccessful
-                        ? <><FontAwesomeIcon icon={faCircleCheck} color={colors.success} size={14} />
+            {verificationSuccessful !== null
+                ? verificationSuccessful
+                    ? <><FontAwesomeIcon icon={faCircleCheck} color={colors.success} size={14} />
                         <Text style={{ color: colors.success, fontSize: 14, marginLeft: 5 }}>Match</Text></>
-                        : <><FontAwesomeIcon icon={faCircleExclamation} color={colors.danger} size={14} />
+                    : <><FontAwesomeIcon icon={faCircleExclamation} color={colors.danger} size={14} />
                         <Text style={{ color: colors.danger, fontSize: 14, marginLeft: 5 }}>No Match</Text></>
-                    : <Pressable onPress={checkCard}>
+                : <Pressable onPress={checkCard}>
                     <Text style={[css.inlineButton, { backgroundColor: colors.primary }]}>Check</Text>
                 </Pressable>
             }
         </View>
-    )
-}
+    );
+};

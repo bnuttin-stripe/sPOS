@@ -33,7 +33,7 @@ export default Calculator = (props) => {
         const payload = {
             amount: amount,
             currency: settings.currency,
-            paymentMethodTypes: ['card_present', 'wechat_pay'],
+            paymentMethodTypes: ['card_present'],
             captureMethod: 'automatic',
             metadata: {
                 app: 'sPOS',
@@ -41,6 +41,9 @@ export default Calculator = (props) => {
                 orderNumber: Utils.generateOrderNumber(settings.orderPrefix)
             }
         };
+        if (['cny', 'aud', 'cad', 'eur', 'gbp', 'hkd', 'jpy', 'sgd', 'usd', 'dkk', 'nok', 'sek', 'chf'].includes(settings.currency)) {
+            payload.paymentMethodTypes.push('wechat_pay');
+        }
         props.pay(payload, reset);
     };
 
